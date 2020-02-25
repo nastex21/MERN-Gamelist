@@ -7,15 +7,26 @@ import Pagination from "react-bootstrap/Pagination";
 
 export default class App extends Component {
   state = {
+    value: '',
     games: []
   };
 
-  getInfo = () => {
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
     var test = "http://localhost:5555/";
-    axios.get(test).then(res => {
-      console.log(res);
+    var steamID = this.state.value;
+    var data = {
+      value: steamID
+    };
+    axios.post(test, data).then(res => {
+      console.log(res.data);
       this.setState({
-        games: [...res.data.games]
+        games: [...this.state.games, ...res.data.games]
       });
     });
   };
@@ -43,7 +54,11 @@ export default class App extends Component {
     return (
       <div>
         <div className="button">
-          <button onClick={this.getInfo}>Get Steam games</button>
+          <form onSubmit={this.handleSubmit}>
+            <p>If you know your Steam ID and your profile is public, please use your Steam ID.</p>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <input type="submit" value="Get Steam games" />
+          </form>
           {this.state.games.length === 0 ? null : (
             <p>You have {this.state.games.length} games on Steam</p>
           )}
