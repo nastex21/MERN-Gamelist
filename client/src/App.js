@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import SteamGameList from "./Components/steamgamelist";
-import GogGameList from "./Components/goggamelist";
+import GenerateTable from './Components/generateTable';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
@@ -31,26 +30,8 @@ export default class App extends Component {
     });
   };
 
-  tableRender = () => {
-    return (
-      <div className="table">
-        <Table striped bordered hover responsive variant="dark">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th></th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <SteamGameList games={this.state.games} />
-          </tbody>
-        </Table>
-      </div>
-    );
-  };
   render() {
-    console.log(this.state.games.length);
+    console.log(this.state.games);
     return (
       <div>
         <div className="button">
@@ -60,10 +41,10 @@ export default class App extends Component {
             <input type="submit" value="Get Steam games" />
           </form>
           {this.state.games.length === 0 ? null : (
-            <p>You have {this.state.games.length} games on Steam</p>
+            <p>You have {this.state.games.length} games</p>
           )}
         </div>
-        {this.state.games.length === 0 ? null : this.tableRender()}
+        {this.state.games.length === 0 ? null : <GenerateTable gamelist={this.state.games} />}
       </div>
     );
   }

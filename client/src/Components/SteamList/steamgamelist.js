@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 export default class SteamGameList extends Component {
   render() {
-    // appid =
-    // <img src={this.state.img} />
-    // <p>{this.state.game}</p>
     return (
       <>
         {this.props.games.map((items, idx) => (
