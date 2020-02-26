@@ -15,7 +15,7 @@ export default class HomePage extends Component {
     this.setState({ value: event.target.value });
   };
 
-  handleSubmit = event => {
+/*   handleSubmit = event => {
     event.preventDefault();
     var test = "http://localhost:5555/";
     var steamID = this.state.value;
@@ -28,7 +28,7 @@ export default class HomePage extends Component {
         games: [...this.state.games, ...res.data.games]
       });
     });
-  };
+  }; */
 
   handleClick = () => {
     window.open("http://localhost:5555/auth/steam", "_self");

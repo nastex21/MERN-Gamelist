@@ -28,12 +28,12 @@ router.get("/logout", (req, res) => {
   res.redirect(CLIENT_HOME_PAGE_URL);
 });
 
-// auth with twitter
-router.get("/auth/steam", passport.authenticate("steam"));
+// auth with steam
+router.get("/steam", passport.authenticate("steam"));
 
-// redirect to home page after successfully login via twitter
+// redirect to home page after successfully login via steam
 router.get(
-  "/auth/steam/return",
+  "/steam/return",
   passport.authenticate("twitter", {
     successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: "/auth/login/failed"
