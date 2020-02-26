@@ -1,37 +1,18 @@
 require("dotenv").config();
+const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
-const SteamStrategy = require("passport-steam").Strategy;
 const path = require("path");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const authRoutes = require("./routes/auth/auth-routes");
 const app = express();
-
-/* passport.serializeUser((user, done) => {
-  done(null, user._json);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-}); */
-
-/* passport.use(
-  new SteamStrategy(
-    {
-      returnURL: "http://localhost:5555/auth/steam/return",
-      realm: "http://localhost:5555",
-      apiKey: process.env.KEY
-    },
-    (identifier, profile, done) => {
-      return done(null, profile);
-    }
-  )
-); */
+const cookieParser = require("cookie-parser"); // parse cookie header
 
 // connect to mongodb
 mongoose.connect(keys.MONGODB_URI, () => {

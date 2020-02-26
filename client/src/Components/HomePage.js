@@ -31,7 +31,7 @@ export default class HomePage extends Component {
   };
 
   handleClick = () => {
-    window.open("http://localhost:4000/auth/steam", "_self");
+    window.open("http://localhost:5555/auth/steam", "_self");
   }
 
   render() {
@@ -52,7 +52,7 @@ export default class HomePage extends Component {
             <input type="submit" value="Get Steam games" />
           </form>
           <div className="steamLogIn">
-            <a onClick={this.handleClick()}>
+            <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
             </a>
           </div>
