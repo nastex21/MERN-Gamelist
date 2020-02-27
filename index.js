@@ -51,6 +51,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // set up routes
 app.use("/auth", authRoutes);
 
+require('./config/passport-setup')(app);
+
 /* const authCheck = (req, res, next) => {
   if (!req.user) {
     res.status(401).json({

@@ -36,7 +36,7 @@ passport.use(
 
       console.log("before user");
 
-      let user = await User.findOne({ id: profile.id });
+      let user = User.findOne({ id: profile.id });
 
       console.log("past user");
       console.log(user);
