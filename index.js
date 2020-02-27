@@ -30,10 +30,10 @@ app.use(
 // parse cookies
 app.use(cookieParser());
 
-// initalize passport
+/* // initalize passport
 app.use(passport.initialize());
 // deserialize cookie from the browser
-app.use(passport.session());
+app.use(passport.session()); */
 
 
 app.use(cors({
@@ -51,7 +51,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // set up routes
 app.use("/auth", authRoutes);
 
-const authCheck = (req, res, next) => {
+/* const authCheck = (req, res, next) => {
   if (!req.user) {
     res.status(401).json({
       authenticated: false,
@@ -60,19 +60,19 @@ const authCheck = (req, res, next) => {
   } else {
     next();
   }
-};
+}; */
 
 // if it's already login, send the profile response,
 // otherwise, send a 401 response that the user is not authenticated
 // authCheck before navigating to home page
-app.get("/", authCheck, (req, res) => {
+/* app.get("/", authCheck, (req, res) => {
   res.status(200).json({
     authenticated: true,
     message: "user successfully authenticated",
     user: req.user,
     cookies: req.cookies
   });
-});
+}); */
 
 app.post("/", function (req, res) {
   const userID = req.body.value;

@@ -1,13 +1,17 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-const userSchema = new Schema({
-  name: String,
-  screenName: String,
-  steamID: String,
-  profileImageUrl: String
+console.log("initialized");
+
+const userSchema = new mongoose.Schema({
+  id: {
+    type: String
+  },
+  name: {
+    type: String
+  },
+  avatar: {
+    type: String
+  }
 });
 
-const User = mongoose.model("user", userSchema);
-
-module.exports = User;
+module.exports = mongoose.model('user', userSchema);

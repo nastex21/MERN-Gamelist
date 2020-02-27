@@ -3,9 +3,10 @@ const SteamStrategy = require("passport-steam").Strategy;
 const keys = require("./keys");
 const User = require("../models/user-model");
 
-// serialize the user.id to save in the cookie session
+/* // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
 passport.serializeUser((user, done) => {
+  console.log(user);
   done(null, user.id);
 });
 
@@ -18,33 +19,40 @@ passport.deserializeUser((id, done) => {
     .catch(e => {
       done(new Error("Failed to deserialize an user"));
     });
-});
+}); */
+
+module.exports = app => {
 
 passport.use(
   new SteamStrategy(
     {
-      returnURL: "/auth/steam/return",
-      realm: "http://localhost:55556/",
+      returnURL: "http://localhost:5555/auth/steam/return",
+      realm: "http://localhost:5555/",
       apiKey: keys.STEAM_KEY
     },
-    async (token, tokenSecret, profile, done) => {
-      // find current user in UserModel
-      const currentUser = await User.findOne({
-        steamID: profile._json.id_str
-      });
-      // create new user if the database doesn't have this user
-      if (!currentUser) {
-        const newUser = await new User({
-          name: profile._json.name,
-          screenName: profile._json.screen_name,
-          steamID: profile._json.id_str,
-          profileImageUrl: profile._json.profile_image_url
+    (identifier, profile, done) => {
+      profile.identifier = identifier;
+      console.log(identifier);
+
+      console.log("before user");
+
+      let user = await User.findOne({ id: profile.id });
+
+      console.log("past user");
+      console.log(user);
+
+      if (!user) {
+        user = await new User({
+          id: profile._json.steamid,
+          name: profile._json.personaname,
+          avatar: profile._json.avatar
         }).save();
-        if (newUser) {
-          done(null, newUser);
-        }
       }
-      done(null, currentUser);
+
+      console.log("past !user");
+      return done(null, user);
     }
   )
 );
+app.use(passport.initialize());
+  }
