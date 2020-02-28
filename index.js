@@ -1,11 +1,12 @@
 require("dotenv").config();
+const mongoose = require('mongoose');
 const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
+
 const authRoutes = require("./routes/auth/auth-routes");
 const app = express();
 const passport = require("passport");
