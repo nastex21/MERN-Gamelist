@@ -1,42 +1,53 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const axios = require('axios');
-const bodyParser = require('body-parser');
+require("dotenv").config();
+const mongoose = require('mongoose');
+const cookieSession = require("cookie-session");
+const keys = require("./config/keys");
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const apiRoutes = require('./routes/api/get-games-list');
+const authRoutes = require("./routes/auth/auth-routes");
 const app = express();
+const passport = require("passport");
+const passportSetup = require("./config/passport-setup");
+const session = require("express-session");
 
-console.log("yes it's working");
+const cookieParser = require("cookie-parser"); // parse cookie header
 
-app.use(cors());
+//connect to database
+mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
+  console.log("connected to mongo db");
+});
 
-// support parsing of application/json type post data
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-//support parsing of application/x-www-form-urlencoded post data
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [keys.COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 100
+  })
+);
 
-app.post('/', function (req, res) {
-    console.log("WORKING?!");
-    console.log(req.body);
-    const userID = req.body.value;
-    console.log(userID);
-    var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.KEY}&steamid=${userID}&include_appinfo=true&format=json`;
-    console.log(httpVar);
-     try {
-        console.log("try axios working");
-        axios.get(httpVar)
-            .then(data => res.send(data.data.response))
-            .catch(err => res.send(err));
-    }
-    catch (err) {
-        console.error("GG", err);
-    } 
+// parse cookies
+app.use(cookieParser());
 
-})
+app.use(cors({
+  origin: "http://localhost:5556", // allow to server to accept request from different origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true // allow session cookie from browser to pass through
+}));
 
+// initalize passport
+app.use(passport.initialize());
+// deserialize cookie from the browser
+app.use(passport.session());
 
-// Routes
-//app.use('/api/dashboard', require('./routes/api/dashboard') );
+// set up routes
+app.use("/auth", authRoutes);
+app.use('/api',  apiRoutes);
+
 
 const PORT = process.env.PORT || 5555;
 
