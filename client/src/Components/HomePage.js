@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
+import SteamForm from './SteamList/SteamForm';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
 export default class HomePage extends Component {
   state = {
     value: "",
+    steam: 0, 
     games: []
   };
 
@@ -15,20 +17,20 @@ export default class HomePage extends Component {
     this.setState({ value: event.target.value });
   };
 
-/*   handleSubmit = event => {
+ handleSubmit = event => {
     event.preventDefault();
-    var test = "http://localhost:5555/";
+    console.log(this.state.value);
     var steamID = this.state.value;
     var data = {
       value: steamID
     };
-    axios.post(test, data).then(res => {
+    axios.post('http://localhost:5555/api/get-games-list', data).then(res => {
       console.log(res.data);
       this.setState({
         games: [...this.state.games, ...res.data.games]
       });
     });
-  }; */
+  }; 
 
   handleClick = () => {
     window.open("http://localhost:5555/auth/steam", "_self");
@@ -39,18 +41,7 @@ export default class HomePage extends Component {
     return (
       <div>
         <div className="button">
-          <form onSubmit={this.handleSubmit}>
-            <p>
-              If you know your Steam ID and your profile is public, please use
-              your Steam ID otherwise please sign in with your Steam account.
-            </p>
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-            <input type="submit" value="Get Steam games" />
-          </form>
+          {this.state.steam == 0 ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null}
           <div className="steamLogIn">
             <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />

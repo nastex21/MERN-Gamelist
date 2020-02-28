@@ -6,7 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const bodyParser = require("body-parser");
-
+const apiRoutes = require('./routes/api/get-games-list');
 const authRoutes = require("./routes/auth/auth-routes");
 const app = express();
 const passport = require("passport");
@@ -44,20 +44,8 @@ app.use(passport.session());
 
 // set up routes
 app.use("/auth", authRoutes);
+app.use('/api',  apiRoutes);
 
-app.post("/", function (req, res) {
-  const userID = req.body.value;
-  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.KEY}&steamid=${userID}&include_appinfo=true&format=json`;
-  try {
-    console.log("try axios working");
-    axios
-      .get(httpVar)
-      .then(data => res.send(data.data.response))
-      .catch(err => res.send(err));
-  } catch (err) {
-    console.error("GG", err);
-  }
-});
 
 const PORT = process.env.PORT || 5555;
 
