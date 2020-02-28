@@ -8,12 +8,27 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const authRoutes = require("./routes/auth/auth-routes");
 const app = express();
+const passport = require("passport");
+const passportSetup = require("./config/passport-setup");
+const session = require("express-session");
+
 const cookieParser = require("cookie-parser"); // parse cookie header
 
-// connect to mongodb
-mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true }, () => {
+//connect to database
+mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [keys.COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 100
+  })
+);
+
+// parse cookies
+app.use(cookieParser());
 
 app.use(cors({
   origin: "http://localhost:5556", // allow to server to accept request from different origin
@@ -21,11 +36,13 @@ app.use(cors({
   credentials: true // allow session cookie from browser to pass through
 }));
 
+// initalize passport
+app.use(passport.initialize());
+// deserialize cookie from the browser
+app.use(passport.session());
+
 // set up routes
 app.use("/auth", authRoutes);
-
-require('./config/passport-setup')(app);
-
 
 app.post("/", function (req, res) {
   const userID = req.body.value;
