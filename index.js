@@ -4,7 +4,6 @@ const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
 const bodyParser = require("body-parser");
 const apiRoutes = require('./routes/api/get-games-list');
 const authRoutes = require("./routes/auth/auth-routes");
@@ -19,6 +18,9 @@ const cookieParser = require("cookie-parser"); // parse cookie header
 mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(
   cookieSession({

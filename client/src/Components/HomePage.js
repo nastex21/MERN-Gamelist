@@ -24,7 +24,7 @@ export default class HomePage extends Component {
     var data = {
       value: steamID
     };
-    axios.post('http://localhost:5555/api/get-games-list', data).then(res => {
+    axios.post('/api/get-games-list', data).then(res => {
       console.log(res.data);
       this.setState({
         games: [...this.state.games, ...res.data.games]

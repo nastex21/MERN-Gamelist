@@ -1,10 +1,13 @@
 const express = require("express");
+const keys = require("../../config/keys");
 const router = express.Router();
+const axios = require('axios');
 
-router.post("/", (req, res) => {
+router.post("/get-games-list", (req, res) => {
   const userID = req.body.value;
   console.log(userID);
-  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.KEY}&steamid=${userID}&include_appinfo=true&format=json`;
+  //res.send(data.data.response)
+  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");
     axios
