@@ -3,6 +3,7 @@ const passport = require("passport");
 const SteamStrategy = require("passport-steam");
 const keys = require("./keys");
 const User = require("../models/user-model");
+const mongoose = require('mongoose');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -27,6 +28,7 @@ passport.use(
     },
     async (identifier, profile, done) => {
       const currentUser = await User.findOne({ steamId: profile.id });
+      console.log(mongoose.connection.readyState);
 
       if (!currentUser) {
         const newUser = await new User({

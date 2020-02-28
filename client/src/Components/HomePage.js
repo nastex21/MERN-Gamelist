@@ -2,22 +2,69 @@ import React, { Component } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
 import SteamForm from './SteamList/SteamForm';
+import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
 export default class HomePage extends Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      profileImageUrl: PropTypes.string,
+      twitterId: PropTypes.string,
+      screenName: PropTypes.string,
+      _id: PropTypes.string
+    })
+  };
+
   state = {
+    user: {},
+    error: null,
+    authenticated: false,
     value: "",
-    steam: 0, 
+    steam: 0,
     games: []
   };
+
+  componentDidMount() {
+    // Fetch does not send cookies. So you should add credentials: 'include'
+    fetch("/auth/login/success", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        console.log("failed")
+        if (response.status === 200) return response.json();
+        throw new Error("failed to authenticate user");
+      })
+      .then(responseJson => {
+        console.log('success')
+        console.log(responseJson.user);
+        this.setState({
+          authenticated: true,
+          user: responseJson.user
+        });
+      })
+      .catch(error => {
+        console.log('failed 2nd')
+        this.setState({
+          authenticated: false,
+          error: "Failed to authenticate user"
+        });
+      });
+  }
 
   handleChange = event => {
     console.log(event.target.value);
     this.setState({ value: event.target.value });
   };
 
- handleSubmit = event => {
+  handleSubmit = event => {
     event.preventDefault();
     console.log(this.state.value);
     var steamID = this.state.value;
@@ -31,7 +78,7 @@ export default class HomePage extends Component {
         steam: 1
       });
     });
-  }; 
+  };
 
   handleClick = () => {
     window.open("http://localhost:5555/auth/steam", "_self");
