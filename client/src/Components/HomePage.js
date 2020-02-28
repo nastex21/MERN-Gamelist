@@ -11,7 +11,7 @@ export default class HomePage extends Component {
     user: PropTypes.shape({
       name: PropTypes.string,
       profileImageUrl: PropTypes.string,
-      twitterId: PropTypes.string,
+      steamId: PropTypes.string,
       screenName: PropTypes.string,
       _id: PropTypes.string
     })
@@ -22,6 +22,7 @@ export default class HomePage extends Component {
     error: null,
     authenticated: false,
     value: "",
+    steamId: '',
     steam: 0,
     games: []
   };
@@ -47,7 +48,8 @@ export default class HomePage extends Component {
         console.log(responseJson.user);
         this.setState({
           authenticated: true,
-          user: responseJson.user
+          user: responseJson.user,
+          steamId: responseJson.user.steamId
         });
       })
       .catch(error => {
@@ -57,6 +59,22 @@ export default class HomePage extends Component {
           error: "Failed to authenticate user"
         });
       });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.steamId !== this.state.steamId) {
+      var steamID = this.state.steamId;
+      var data = {
+        value: steamID
+      };
+      axios.post('/api/get-games-list', data).then(res => {
+        console.log(res.data);
+        this.setState({
+          games: [...this.state.games, ...res.data.games],
+          steam: 1
+        });
+      });
+    }
   }
 
   handleChange = event => {
@@ -85,16 +103,17 @@ export default class HomePage extends Component {
   }
 
   render() {
-    console.log(this.state.games);
+    console.log(this.state);
     return (
       <div>
         <div className="button">
-          {this.state.steam == 0 ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null}
-          <div className="steamLogIn">
+          {this.state.steam == 0 && this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null}
+          {this.state.steam == 0 ? <SteamForm steamId={this.state.steamId} /> : null}
+          {this.state.steam == 0 ? <div className="steamLogIn">
             <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
             </a>
-          </div>
+          </div> : null}
           {this.state.games.length === 0 ? null : (
             <p>You have {this.state.games.length} games</p>
           )}
