@@ -107,8 +107,7 @@ export default class HomePage extends Component {
     return (
       <div>
         <div className="button">
-          {this.state.steam == 0 && this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null}
-          {this.state.steam == 0 ? <SteamForm steamId={this.state.steamId} /> : null}
+          {this.state.steam == 0 && this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : this.state.steam == 0 ? <SteamForm steamId={this.state.steamId} /> : null }
           {this.state.steam == 0 ? <div className="steamLogIn">
             <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
