@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
-import SteamForm from './SteamList/SteamForm';
+import SteamForm from "./SteamList/SteamForm";
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -22,7 +22,7 @@ export default class HomePage extends Component {
     error: null,
     authenticated: false,
     value: "",
-    steamId: '',
+    steamId: "",
     steam: 0,
     games: []
   };
@@ -39,12 +39,12 @@ export default class HomePage extends Component {
       }
     })
       .then(response => {
-        console.log("failed")
+        console.log("failed");
         if (response.status === 200) return response.json();
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
-        console.log('success')
+        console.log("success");
         console.log(responseJson.user);
         this.setState({
           authenticated: true,
@@ -53,7 +53,7 @@ export default class HomePage extends Component {
         });
       })
       .catch(error => {
-        console.log('failed 2nd')
+        console.log("failed 2nd");
         this.setState({
           authenticated: false,
           error: "Failed to authenticate user"
@@ -67,7 +67,7 @@ export default class HomePage extends Component {
       var data = {
         value: steamID
       };
-      axios.post('/api/get-games-list', data).then(res => {
+      axios.post("/api/get-games-list", data).then(res => {
         console.log(res.data);
         this.setState({
           games: [...this.state.games, ...res.data.games],
@@ -89,7 +89,7 @@ export default class HomePage extends Component {
     var data = {
       value: steamID
     };
-    axios.post('/api/get-games-list', data).then(res => {
+    axios.post("/api/get-games-list", data).then(res => {
       console.log(res.data);
       this.setState({
         games: [...this.state.games, ...res.data.games],
@@ -100,19 +100,29 @@ export default class HomePage extends Component {
 
   handleClick = () => {
     window.open("http://localhost:5555/auth/steam", "_self");
-  }
+  };
 
   render() {
     console.log(this.state);
     return (
       <div>
         <div className="button">
-          {this.state.steam == 0 && this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : this.state.steam == 0 ? <SteamForm steamId={this.state.steamId} /> : null }
-          {this.state.steam == 0 ? <div className="steamLogIn">
-            <a onClick={this.handleClick}>
-              <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
-            </a>
-          </div> : null}
+          {this.state.steam == 0 && this.state.steamId == "" ? (
+            <SteamForm
+              value={this.state.value}
+              onChange={this.handleChange}
+              submit={this.handleSubmit}
+            />
+          ) : this.state.steam == 0 ? (
+            <SteamForm steamId={this.state.steamId} />
+          ) : null}
+          {this.state.steam == 0 ? (
+            <div className="steamLogIn">
+              <a onClick={this.handleClick}>
+                <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
+              </a>
+            </div>
+          ) : null}
           {this.state.games.length === 0 ? null : (
             <p>You have {this.state.games.length} games</p>
           )}
