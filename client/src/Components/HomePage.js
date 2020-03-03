@@ -24,6 +24,8 @@ export default class HomePage extends Component {
     value: "",
     steamId: "",
     steam: 0,
+    gogId: '',
+    gog: 0,
     games: []
   };
 
@@ -102,6 +104,10 @@ export default class HomePage extends Component {
     window.open("http://localhost:5555/auth/steam", "_self");
   };
 
+  handleGogClick = () => {
+    window.open("http://localhost:5555/auth/gog", "_Self");
+  }
+
   render() {
     console.log(this.state);
     return (
@@ -123,6 +129,12 @@ export default class HomePage extends Component {
               </a>
             </div>
           ) : null}
+          {
+            this.state.gog == 0 ? (
+              <div className="gogLogIn">
+                  <button value="Gog Login" onClick={this.handleGogClick}>Gog Log In</button>
+              </div>
+            ) : null}
           {this.state.games.length === 0 ? null : (
             <p>You have {this.state.games.length} games</p>
           )}

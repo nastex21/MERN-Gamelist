@@ -1,9 +1,11 @@
 require("../index.js");
 const passport = require("passport");
 const SteamStrategy = require("passport-steam");
+const OAuth2Strategy = require("passport-oauth2");
+const CustomStrategy = require("passport-custom");
 const keys = require("./keys");
 const User = require("../models/user-model");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -19,6 +21,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+//Steam Strategy
 passport.use(
   new SteamStrategy(
     {
@@ -41,6 +44,28 @@ passport.use(
         }
       }
       done(null, currentUser);
+    }
+  )
+);
+
+passport.use(
+  new OAuth2Strategy(
+    {
+      authorizationURL: "https://auth.gog.com/auth",
+      tokenURL: "https://auth.gog.com/token",
+      clientID: keys.GOG_ID,
+      clientSecret: keys.GOG_SECERT,
+      callbackURL: "https://embed.gog.com/on_login_success?origin=client"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      /*   console.log(accessToken);
+  console.log(refreshToken);
+  console.log(profile);
+  console.log(cb);
+  User.findOrCreate({ exampleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  }); */
+      console.log(profile);
     }
   )
 );

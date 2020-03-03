@@ -26,6 +26,8 @@
     "mongoose": "^5.9.2",
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
+    "passport-custom": "^1.1.1",
+    "passport-oauth2": "^1.5.0",
     "passport-steam": "^1.0.12"
   }
 }

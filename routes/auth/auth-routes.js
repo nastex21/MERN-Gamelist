@@ -17,23 +17,45 @@ router.get("/login/success", (req, res) => {
   }
 });
 
-  // when login failed, send failed msg
-  router.get("/login/failed", (req, res) => {
-    res.status(401).json({
-      success: false,
-      message: "user failed to authenticate."
-    });
+// when login failed, send failed msg
+router.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "user failed to authenticate."
   });
+});
 
-  // auth with steam
-  router.get("/steam", passport.authenticate("steam"));
+// auth with steam
+router.get("/steam", passport.authenticate("steam"));
 
-  router.get(
-    "/steam/return",
-    passport.authenticate("steam", {
-      successRedirect: CLIENT_HOME_PAGE_URL,
-      failureRedirect: "/auth/login/failed"
-    })
-  );
+router.get(
+  "/steam/return",
+  passport.authenticate("steam", {
+    successRedirect: CLIENT_HOME_PAGE_URL,
+    failureRedirect: "/auth/login/failed"
+  })
+);
 
-  module.exports = router;
+//auth with GOG
+router.get(
+  "/gog",
+  passport.authenticate("oauth2", function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.json({ status: "failed", error: "Invalid credentials" });
+    }
+
+    console.log(err)
+    console.log(user)
+    console.log(info)
+  })
+);
+
+router.get("/gog/return", (req, res) => {
+  console.log("reached it");
+  res.send("You've reach the callback uri");
+});
+
+module.exports = router;
