@@ -13,7 +13,8 @@
     "react-dom": "^16.12.0",
     "react-dropdown-select": "^4.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
     "start": "set PORT=5556 && react-scripts start",
