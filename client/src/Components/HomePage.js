@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
 import SteamForm from './SteamList/SteamForm';
+import ManuallyAdded from './ManualAddition/ManuallyAdded'
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -24,7 +25,8 @@ export default class HomePage extends Component {
     value: "",
     steamId: '',
     steam: 0,
-    games: []
+    games: [],
+    customGamesAdded: []
   };
 
   componentDidMount() {
@@ -102,12 +104,21 @@ export default class HomePage extends Component {
     window.open("http://localhost:5555/auth/steam", "_self");
   }
 
+  updateCustomGames = (games) => {
+    this.setState({
+      customGamesAdded: [...this.state.customGamesAdded, ...games]
+    })
+  }
+
   render() {
     console.log(this.state);
     return (
       <div>
+        <div className="manualBox">
+          <ManuallyAdded games={this.state.customGamesAdded} updateGames={this.updateCustomGames} />
+        </div>
         <div className="button">
-          {this.state.steam == 0 && this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : this.state.steam == 0 ? <SteamForm steamId={this.state.steamId} /> : null }
+          {this.state.steam == 0 || this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null }
           {this.state.steam == 0 ? <div className="steamLogIn">
             <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
