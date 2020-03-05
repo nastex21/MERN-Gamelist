@@ -6,22 +6,21 @@ const router = express.Router();
 router.get("/", (req, res) => {
     console.log("it's running")
   
-    const platformURL = "https://rawg-video-games-database.p.rapidapi.com/developers/%7Bid%7D";
-  
-    const headersNeeded = {
-      "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-      "x-rapidapi-key": keys.RAPID_KEY
-    };
-  
-    try {
-      console.log("try axios working");
-      axios
-        .get(platformURL, { headers: headersNeeded })
-        .then(data => console.log(data))
-        .catch(err => res.send(err));
-    } catch (err) {
-      console.error("GG", err);
-    }
+    axios({
+      "method":"GET",
+      "url":"https://rawg-video-games-database.p.rapidapi.com/platforms",
+      "headers":{
+      "content-type":"application/octet-stream",
+      "x-rapidapi-host":"rawg-video-games-database.p.rapidapi.com",
+      "x-rapidapi-key":"d489867ee4mshf63cc601354da98p1cd559jsn1abd0e24d1f8"
+      }
+      })
+      .then((response)=>{
+        console.log(response.data)
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
   });
 
   
