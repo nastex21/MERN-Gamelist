@@ -20,23 +20,24 @@ router.post("/get-games-list", (req, res) => {
   }
 });
 
-router.post("/get-custom-games", (req, res) => {
+router.get("/getplatforms", (req, res) => {
 
-  const data = req.body.value;
-  console.log(data);
-  var req = unirest("GET", "https://rawg-video-games-database.p.rapidapi.com/developers/%7Bid%7D");
+  const platformURL = "https://rawg-video-games-database.p.rapidapi.com/developers/%7Bid%7D";
 
-  req.headers({
+  const headersNeeded = {
     "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-    "x-rapidapi-key": "d489867ee4mshf63cc601354da98p1cd559jsn1abd0e24d1f8"
-  });
+    "x-rapidapi-key": keys.RAPID_KEY
+  };
 
-
-  req.end(function (res) {
-    if (res.error) throw new Error(res.error);
-
-    console.log(res.body);
-  });
+  try {
+    console.log("try axios working");
+    axios
+      .get(platformURL, {headers: headersNeeded})
+      .then(data => console.log(data))
+      .catch(err => res.send(err));
+  } catch (err) {
+    console.error("GG", err);
+  }
 })
 
 module.exports = router;

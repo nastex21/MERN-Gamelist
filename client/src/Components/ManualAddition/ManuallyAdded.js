@@ -1,20 +1,33 @@
 import React, { Component } from "react";
 import { Dropdown } from "semantic-ui-react";
-import { options } from "./options";
+import axios from 'axios';
 
 export default class ManuallyAdded extends Component {
   state = {
     search: true,
     searchQuery: null,
-    value: []
+    value: [],
+    options: []
   };
+
+  componentDidMount(){
+    var data = [];
+    var getData = '/api/getplatforms';
+    axios.get(getData)
+    .then( response => {// If request is good...
+      console.log(response.data)
+    },)
+    .catch((error) => {
+      console.log('error 3 ' + error);
+    })
+  }
 
   setValues = selectValues => this.setState({ selectValues });
   handleChange = (e, { value }) => this.setState({ value })
   handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
   render() {
-    const {  search, value } = this.state;
+    const {  search, value, options } = this.state;
     console.log(value);
     return (
       <div className="manualAddition">
