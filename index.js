@@ -5,13 +5,9 @@ const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const apiRoutes = require('./routes/api/get-games-list');
-const authRoutes = require("./routes/auth/auth-routes");
+const gamelistRoutes = require('./routes/api/get-games-list');
+const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const app = express();
-const passport = require("passport");
-const passportSetup = require("./config/passport-setup");
-const session = require("express-session");
-
 const cookieParser = require("cookie-parser"); // parse cookie header
 
 //connect to database
@@ -39,15 +35,9 @@ app.use(cors({
   credentials: true // allow session cookie from browser to pass through
 }));
 
-// initalize passport
-app.use(passport.initialize());
-// deserialize cookie from the browser
-app.use(passport.session());
-
 // set up routes
-app.use("/auth", authRoutes);
-app.use('/api',  apiRoutes);
-
+app.use('/api/get-games-list', gamelistRoutes);
+app.use('/api/get-platforms-list', platformslistRoutes);
 
 const PORT = process.env.PORT || 5555;
 

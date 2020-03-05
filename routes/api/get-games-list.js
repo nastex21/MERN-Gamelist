@@ -1,10 +1,10 @@
 const express = require("express");
 const keys = require("../../config/keys");
-const router = express.Router();
 const axios = require('axios');
 const unirest = require("unirest");
+const router = express.Router();
 
-router.post("/get-games-list", (req, res) => {
+router.post("/", (req, res) => {
   const userID = req.body.value;
   console.log(userID);
   //res.send(data.data.response)
@@ -19,25 +19,5 @@ router.post("/get-games-list", (req, res) => {
     console.error("GG", err);
   }
 });
-
-router.get("/getplatforms", (req, res) => {
-
-  const platformURL = "https://rawg-video-games-database.p.rapidapi.com/developers/%7Bid%7D";
-
-  const headersNeeded = {
-    "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-    "x-rapidapi-key": keys.RAPID_KEY
-  };
-
-  try {
-    console.log("try axios working");
-    axios
-      .get(platformURL, {headers: headersNeeded})
-      .then(data => console.log(data))
-      .catch(err => res.send(err));
-  } catch (err) {
-    console.error("GG", err);
-  }
-})
 
 module.exports = router;

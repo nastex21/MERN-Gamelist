@@ -12,7 +12,7 @@ export default class ManuallyAdded extends Component {
 
   componentDidMount(){
     var data = [];
-    var getData = '/api/getplatforms';
+    var getData = '/api/get-games-list';
     axios.get(getData)
     .then( response => {// If request is good...
       console.log(response.data)
