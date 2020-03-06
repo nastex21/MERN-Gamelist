@@ -16,7 +16,16 @@ router.get("/", (req, res) => {
       }
       })
       .then((response)=>{
-        res.send(response.data)
+        var newData = response.data.results;
+        var data = newData.map(item => 
+          ({
+            'key': item.id,
+            'text': item.name,
+            'value': item.name
+          }) 
+         );
+        console.log(data);
+        res.send(data)
       })
       .catch((error)=>{
         console.log(error)

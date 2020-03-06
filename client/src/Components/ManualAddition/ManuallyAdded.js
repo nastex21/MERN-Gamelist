@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Dropdown } from "semantic-ui-react";
 import axios from "axios";
-import { localsName } from "ejs";
 
 export default class ManuallyAdded extends Component {
   state = {
@@ -23,7 +22,6 @@ export default class ManuallyAdded extends Component {
     }
 
     if (savedPlatforms) {
-      console.log('true')
       this.setState({
         isLoaded: true,
         items: savedPlatforms.value
@@ -33,20 +31,14 @@ export default class ManuallyAdded extends Component {
       axios
         .get(getData)
         .then(response => {
-          console.log(response);
           // If request is good...
-          var data = response.data.results;
-          console.log(data);
+          var data = response.data;
           localStorage.setItem("stored-plats", JSON.stringify(data));
-        })
-        .then(response =>{
-          var data = response.data.results;
           this.setState({
             isLoaded: true,
             options: [...data]
           })
-        }
-        )
+        })
         .catch(error => {
           console.log("error 3 " + error);
         });
@@ -59,7 +51,6 @@ export default class ManuallyAdded extends Component {
 
   render() {
     const { search, value, options } = this.state;
-    console.log(options);
     return (
       <div className="manualAddition">
         <form onSubmit={this.props.updateGames}>
