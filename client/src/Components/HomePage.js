@@ -104,10 +104,13 @@ export default class HomePage extends Component {
     window.open("http://localhost:5555/auth/steam", "_self");
   }
 
-  updateCustomGames = (games) => {
-    this.setState({
-      customGamesAdded: [...this.state.customGamesAdded, ...games]
-    })
+  updateCustomGames = (event) => {
+    event.preventDefault();
+    console.log("Update Games: ");
+    console.log(event.value);
+   /*  this.setState({
+      customGamesAdded: [...this.state.customGamesAdded, ...event]
+    }) */
   }
 
   render() {

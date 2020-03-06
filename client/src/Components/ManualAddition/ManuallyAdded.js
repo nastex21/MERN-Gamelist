@@ -69,7 +69,7 @@ export default class ManuallyAdded extends Component {
             onChange={this.handleChange}
             onSearchChange={this.handleSearchChange}
           />
-          <input type="submit" value="Search" />
+          <input type="submit" value="Add Game" />
         </form>
       </div>
     );
