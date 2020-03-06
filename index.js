@@ -5,8 +5,12 @@ const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const authRoutes = require("./routes/auth/auth-routes");
 const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
+const passport = require("passport");
+const passportSetup = require("./config/passport-setup");
+const session = require("express-session");
 const app = express();
 const cookieParser = require("cookie-parser"); // parse cookie header
 
@@ -35,7 +39,13 @@ app.use(cors({
   credentials: true // allow session cookie from browser to pass through
 }));
 
+// initalize passport
+app.use(passport.initialize());
+// deserialize cookie from the browser
+app.use(passport.session());
+
 // set up routes
+app.use("/auth", authRoutes);
 app.use('/api/get-games-list', gamelistRoutes);
 app.use('/api/get-platforms-list', platformslistRoutes);
 
