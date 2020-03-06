@@ -13,7 +13,15 @@ router.post("/", (req, res) => {
     console.log("try axios working");
     axios
       .get(httpVar)
-      .then(data => res.send(data.data.response))
+      .then(data => {
+        var gameData = data.data.response.games.map(item => ({
+          'game_appid': item.appid,
+          'game_img': item.img_logo_url,
+          'game_name': item.name,
+          'game_system': 'PC'
+        }));
+        res.send(gameData);
+      })
       .catch(err => res.send(err));
   } catch (err) {
     console.error("GG", err);
