@@ -58,7 +58,7 @@ export default function HomePage() {
     event.preventDefault();
     if (system == '') {
       window.alert("Please select a system")
-    } else if (this.state.customNameGame == '') {
+    } else if (customNameGame == '') {
       window.alert("Please name your game")
     } else {
       setCustomGames({});
