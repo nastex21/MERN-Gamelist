@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
 import SteamForm from './SteamList/SteamForm';
@@ -16,8 +16,8 @@ export default function HomePage() {
   const [system, setSystem] = useState();
   const [customNameGame, setCustomName] = useState();
   const [customGamesAdded, setCustomGames] = useState([]);
-  const prevCountRef = useRef();
-  const prevCount = prevCountRef.current;
+  const [error, setError] = useState(null);
+  const [authenticated, setAuth] = useState(false);
 
   HomePage.propTypes = {
     user: PropTypes.shape({
@@ -28,46 +28,6 @@ export default function HomePage() {
       _id: PropTypes.string
     })
   };
-
-  /*   state = {
-      error: null,
-      authenticated: false,
-    }; */
-
-  /* 
- 
-     fetch("/auth/login/success", {
-       method: "GET",
-       credentials: "include",
-       headers: {
-         Accept: "application/json",
-         "Content-Type": "application/json",
-         "Access-Control-Allow-Credentials": true
-       }
-     })
-       .then(response => {
-         console.log("failed")
-         if (response.status === 200) return response.json();
-         throw new Error("failed to authenticate user");
-       })
-       .then(responseJson => {
-         console.log('success')
-         console.log(responseJson.user);
-         this.setState({
-           authenticated: true,
-           user: responseJson.user,
-           steamId: responseJson.user.steamId
-         });
-       })
-       .catch(error => {
-         console.log('failed 2nd')
-         this.setState({
-           authenticated: false,
-           error: "Failed to authenticate user"
-         });
-       });
-   }); */
-
 
   //for manual addition of Steam ID
   const handleChange = event => {
