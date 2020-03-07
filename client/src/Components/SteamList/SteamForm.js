@@ -1,20 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class SteamForm extends Component {
-  render() {
+function SteamForm({ submit, value, onChange }) {
     return (
-      <form onSubmit={this.props.submit}>
+      <form onSubmit={submit}>
         <p>
           If you know your Steam ID and your profile is public, please use your
           Steam ID otherwise please sign in with your Steam account.
         </p>
         <input
           type="text"
-          value={this.props.value}
-          onChange={this.props.onChange}
+          value={value}
+          onChange={onChange}
         />
         <input type="submit" value="Get Steam games" />
       </form>
     );
-  }
 }
+
+export default SteamForm;

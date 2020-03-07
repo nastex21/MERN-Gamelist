@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class SteamGameList extends Component {
-  render() {
+function SteamGameList({ games }) {
     return (
       <>
-        {this.props.games.map((items, idx) => {
+        {games.map((items, idx) => {
           return(
           <tr key={idx}>
             <td>{idx + 1}</td>
@@ -18,5 +17,6 @@ export default class SteamGameList extends Component {
         )})}
       </>
     );
-  }
 }
+
+export default SteamGameList;
