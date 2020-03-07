@@ -25,7 +25,9 @@ export default class HomePage extends Component {
     value: "",
     steamId: '',
     steam: 0,
+    system: '',
     games: [],
+    customNameGame: '',
     customGamesAdded: []
   };
 
@@ -79,11 +81,13 @@ export default class HomePage extends Component {
     }
   }
 
+  //for manual addition of Steam ID
   handleChange = event => {
     console.log(event.target.value);
     this.setState({ value: event.target.value });
   };
 
+  //for submitting Steam ID
   handleSubmit = event => {
     event.preventDefault();
     console.log(this.state.value);
@@ -100,28 +104,43 @@ export default class HomePage extends Component {
     });
   };
 
+  //for logging in with Steam
   handleClick = () => {
     window.open("http://localhost:5555/auth/steam", "_self");
   }
 
+  //manually adding custom games
   updateCustomGames = (event) => {
     event.preventDefault();
     console.log("Update Games: ");
-    console.log(event.value);
-   /*  this.setState({
-      customGamesAdded: [...this.state.customGamesAdded, ...event]
-    }) */
+    console.log(event.target.value);
+    if (this.state.system == '') {
+      window.alert("Please select a system")
+    } else if (this.state.customNameGame == ''){
+      window.alert("Please name your game")
+    } else {
+      this.setState({
+        customNameGame: event.target.value,
+        customGamesAdded: {}
+      })
+    }
+  }
+
+  getValueDropdown = (data) => {
+    this.setState({
+      system: data
+    })
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.state.system);
     return (
       <div>
         <div className="manualBox">
-          <ManuallyAdded games={this.state.customGamesAdded} updateGames={this.updateCustomGames} />
+          <ManuallyAdded games={this.state.customGamesAdded} updateGames={this.updateCustomGames} valueDropDown={this.getValueDropdown} />
         </div>
         <div className="button">
-          {this.state.steam == 0 || this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null }
+          {this.state.steam == 0 || this.state.steamId == '' ? <SteamForm value={this.state.value} onChange={this.handleChange} submit={this.handleSubmit} /> : null}
           {this.state.steam == 0 ? <div className="steamLogIn">
             <a onClick={this.handleClick}>
               <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />

@@ -45,19 +45,27 @@ export default class ManuallyAdded extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.value !== this.state.value){
+      this.props.valueDropDown(this.state.value)
+    }
+  }
+
   setValues = selectValues => this.setState({ selectValues });
   handleChange = (e, { value }) => this.setState({ value });
   handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery });
 
   render() {
     const { search, value, options } = this.state;
+    console.log(this.state);
+    console.log(this.props);
     return (
       <div className="manualAddition">
         <form onSubmit={this.props.updateGames}>
           <input
             type="text"
             value={this.props.value}
-            onChange={this.props.onChange}
+            onChange={this.props.updateGames}
           />
           <Dropdown
             placeholder="Select console"
