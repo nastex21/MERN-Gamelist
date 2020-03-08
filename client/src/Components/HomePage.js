@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GenerateTable from "./generateTable";
 import SteamForm from './SteamList/SteamForm';
@@ -28,6 +28,48 @@ export default function HomePage() {
       _id: PropTypes.string
     })
   };
+
+  useEffect(() => {
+    // Fetch does not send cookies. So you should add credentials: 'include'
+    fetch("/auth/login/success", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        console.log("failed")
+        if (response.status === 200) return response.json();
+        throw new Error("failed to authenticate user");
+      })
+      .then(responseJson => {
+        console.log('success')
+        console.log(responseJson.user);
+        setAuth(true);
+        setUser(responseJson.user);
+        setSteamId(responseJson.user.steamId)
+      })
+      .catch(error => {
+        console.log('failed 2nd')
+        setAuth(false);
+        setError("Failed to authenticated user");
+      });
+  }, []);
+
+  useEffect(() => {
+    var steamID = steamId;
+    var dataValue = {
+      value: steamID
+    };
+    axios.post('/api/get-games-list', dataValue).then(res => {
+      console.log(res.data);
+      setGames([...games, ...res.data]);
+      setSteam(1);
+    });
+  }, [steamId]);
 
   //for manual addition of Steam ID
   const handleChange = event => {
