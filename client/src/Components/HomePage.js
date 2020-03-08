@@ -46,8 +46,6 @@ export default function HomePage() {
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
-        console.log('success')
-        console.log(responseJson.user);
         setAuth(true);
         setUser(responseJson.user);
         setSteamId(responseJson.user.steamId)

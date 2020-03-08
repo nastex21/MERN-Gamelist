@@ -6,15 +6,14 @@ const router = express.Router();
 
 router.post("/", (req, res) => {
   const userID = req.body.value;
-  console.log(userID);
-  //res.send(data.data.response)
   var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");
     axios
       .get(httpVar)
       .then(data => {
-        var gameData = data.data.response.games.map(item => ({
+        var gameData = data.data.response.games.map((item, key) => ({
+          'game_num': key + 1,
           'game_appid': item.appid,
           'game_img': item.img_logo_url,
           'game_name': item.name,
