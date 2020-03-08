@@ -65,9 +65,13 @@ export default function HomePage() {
       value: steamID
     };
     axios.post('/api/get-games-list', dataValue).then(res => {
-      console.log(res.data);
-      setGames([...games, ...res.data]);
-      setSteam(1);
+      console.log(res);
+      if (res.data.name === "Error") {
+        return null;
+      } else {
+        setGames([...games, ...res.data]);
+        setSteam(1);
+      }
     });
   }, [steamId]);
 
