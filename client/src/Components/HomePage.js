@@ -14,7 +14,6 @@ export default function HomePage() {
   const [games, setGames] = useState([]);
   const [value, setValue] = useState();
   const [system, setSystem] = useState();
-  const [customNameGame, setCustomName] = useState();
   const [customGamesAdded, setCustomGames] = useState([]);
   const [error, setError] = useState(null);
   const [authenticated, setAuth] = useState(false);
@@ -73,6 +72,7 @@ export default function HomePage() {
     });
   }, [steamId]);
 
+
   //for manual addition of Steam ID
   const handleChange = event => {
     setValue(event.target.value);
@@ -97,27 +97,14 @@ export default function HomePage() {
     window.open("http://localhost:5555/auth/steam", "_self");
   }
 
-  //manually adding custom games
-  const updateCustomGames = (event) => {
-    event.preventDefault();
-    if (system == '') {
-      window.alert("Please select a system")
-    } else if (customNameGame == '') {
-      window.alert("Please name your game")
-    } else {
-      setCustomGames({});
-      setCustomName(event.target.value);
-    }
-  }
-
-  const getValueDropdown = (data) => {
-    setSystem(data);
+  const manualData = (objValue) => {
+    console.log(objValue);
   }
 
   return (
     <div>
       <div className="manualBox">
-        <ManuallyAdded games={customGamesAdded} updateGames={updateCustomGames} valueDropDown={getValueDropdown} />
+        <ManuallyAdded uploadData={manualData} />
       </div>
       <div className="button">
         {steam == 0 || steamId == '' ? <SteamForm value={value} onChange={handleChange} submit={handleSubmit} /> : null}
