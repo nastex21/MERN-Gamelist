@@ -13,8 +13,6 @@ export default function HomePage() {
   const [steam, setSteam] = useState(0);
   const [games, setGames] = useState([]);
   const [value, setValue] = useState();
-  const [system, setSystem] = useState();
-  const [customGamesAdded, setCustomGames] = useState([]);
   const [error, setError] = useState(null);
   const [authenticated, setAuth] = useState(false);
 
@@ -72,6 +70,10 @@ export default function HomePage() {
     });
   }, [steamId]);
 
+  useEffect(() => {
+    console.log(games);
+  }, [games])
+
 
   //for manual addition of Steam ID
   const handleChange = event => {
@@ -99,6 +101,17 @@ export default function HomePage() {
 
   const manualData = (objValue) => {
     console.log(objValue);
+    const newObj = {
+      'game_name': objValue.name,
+      'game_img': '',
+      'game_system': objValue.system,
+      'provider': 'manual'
+    }
+
+    let newGames = [...games];
+    newGames.unshift(newObj);
+    console.log(newGames)
+    setGames(newGames)
   }
 
   return (

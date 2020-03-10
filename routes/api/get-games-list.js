@@ -17,7 +17,8 @@ router.post("/", (req, res) => {
           'game_appid': item.appid,
           'game_img': item.img_logo_url,
           'game_name': item.name,
-          'game_system': 'PC'
+          'game_system': 'PC',
+          'provider': 'steam'
         }));
         res.send(gameData);
       })

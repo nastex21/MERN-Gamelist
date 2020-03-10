@@ -1,8 +1,8 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import SteamGameList from './SteamList/steamgamelist';
 
 function GenerateTable({ gamelist }) {
+  console.log(gamelist);
 
   return <div className="table">
     <Table striped bordered hover responsive variant="dark">
@@ -14,7 +14,31 @@ function GenerateTable({ gamelist }) {
         </tr>
       </thead>
       <tbody>
-        <SteamGameList games={gamelist} />
+        {gamelist.map((items, idx) => {
+          if(items.provider == "steam"){
+          return(
+          <tr key={idx}>
+            <td>{idx + 1}</td>
+            <td>
+              {items.game_img == '' ? null : <img src={`http://media.steampowered.com/steamcommunity/public/images/apps/${items.game_appid}/${items.game_img}.jpg`} alt={"Box art of " + items.game_name}
+              />}
+            </td>
+            <td>{items.game_name}</td>
+            <td>{items.game_system}</td>
+          </tr>)
+         } else if (items.provider == "manual") {
+          return (
+            <tr key={idx}>
+            <td>{idx + 1}</td>
+            <td>
+              {items.game_img == '' ? null : <img src={`http://media.steampowered.com/steamcommunity/public/images/apps/${items.game_appid}/${items.game_img}.jpg`} alt={"Box art of " + items.game_name}
+              />}
+            </td>
+            <td>{items.game_name}</td>
+            <td>{items.game_system}</td>
+          </tr>
+          )
+         }})}
       </tbody>
     </Table>
   </div>
