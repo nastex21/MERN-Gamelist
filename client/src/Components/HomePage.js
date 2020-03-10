@@ -70,11 +70,6 @@ export default function HomePage() {
     });
   }, [steamId]);
 
-  useEffect(() => {
-    console.log(games);
-  }, [games])
-
-
   //for manual addition of Steam ID
   const handleChange = event => {
     setValue(event.target.value);

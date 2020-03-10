@@ -20,6 +20,7 @@ router.get("/", (req, res) => {
         var data = newData.map(item => 
           ({
             'key': item.id,
+            'slug': item.slug,
             'text': item.name,
             'value': item.name
           }) 

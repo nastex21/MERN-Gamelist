@@ -16,6 +16,7 @@ export default function ManuallyAdded(props) {
 
     if (localStorage.getItem("stored-plats")) {
       savedPlatforms = JSON.parse(localStorage.getItem("stored-plats"));
+      console.log(savedPlatforms);
       setOptions([...savedPlatforms]);
     }
 
