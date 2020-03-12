@@ -59,7 +59,7 @@ export default function HomePage() {
     var dataValue = {
       value: steamID
     };
-    axios.post('/api/get-games-list', dataValue).then(res => {
+    axios.post('/api/get-games-list/steam', dataValue).then(res => {
       console.log(res);
       if (res.data.name === "Error") {
         return null;
@@ -83,7 +83,7 @@ export default function HomePage() {
     var data = {
       value: steamID
     };
-    axios.post('/api/get-games-list', data).then(res => {
+    axios.post('/api/get-games-list/steam', data).then(res => {
       setGames([...games, ...res.data]);
       setSteam(1);
     });

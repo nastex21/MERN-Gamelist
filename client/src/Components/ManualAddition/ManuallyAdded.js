@@ -5,6 +5,7 @@ import axios from "axios";
 export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
+  const [systemID, setSystemID] = useState('');
   const [items, setItems] = useState();
   const [value, setValue] = useState('');
   const [valueText, setValueText] = useState("");
@@ -32,6 +33,7 @@ export default function ManuallyAdded(props) {
           // If request is good...
           var data = response.data;
           localStorage.setItem("stored-plats", JSON.stringify(data));
+          console.log(data);
           this.setState({
             isLoaded: true,
             options: [...data]
@@ -52,19 +54,28 @@ export default function ManuallyAdded(props) {
 
   //onChange and searchChange to handle values of system select
   const handleChange = ((e, {value}) => {
+    console.log(value);
     setValue(value);
   })
   const handleSearchChange = (e, { searchQuery }) => setSearchQuery({ searchQuery });
 
   const submitValues = (e) => {
     e.preventDefault();
+    const submitValue = value;
+    const newIdObj = options.filter(item => item.value == submitValue ? item : null);
+    const newId = newIdObj[0].key;
     var obj = {
+      params:{
+      id: newId,
       system: value,
       name: valueText
     }
+  };
 
+    console.log(obj);
     console.log(props);
-    props.uploadData(obj)
+    axios.get('/api/get-games-list/db', obj).then(response => console.log(response)).catch(error => console.log(error));
+    //props.uploadData(obj)
   };
 
   return (
@@ -76,7 +87,7 @@ export default function ManuallyAdded(props) {
           onChange={updateName}
         />
         <Dropdown
-          placeholder="Select console"
+          placeholder="Select system"
           fluid
           selection
           search={search}
