@@ -7,6 +7,9 @@ export default function ManuallyAdded(props) {
   const [searchQuery, setSearchQuery] = useState(null);
   const [systemID, setSystemID] = useState('');
   const [items, setItems] = useState();
+  const [previousPage, setPreviousPage] = useState('');
+  const [nextPage, setNextPage] = useState('');
+  const [apiResults, setResults] = useState('');
   const [value, setValue] = useState('');
   const [valueText, setValueText] = useState("");
   const [options, setOptions] = useState([]);
@@ -53,7 +56,7 @@ export default function ManuallyAdded(props) {
   });
 
   //onChange and searchChange to handle values of system select
-  const handleChange = ((e, {value}) => {
+  const handleChange = ((e, { value }) => {
     console.log(value);
     setValue(value);
   })
@@ -64,19 +67,30 @@ export default function ManuallyAdded(props) {
     const submitValue = value;
     const newIdObj = options.filter(item => item.value == submitValue ? item : null);
     const newId = newIdObj[0].key;
+    setSystemID(newId);
     var obj = {
-      params:{
-      id: newId,
-      system: value,
-      name: valueText
-    }
-  };
+      params: {
+        id: newId,
+        system: value,
+        name: valueText
+      }
+    };
 
     console.log(obj);
     console.log(props);
-    axios.get('/api/get-games-list/db', obj).then(response => console.log(response)).catch(error => console.log(error));
+    axios.get('/api/get-games-list/db', obj).then((response) => {
+        setNextPage(response.data.next);
+        setPreviousPage(response.data.previous);
+        setResults(response.data.results);
+    }).catch(error => console.log(error));
     //props.uploadData(obj)
   };
+
+  useEffect(() => {
+    console.log(apiResults);
+    console.log(previousPage);
+    console.log(nextPage);
+  }, [apiResults, previousPage, nextPage]);
 
   return (
     <div className="manualAddition">

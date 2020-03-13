@@ -46,7 +46,7 @@ router.get('/db', (req, res) => {
   if (!system) {
     console.log("empty");
   } else {
-    axios.get(urlWithPlatform, sendHeaders).then(response => console.log(response.data)).catch(error => console.log(error));
+    axios.get(urlWithPlatform, sendHeaders).then(response => res.send(response.data)).catch(error => console.log(error));
   }
 });
 
