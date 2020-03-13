@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "semantic-ui-react";
-import ShowResults from '../ShowResults';
+import ShowResults from '../ShowResults/ShowResults';
 import axios from "axios";
 
 export default function ManuallyAdded(props) {
@@ -89,6 +89,14 @@ export default function ManuallyAdded(props) {
     //props.uploadData(obj)
   };
 
+  const resetFunc = () => {
+    setShowResults(0);
+    setValueText('');
+    setNextPage('');
+    setPreviousPage('');
+    setResults('');
+  }
+
   useEffect(() => {
     console.log(apiResults);
     console.log(previousPage);
@@ -115,7 +123,7 @@ export default function ManuallyAdded(props) {
         />
         <input type="submit" value="Add Game" />
       </form>
-      <Results />
+      {showResults === 1 ? <ShowResults nextPage={nextPage} prevPage={previousPage} results={apiResults} showResults={showResults} resetFunc={resetFunc} /> : null}
     </div>
   );
 }
