@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "semantic-ui-react";
-import ShowResults from '../ShowResults/ShowResults';
+import { Dropdown, SearchCategory } from "semantic-ui-react";
+import ShowResults from "../ShowResults/ShowResults";
 import axios from "axios";
 
 export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
-  const [systemID, setSystemID] = useState('');
+  const [systemID, setSystemID] = useState("");
   const [items, setItems] = useState();
-  const [showResults, setShowResults ] = useState(0);
-  const [previousPage, setPreviousPage] = useState('');
-  const [nextPage, setNextPage] = useState('');
-  const [apiResults, setResults] = useState('');
-  const [value, setValue] = useState('');
+  const [showResults, setShowResults] = useState(0);
+  const [previousPage, setPreviousPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
+  const [apiResults, setResults] = useState([]);
+  const [value, setValue] = useState("");
   const [valueText, setValueText] = useState("");
   const [options, setOptions] = useState([]);
   const [isLoaded, setLodaded] = useState(false);
@@ -29,7 +29,7 @@ export default function ManuallyAdded(props) {
     if (savedPlatforms) {
       setLodaded(true);
       console.log(savedPlatforms.value);
-      setItems(savedPlatforms.value)
+      setItems(savedPlatforms.value);
     } else {
       var getData = "/api/get-platforms-list";
       axios
@@ -53,21 +53,28 @@ export default function ManuallyAdded(props) {
   }, []);
 
   // onChange to set value of input text
-  const updateName = ((e) => {
+  const updateName = e => {
     setValueText(e.target.value);
-  });
+  };
 
   //onChange and searchChange to handle values of system select
-  const handleChange = ((e, { value }) => {
+  const handleChange = (e, { value }) => {
     console.log(value);
     setValue(value);
-  })
-  const handleSearchChange = (e, { searchQuery }) => setSearchQuery({ searchQuery });
+  };
+  const handleSearchChange = (e, { searchQuery }) =>
+    setSearchQuery({ searchQuery });
 
-  const submitValues = (e) => {
+  const submitValues = e => {
     e.preventDefault();
+    /*     if (showResults == 1) {
+      console.log("yes")
+      resetFunc();
+    } */
     const submitValue = value;
-    const newIdObj = options.filter(item => item.value == submitValue ? item : null);
+    const newIdObj = options.filter(item =>
+      item.value == submitValue ? item : null
+    );
     const newId = newIdObj[0].key;
     setSystemID(newId);
     var obj = {
@@ -78,24 +85,26 @@ export default function ManuallyAdded(props) {
       }
     };
 
-    console.log(obj);
-    console.log(props);
-    axios.get('/api/get-games-list/db', obj).then((response) => {
+    axios
+      .get("/api/get-games-list/db", obj)
+      .then(response => {
+        console.log(response.data);
         setNextPage(response.data.next);
         setPreviousPage(response.data.previous);
-        setResults(response.data.results);
+        setResults([...response.data.results]);
         setShowResults(1);
-    }).catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
     //props.uploadData(obj)
   };
 
   const resetFunc = () => {
     setShowResults(0);
-    setValueText('');
-    setNextPage('');
-    setPreviousPage('');
-    setResults('');
-  }
+    setValueText("");
+    setNextPage("");
+    setPreviousPage("");
+    setResults("");
+  };
 
   useEffect(() => {
     console.log(apiResults);
@@ -106,11 +115,7 @@ export default function ManuallyAdded(props) {
   return (
     <div className="manualAddition">
       <form onSubmit={submitValues}>
-        <input
-          type="text"
-          value={valueText}
-          onChange={updateName}
-        />
+        <input type="text" value={valueText} onChange={updateName} />
         <Dropdown
           placeholder="Select system"
           fluid
@@ -123,7 +128,15 @@ export default function ManuallyAdded(props) {
         />
         <input type="submit" value="Add Game" />
       </form>
-      {showResults === 1 ? <ShowResults nextPage={nextPage} prevPage={previousPage} results={apiResults} showResults={showResults} resetFunc={resetFunc} /> : null}
+      {apiResults.length > 0 ? (
+        <ShowResults
+          nextPage={nextPage}
+          prevPage={previousPage}
+          results={apiResults}
+          showResults={showResults}
+          resetFunc={resetFunc}
+        />
+      ) : apiResults.length == 0 && showResults == 1 ? <p>Sorry no results</p> : null }
     </div>
   );
 }

@@ -31,8 +31,8 @@ router.post("/steam", (req, res) => {
 router.get('/db', (req, res) => {
   const { id, system, name } = req.query;
 
-  var url = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=20&search=${name}&page=1`;
-  var urlWithPlatform = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=20&search=${name}&platforms=${id}&page=1`;
+  var url = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=10&search=${name}&page=1`;
+  var urlWithPlatform = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=10&search=${name}&platforms=${id}&page=1`;
 
   console.log(url);
 
