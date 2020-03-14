@@ -102,7 +102,7 @@ export default function HomePage() {
       'game_system': objValue.system,
       'provider': 'manual'
     }
-
+    console.log(newObj);
     let newGames = [...games];
     newGames.unshift(newObj);
     console.log(newGames)

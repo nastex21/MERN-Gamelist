@@ -102,18 +102,12 @@ export default function ManuallyAdded(props) {
 
 
   const addGameFromResults = (item) => {
-/*     'game_num': key + 1,
-    'game_appid': item.appid,
-    'game_img': item.img_logo_url,
-    'game_name': item.name,
-    'game_system': 'PC',
-    'provider': 'steam' */
-    var gameData = [{
-      game_name: item.name,
-      game_system: systemID,
-    }];
-    console.log(item);
-    setResults([...apiResults, ...gameData])
+    console.log('click');
+    var gameData = {
+      name: item.name,
+      system: value
+    };
+    props.uploadData(gameData);
   }
 
   return (
