@@ -103,9 +103,11 @@ export default function ManuallyAdded(props) {
 
   const addGameFromResults = (item) => {
     console.log('click');
+    console.log(item);
     var gameData = {
       name: item.name,
-      system: value
+      system: value,
+      img: item.background_image
     };
     props.uploadData(gameData);
   }

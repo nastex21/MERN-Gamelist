@@ -31,7 +31,7 @@ function GenerateTable({ gamelist }) {
             <tr key={idx}>
             <td>{idx + 1}</td>
             <td>
-              {items.game_img == '' ? null : <img src={`http://media.steampowered.com/steamcommunity/public/images/apps/${items.game_appid}/${items.game_img}.jpg`} alt={"Box art of " + items.game_name}
+              {items.game_img == '' ? null : <img style={{'width': 184, 'height': 69}} src={items.game_img} alt={"Box art of " + items.game_name}
               />}
             </td>
             <td>{items.game_name}</td>

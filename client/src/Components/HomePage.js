@@ -98,7 +98,7 @@ export default function HomePage() {
     console.log(objValue);
     const newObj = {
       'game_name': objValue.name,
-      'game_img': '',
+      'game_img': objValue.img,
       'game_system': objValue.system,
       'provider': 'manual'
     }
