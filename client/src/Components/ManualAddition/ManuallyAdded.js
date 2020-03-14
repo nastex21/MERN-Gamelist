@@ -67,10 +67,6 @@ export default function ManuallyAdded(props) {
 
   const submitValues = e => {
     e.preventDefault();
-    /*     if (showResults == 1) {
-      console.log("yes")
-      resetFunc();
-    } */
     const submitValue = value;
     const newIdObj = options.filter(item =>
       item.value == submitValue ? item : null
@@ -98,19 +94,27 @@ export default function ManuallyAdded(props) {
     //props.uploadData(obj)
   };
 
-  const resetFunc = () => {
-    setShowResults(0);
-    setValueText("");
-    setNextPage("");
-    setPreviousPage("");
-    setResults("");
-  };
-
   useEffect(() => {
     console.log(apiResults);
     console.log(previousPage);
     console.log(nextPage);
   }, [apiResults, previousPage, nextPage]);
+
+
+  const addGameFromResults = (item) => {
+/*     'game_num': key + 1,
+    'game_appid': item.appid,
+    'game_img': item.img_logo_url,
+    'game_name': item.name,
+    'game_system': 'PC',
+    'provider': 'steam' */
+    var gameData = [{
+      game_name: item.name,
+      game_system: systemID,
+    }];
+    console.log(item);
+    setResults([...apiResults, ...gameData])
+  }
 
   return (
     <div className="manualAddition">
@@ -134,7 +138,7 @@ export default function ManuallyAdded(props) {
           prevPage={previousPage}
           results={apiResults}
           showResults={showResults}
-          resetFunc={resetFunc}
+          uploadData={addGameFromResults}
         />
       ) : apiResults.length == 0 && showResults == 1 ? <p>Sorry no results</p> : null }
     </div>

@@ -3,6 +3,8 @@ import { Icon, Table, Label } from "semantic-ui-react";
 
 function ShowResults(props) {
   console.log(props);
+
+
   return (
     <div className="resultsTable">
       <Table celled>
@@ -17,7 +19,7 @@ function ShowResults(props) {
           {props.results.map((item, idx) => {
             console.log(item.name);
             return (
-              <Table.Row key={idx}>
+              <Table.Row key={idx} onClick={() => props.uploadData(item)}>
                 <Table.Cell>
                   <Label ribbon>{idx + 1}</Label>
                 </Table.Cell>
