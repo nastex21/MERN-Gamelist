@@ -1,4 +1,26 @@
+:root{
+   --english-white-color: #ffffff;
+}
+
+.frontPage {
+   position: absolute;
+   width: 100%;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, 0);
+}
+
 .creditIcon {
    bottom: 0;
    right: 0;
+}
+
+h1, h5 {
+   font-family: 'Oswald', sans-serif;
+   font-weight: 500;
+   color: var(--english-white-color);
+   opacity: 0.9;
+   text-transform: uppercase;
+   display: block;
+   text-align: center;
 }
