@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NavbarTop from './Navbar';
-import GenerateTable from "./GenerateTable/GenerateTable";
-import SteamForm from './Pull-Gamelists/SteamList/SteamForm';
-import ManuallyAdded from './Pull-Gamelists/ManualEntries/ManuallyAdded';
+import FrontPage from './FrontPage';
+import MainApp from './MainApp';
+import Guest from './Guest';
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -17,6 +17,7 @@ export default function HomePage() {
   const [error, setError] = useState(null);
   const [authenticated, setAuth] = useState(false);
   const [storedData, setDataFlag] = useState(false);
+  const [localUser, setLocalUser] = useState(false);
 
   HomePage.propTypes = {
     user: PropTypes.shape({
@@ -28,14 +29,14 @@ export default function HomePage() {
     })
   };
 
-  if(authenticated == false && storedData == false){
+  if (authenticated == false && storedData == false) {
     if (localStorage.getItem("stored-gamedata")) {
       const savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       setGames([...savedGames]);
       setDataFlag(true);
-    } 
-  } else {
+    } else {
       localStorage.setItem("stored-gamedata", JSON.stringify(games));
+    }
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function HomePage() {
       });
   }, []);
 
-//listen for changes if the steamId state is altered
+  //listen for changes if the steamId state is altered
   useEffect(() => {
     var steamID = steamId;
     var dataValue = {
@@ -123,27 +124,14 @@ export default function HomePage() {
     setGames(newGames)
   }
 
+  const enableLocalUser = () => {
+    setLocalUser(true);
+  }
+
   return (
     <div>
       <NavbarTop />
-      <div className="manualBox">
-        <ManuallyAdded uploadData={manualData} />
-      </div>
-      <div className="button">
-        {steam == 0 || steamId == '' ? <SteamForm value={value} onChange={handleChange} submit={handleSubmit} /> : null}
-
-        {steam == 0 ? <div className="steamLogIn">
-          <a onClick={handleClick}>
-            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
-          </a>
-        </div> : null}
-        {games.length === 0 ? null : (
-          <p>You have {games.length} games</p>
-        )}
-      </div>
-      {games.length === 0 ? null : (
-        <GenerateTable gamelist={games} />
-      )}
+      {!localUser ? <FrontPage /> : <MainApp manualData={manualData} steam={steam} steamId={steamId} value={value} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} games={games} />}
     </div>
   );
 }
