@@ -15,6 +15,7 @@ export default function HomePage() {
   const [value, setValue] = useState('');
   const [error, setError] = useState(null);
   const [authenticated, setAuth] = useState(false);
+  const [storedData, setDataFlag] = useState(false);
 
   HomePage.propTypes = {
     user: PropTypes.shape({
@@ -25,6 +26,16 @@ export default function HomePage() {
       _id: PropTypes.string
     })
   };
+
+  if(authenticated == false && storedData == false){
+    if (localStorage.getItem("stored-gamedata")) {
+      const savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
+      setGames([...savedGames]);
+      setDataFlag(true);
+    } 
+  } else {
+      localStorage.setItem("stored-gamedata", JSON.stringify(games));
+  }
 
   useEffect(() => {
     // Fetch does not send cookies. So you should add credentials: 'include'
