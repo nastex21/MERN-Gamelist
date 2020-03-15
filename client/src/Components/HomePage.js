@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import NavbarTop from './Navbar';
 import GenerateTable from "./GenerateTable/GenerateTable";
 import SteamForm from './Pull-Gamelists/SteamList/SteamForm';
 import ManuallyAdded from './Pull-Gamelists/ManualEntries/ManuallyAdded';
@@ -124,6 +125,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <NavbarTop />
       <div className="manualBox">
         <ManuallyAdded uploadData={manualData} />
       </div>
