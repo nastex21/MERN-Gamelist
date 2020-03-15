@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown, SearchCategory } from "semantic-ui-react";
-import ShowResults from "../ShowResults/ShowResults";
+import ShowResults from "./ShowResults";
 import axios from "axios";
 
 export default function ManuallyAdded(props) {
@@ -17,6 +17,7 @@ export default function ManuallyAdded(props) {
   const [options, setOptions] = useState([]);
   const [isLoaded, setLodaded] = useState(false);
 
+  //store to see if platforms data is in localstorage 
   useEffect(() => {
     let savedPlatforms;
 
@@ -52,19 +53,22 @@ export default function ManuallyAdded(props) {
     }
   }, []);
 
-  // onChange to set value of input text
+  // Game Text Input: onChange to set value of input text
   const updateName = e => {
     setValueText(e.target.value);
   };
 
-  //onChange and searchChange to handle values of system select
+  //Dropdown: onChange and searchChange to handle values of system selected
   const handleChange = (e, { value }) => {
     console.log(value);
     setValue(value);
   };
+
+  //Dropdown: input text search platforms/systems list
   const handleSearchChange = (e, { searchQuery }) =>
     setSearchQuery({ searchQuery });
 
+  //submit and search the database
   const submitValues = e => {
     e.preventDefault();
     const submitValue = value;
@@ -94,13 +98,7 @@ export default function ManuallyAdded(props) {
     //props.uploadData(obj)
   };
 
-  useEffect(() => {
-    console.log(apiResults);
-    console.log(previousPage);
-    console.log(nextPage);
-  }, [apiResults, previousPage, nextPage]);
-
-
+  //move data to Home Component to render results
   const addGameFromResults = (item) => {
     console.log('click');
     console.log(item);

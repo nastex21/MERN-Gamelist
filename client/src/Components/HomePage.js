@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import GenerateTable from "./generateTable";
-import SteamForm from './SteamList/SteamForm';
-import ManuallyAdded from './ManualAddition/ManuallyAdded'
+import GenerateTable from "./GenerateTable/GenerateTable";
+import SteamForm from './Pull-Gamelists/SteamList/SteamForm';
+import ManuallyAdded from './ManualEntries/ManuallyAdded';
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -54,6 +54,7 @@ export default function HomePage() {
       });
   }, []);
 
+//listen for changes if the steamId state is altered
   useEffect(() => {
     var steamID = steamId;
     var dataValue = {
@@ -94,6 +95,7 @@ export default function HomePage() {
     window.open("http://localhost:5555/auth/steam", "_self");
   }
 
+  //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = (objValue) => {
     console.log(objValue);
     const newObj = {
