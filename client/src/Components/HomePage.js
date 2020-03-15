@@ -129,9 +129,9 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <>
       <NavbarTop />
       {!localUser ? <FrontPage /> : <MainApp manualData={manualData} steam={steam} steamId={steamId} value={value} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} games={games} />}
-    </div>
+    </>
   );
 }

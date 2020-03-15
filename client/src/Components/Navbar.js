@@ -10,7 +10,9 @@ export default function NavbarTop() {
                 <Nav className="ml-auto">
                     <Nav.Link href="#login">Login</Nav.Link>
                     <Navbar.Text >/</Navbar.Text>
-                    <Nav.Link href="#signup">Signup</Nav.Link>
+                    <Nav.Link href="#signup">Sign Up</Nav.Link>
+                    <Navbar.Text >/</Navbar.Text>
+                    <Nav.Link href="#signup">Continue as Guest</Nav.Link>
                 </Nav>
             </Navbar>
         </>
