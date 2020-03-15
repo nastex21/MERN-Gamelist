@@ -7,7 +7,7 @@ export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
   const [systemID, setSystemID] = useState("");
-  const [items, setItems] = useState();
+  const [items, setItems] = useState('');
   const [showResults, setShowResults] = useState(0);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GenerateTable from "./GenerateTable/GenerateTable";
 import SteamForm from './Pull-Gamelists/SteamList/SteamForm';
-import ManuallyAdded from './ManualEntries/ManuallyAdded';
+import ManuallyAdded from './Pull-Gamelists/ManualEntries/ManuallyAdded';
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
 export default function HomePage() {
   const [user, setUser] = useState({});
-  const [steamId, setSteamId] = useState();
+  const [steamId, setSteamId] = useState('');
   const [steam, setSteam] = useState(0);
   const [games, setGames] = useState([]);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('');
   const [error, setError] = useState(null);
   const [authenticated, setAuth] = useState(false);
 
