@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 import NavbarTop from './Navbar';
-import FrontPage from './FrontPage';
+import FrontPage from './FrontPageSplash';
 import MainApp from './MainApp';
+import SignUpPage from './AuthPages/Sign-Up';
+import LoginPage from './AuthPages/Login';
 import Guest from './Guest';
 import PropTypes from "prop-types";
 import Table from "react-bootstrap/Table";
@@ -131,7 +134,11 @@ export default function HomePage() {
   return (
     <>
       <NavbarTop />
-      {!localUser ? <FrontPage /> : <MainApp manualData={manualData} steam={steam} steamId={steamId} value={value} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} games={games} />}
+      <Router>
+          <Route path="sign-up" component={SignUpPage} />
+          <Route path="login" component={LoginPage} />
+          {!localUser ? <Route exact path="/" component={FrontPage} /> : <Route path="dashboard" render={(props) => <MainApp manualData={manualData} steam={steam} steamId={steamId} value={value} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} games={games} />} />}
+      </Router>
       <a className="creditIcon" style={{ backgroundColor: 'black', color: 'white', textDecoration: 'none', padding: '4px 6px', fontFamily: '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif', fontSize: '12px', fontWeight: 'bold', lineHeight: '1.2', display: 'inline-block', borderRadius: '3px', position: 'absolute' }} href="https://unsplash.com/@alexxsvch?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Alexey Savchenko"><span style={{ display: 'inline-block', padding: '2px 3px' }}><svg xmlns="http://www.w3.org/2000/svg" style={{ height: '12px', width: 'auto', position: 'relative', verticalAlign: 'middle', top: '-2px', fill: 'white' }} viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z" /></svg></span><span style={{ display: 'inline-block', padding: '2px 3px' }}>Image credit to Alexey Savchenko</span></a>
     </>
   );
