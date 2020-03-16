@@ -10,11 +10,11 @@ export default function SignUpPage() {
     return (
         <div className="formsGroup">
             <form onSubmit={handleSubmit}>
-                <h3>Sign Up</h3>
+                <h3>Register</h3>
 
                 <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
+                    <label>Username or Email address</label>
+                    <input type="email" className="form-control" placeholder="Enter username or email" />
                 </div>
 
                 <div className="form-group">
