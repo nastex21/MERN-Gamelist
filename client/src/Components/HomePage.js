@@ -134,7 +134,7 @@ export default function HomePage() {
   return (
     <>
       <Router>
-      <NavbarTop />
+       <NavbarTop />
         <Switch>
           <Route exact path="/sign-up" component={SignUpPage} />
           <Route exact path="/login" component={LoginPage} />
