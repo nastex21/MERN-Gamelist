@@ -6,7 +6,7 @@ export default function NavbarTop() {
     return (
         <>
             <Navbar bg="dark" variant="dark" sticky="top">
-                <Navbar.Brand href="#home">Video Game Catalog</Navbar.Brand>
+                <Navbar.Brand href="/">Video Game Catalog</Navbar.Brand>
                 <Nav className="ml-auto">
                     <Nav.Link href="login">Login</Nav.Link>
                     <Navbar.Text >/</Navbar.Text>
