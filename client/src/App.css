@@ -21,3 +21,28 @@
         while the background image is loading */
      background-color: #464646;
   }
+
+  /* forms */
+  .formsGroup {
+      width: 50%;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, 0);
+  }
+
+  @media screen and (max-width: 400px){
+
+     /* forms */
+     .formsGroup{
+      width: 90%;
+     }
+    
+  }
+
+  @media screen and (max-width: 800px){
+     /* forms */
+     .formsGroup{
+      width: 90%;
+     }
+  }

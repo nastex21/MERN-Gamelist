@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import '../css/Forms.css';
 
 export default function LoginPage() {
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log("login submit")
+  }
+
   return (
     <div className="formsGroup">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <h3>Sign In</h3>
 
                 <div className="form-group">
@@ -17,7 +22,7 @@ export default function LoginPage() {
                     <input type="password" className="form-control" placeholder="Enter password" />
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <input type="submit" className="btn btn-primary btn-block" />
             </form>
     </div>
   );
