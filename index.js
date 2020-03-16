@@ -4,23 +4,22 @@ const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const users = require("./routes/api/users");
 const authRoutes = require("./routes/auth/auth-routes");
 const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
-const passportSetup = require("./config/passport-setup");
-const session = require("express-session");
 const app = express();
 const cookieParser = require("cookie-parser"); // parse cookie header
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //connect to database
 mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.use(
   cookieSession({
@@ -41,6 +40,8 @@ app.use(cors({
 
 // initalize passport
 app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
 // deserialize cookie from the browser
 app.use(passport.session());
 
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use("/auth", authRoutes);
 app.use('/api/get-games-list', gamelistRoutes);
 app.use('/api/get-platforms-list', platformslistRoutes);
+app.use("/api/users", users);
 
 const PORT = process.env.PORT || 5555;
 
