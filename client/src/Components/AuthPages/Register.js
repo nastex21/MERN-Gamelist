@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from "react";
 import '../css/Forms.css';
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../actions/authActions";
-import classnames from "classnames";
 
-const Register = props => {
+export default function Register () {
 
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [errors, setErrors] = useState({});
-    const auth = useSelector(state => state.auth);
-    
-
-    useEffect(() => {
-        if (props.errors) {
-            setErrors(props.errors)
-        }
-    }, [props]);
 
     const onChange = e => {
         var targetName = e.target.id;
@@ -47,7 +34,7 @@ const Register = props => {
             password2: password2
         };
 
-        props.registerUser(newUser, this.props.history);
+        //need axios.get to send it somewhere. Log In Component as well.
     }
 
     return (
@@ -81,16 +68,3 @@ const Register = props => {
         </div>
     );
 };
-
-export default Register;
-
-
-/* const mapStateToProps = state => ({
-    auth: state.auth,
-    errors: state.errors
-});
-
-export default connect(
-    mapStateToProps,
-    { registerUser }
-)(withRouter(Register)); */

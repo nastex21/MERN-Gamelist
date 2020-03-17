@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../css/Forms.css';
-import { withRouter } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../actions/authActions";
 
-const LoginPage = props => {
+export default function LoginPage () {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -22,11 +19,6 @@ const LoginPage = props => {
         return null;
     }
   };
-
-  useEffect(() => {
-    console.log(name);
-    console.log(password);
-  }, [name, password])
 
   const userData = {
     name: name,
@@ -58,5 +50,3 @@ const LoginPage = props => {
     </div>
   );
 }
-
-export default LoginPage;
