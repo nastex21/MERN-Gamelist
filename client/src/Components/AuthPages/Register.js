@@ -40,14 +40,14 @@ export default function Register() {
     
     axios
       .post("/api/users/register", newUser)
-      .then(res => setRedirect(1)) // re-direct to login on successful register
+      .then(res => setRedirect(true)) // re-direct to login on successful register
       .catch(err => setErrors(err));
   };
 
   
   return (
-    <div>
+    <>
         {redirectPage ? <Redirect to="/login" /> : <RegisterForm handleSubmit={handleSubmit} name={name} onChange={onChange} password={password} password2={password2}/>}
-        </div>
+    </>
   );
 }

@@ -42,19 +42,15 @@ router.post("/register", (req, res) => {
 // @desc Login user and return JWT token
 // @access Public
 router.post("/login", (req, res) => {
-  // Form validation
-const { errors, isValid } = validateLoginInput(req.body);
-// Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-const email = req.body.email;
+
+  const name = req.body.name;
   const password = req.body.password;
-// Find user by email
-  User.findOne({ email }).then(user => {
+  console.log(name);
+// Find user by name
+  User.findOne({ name }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" });
+      return res.status(404).json({ Namenotfound: "Username or email not found" });
     }
 // Check password
     bcrypt.compare(password, user.password).then(isMatch => {

@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
-import '../css/Forms.css';
+import { Redirect } from "react-router-dom";
+import LoginForm from "./Forms/LoginForm";
+import setAuthToken from "../../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
+import "../css/Forms.css";
 
-export default function LoginPage () {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+export default function LoginPage() {
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [redirectPage, setRedirect] = useState(false);
 
   const onChange = e => {
     var targetName = e.target.id;
     switch (targetName) {
-      case ('name'):
+      case "name":
         setName(e.target.value);
         break;
-      case ('password'):
+      case "password":
         setPassword(e.target.value);
         break;
       default:
@@ -28,25 +34,42 @@ export default function LoginPage () {
   const handleSubmit = event => {
     event.preventDefault();
 
-  }
+    var userData = {
+      name: name,
+      password: password
+    }
+
+    axios
+      .post("/api/users/login", userData)
+      .then(res => {
+        // Save to localStorage
+        // Set token to localStorage
+        const { token } = res.data;
+        localStorage.setItem("jwtToken", token);
+        // Set token to Auth header
+        setAuthToken(token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
+        // Set current user
+        console.log(decoded);
+      })
+      .catch(err =>
+        console.log(err)
+      );
+  };
 
   return (
-    <div className="formsGroup">
-      <form onSubmit={handleSubmit}>
-        <h3>Log In</h3>
-
-        <div className="form-group">
-          <label>Username or Email address</label>
-          <input type="name" className="form-control" placeholder="Enter username or email" onChange={onChange} value={name} error={errors.name} id="name"  />
-        </div>
-
-        <div className="form-group">
-          <label>Password</label>
-          <input type="password" className="form-control" placeholder="Enter password" onChange={onChange} value={password} error={errors.password} id="password" />
-        </div>
-
-        <input type="submit" className="btn btn-primary btn-block" />
-      </form>
-    </div>
+    <>
+      {redirectPage ? (
+        <Redirect to="/dashboard" />
+      ) : (
+        <LoginForm
+          handleSubmit={handleSubmit}
+          name={name}
+          onChange={onChange}
+          password={password}
+        />
+      )}
+    </>
   );
 }
