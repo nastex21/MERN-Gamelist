@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import '../css/Forms.css';
+import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
-export default function LoginPage() {
+const LoginPage = props => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -55,3 +58,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;
