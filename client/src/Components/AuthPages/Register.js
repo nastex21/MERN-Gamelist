@@ -1,70 +1,53 @@
 import React, { useState, useEffect } from "react";
-import '../css/Forms.css';
+import { Redirect } from "react-router-dom";
+import RegisterForm from './Forms/RegisterForm';
+import "../css/Forms.css";
+import axios from "axios";
 
-export default function Register () {
+export default function Register() {
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errors, setErrors] = useState({});
+  const [redirectPage, setRedirect] = useState(false);
 
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-    const [errors, setErrors] = useState({});
-
-    const onChange = e => {
-        var targetName = e.target.id;
-        switch (targetName) {
-            case ('name'):
-                setName(e.target.value);
-                break;
-            case ('password'):
-                setPassword(e.target.value);
-                break;
-            case ('password2'):
-                setPassword2(e.target.value);
-                break;
-            default:
-                return null;
-        }
-    };
-
-    const handleSubmit = event => {
-        event.preventDefault();
-
-        const newUser = {
-            name: name,
-            password: password,
-            password2: password2
-        };
-
-        //need axios.get to send it somewhere. Log In Component as well.
+  const onChange = e => {
+    var targetName = e.target.id;
+    switch (targetName) {
+      case "name":
+        setName(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        break;
+      case "password2":
+        setPassword2(e.target.value);
+        break;
+      default:
+        return null;
     }
+  };
 
-    return (
-        <div className="formsGroup">
-            <form noValidate onSubmit={handleSubmit}>
-                <h3>Register</h3>
+  const handleSubmit = event => {
+    event.preventDefault();
 
-                <div className="form-group">
-                    <span className="red-text">{errors.name}</span>
-                    <label>Username or Email address</label>
-                    <input className="form-control" onChange={onChange} value={name} error={errors.name} id="name" type="text" placeholder="Enter username or email" />
-                </div>
+    const newUser = {
+      name: name,
+      password: password,
+      password2: password2
+    };
+    console.log(newUser);
+    
+    axios
+      .post("/api/users/register", newUser)
+      .then(res => setRedirect(1)) // re-direct to login on successful register
+      .catch(err => setErrors(err));
+  };
 
-                <div className="form-group">
-                    <span className="red-text">{errors.password}</span>
-                    <label>Password</label>
-                    <input type="password" className="form-control" onChange={onChange} value={password} error={errors.password} id="password" placeholder="Enter password" />
-                </div>
-
-                <div className="form-group">
-                    <span className="red-text">{errors.password2}</span>
-                    <label>Re-Enter Password</label>
-                    <input type="password" className="form-control" onChange={onChange} value={password2} error={errors.password2} id="password2" placeholder="Re-Enter password" />
-                </div>
-
-                <input type="submit" className="btn btn-primary btn-block" value="Submit" />
-                <p className="forgot-password text-right">
-                    Already registered <a href="/login">sign in?</a>
-                </p>
-            </form>
+  
+  return (
+    <div>
+        {redirectPage ? <Redirect to="/login" /> : <RegisterForm handleSubmit={handleSubmit} name={name} onChange={onChange} password={password} password2={password2}/>}
         </div>
-    );
-};
+  );
+}
