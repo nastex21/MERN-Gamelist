@@ -4,7 +4,7 @@ import axios from "axios";
 import NavbarTop from './Navbar';
 import FrontPage from './FrontPageSplash';
 import MainApp from './MainApp';
-import SignUpPage from './AuthPages/Sign-Up';
+import RegisterPage from './AuthPages/Register';
 import LoginPage from './AuthPages/Login';
 import Guest from './Guest';
 import PropTypes from "prop-types";
@@ -136,7 +136,7 @@ export default function HomePage() {
       <Router>
        <NavbarTop />
         <Switch>
-          <Route exact path="/sign-up" component={SignUpPage} />
+          <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
           {!localUser ? <Route exact path="/" component={FrontPage} /> : null } 
           <Route exact path="/dashboard" render={(props) => <MainApp manualData={manualData} steam={steam} steamId={steamId} value={value} handleChange={handleChange} handleSubmit={handleSubmit} handleClick={handleClick} games={games} /> } />
