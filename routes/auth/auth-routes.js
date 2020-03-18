@@ -1,9 +1,7 @@
 const passport = require("passport");
 const express = require("express");
 const router = express.Router();
-const CLIENT_HOME_PAGE_URL = "http://localhost:5556";
-
-router.get("/steam", passport.authenticate("steam", { session: false }));
+const CLIENT_HOME_PAGE_URL = "http://localhost:5556/dashboard";
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
