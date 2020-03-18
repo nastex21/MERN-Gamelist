@@ -122,7 +122,6 @@ export default function HomePage() {
   const enableGuestUser = () => {
     setGuestUser(true);
   };
-  console.log(games);
 
   return (
     <>
