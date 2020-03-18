@@ -7,6 +7,7 @@ import FrontPage from "./FrontPageSplash";
 import Dashboard from "./Dashboard";
 import RegisterPage from "./AuthPages/Register";
 import LoginPage from "./AuthPages/Login";
+import LogoutPage from './AuthPages/Logout';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
@@ -65,6 +66,13 @@ export default function HomePage() {
     });
   }, [steamId]);
 
+  //set localStorage for user that clicked on as Guest
+  useEffect(() => {
+    if (guestUser){
+    localStorage.setItem("guest", true)
+    }
+  }, [guestUser])
+
   //for manual addition of Steam ID
   const handleChange = event => {
     setSteamId(event.target.value);
@@ -120,15 +128,16 @@ export default function HomePage() {
   };
 
   const enableGuestUser = () => {
+    console.log("running");
     setGuestUser(true);
   };
 
   return (
     <>
       <Router>
-        <NavbarTop />
+        <NavbarTop token={token} enableGuestUser={enableGuestUser}/>
         <Switch>
-          {token ?           
+          {token ?
           <> 
           <Redirect exact to={{ pathname: "/dashboard", handleChange: handleChange }} />
           <Route exact path="/dashboard"
@@ -144,7 +153,9 @@ export default function HomePage() {
                 games={games}
               />
             )}
-          />
+            />
+            <Route exact path="/logout" component={LogoutPage}/>
+          }
           </> :
             <>
               <Route exact path="/register" component={RegisterPage} />

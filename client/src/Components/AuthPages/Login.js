@@ -47,6 +47,7 @@ export default function LoginPage({ LoginData }) {
         // Set token to localStorage
         const { token, user } = res.data;
         localStorage.setItem("jwtToken", token);
+        localStorage.removeItem('guest');
         // Set token to Auth header
         setAuthToken(token);
         // Decode token to get user data
