@@ -13,7 +13,7 @@ export default function Dashboard({
   handleClick,
   games
 }) {
-  console.log(steam);
+  console.log(handleChange);
   return (
     <>
       <div className="manualBox">

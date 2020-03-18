@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NavbarTop from "./Navbar";
@@ -42,7 +42,7 @@ export default function HomePage() {
   }
 
   //remove stored-gamedata if user logged in after going to the dashboard
-  if (token){
+  if (token) {
     localStorage.removeItem('stored-gamedata');
   }
 
@@ -128,9 +128,9 @@ export default function HomePage() {
       <Router>
         <NavbarTop />
         <Switch>
-          <Route exact path="/register" component={RegisterPage} />
-          <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
-          {!guestUser ? <Route exact path="/" component={FrontPage} /> : null}
+          {token ?           
+          <> 
+          <Redirect exact to={{ pathname: "/dashboard", handleChange: handleChange }} />
           <Route exact path="/dashboard"
             render={props => (
               <Dashboard
@@ -145,6 +145,27 @@ export default function HomePage() {
               />
             )}
           />
+          </> :
+            <>
+              <Route exact path="/register" component={RegisterPage} />
+              <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
+              <Route exact path="/" component={FrontPage} /> : null}
+          <Route exact path="/dashboard"
+                render={props => (
+                  <Dashboard
+                    manualData={manualData}
+                    steam={steam}
+                    steamId={steamId}
+                    value={steamId}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    handleClick={handleClick}
+                    games={games}
+                  />
+                )}
+              />
+            </>
+          }
         </Switch>
         {games.length == 0 ? <a
           className="creditIcon"
@@ -197,7 +218,7 @@ export default function HomePage() {
           >
             Image credit to Alexey Savchenko
           </span>
-          </a> : null }
+        </a> : null}
       </Router>
     </>
   );
