@@ -13,11 +13,9 @@ import Pagination from "react-bootstrap/Pagination";
 export default function HomePage() {
   const [guestUser, setGuestUser] = useState(false); //user is a Guest boolean
   const [authUser, setAuthUser] = useState(""); //registered and logged in user
-  const [user, setUser] = useState({}); //steam login
-  const [steamId, setSteamId] = useState(""); //
-  const [steam, setSteam] = useState(0);
-  const [games, setGames] = useState([]); //
-  const [value, setValue] = useState("");
+  const [steamId, setSteamId] = useState(""); //steam ID 
+  const [steam, setSteam] = useState(0); //has steam been used? 
+  const [games, setGames] = useState([]); //array of games manually and automatically added (Only supports steam atm.)
   const [error, setError] = useState(null);
   const [token, setToken] = useState(false); //boolean to see if there's a token
   const [storedData, setDataFlag] = useState(false);
@@ -44,7 +42,7 @@ export default function HomePage() {
   }
 
   //remove stored-gamedata if user logged in after going to the dashboard
-  if(token){
+  if (token){
     localStorage.removeItem('stored-gamedata');
   }
 
@@ -69,15 +67,14 @@ export default function HomePage() {
 
   //for manual addition of Steam ID
   const handleChange = event => {
-    setValue(event.target.value);
+    setSteamId(event.target.value);
   };
 
   //for submitting Steam ID
   const handleSubmit = event => {
     event.preventDefault();
-    var steamID, data;
+    var data;
     if (authUser) {
-      steamID = value;
       data = {
         steamID: steamId,
         user: authUser.id
@@ -87,7 +84,10 @@ export default function HomePage() {
         steamID: steamId
       };
     }
+
+    console.log(data);
     axios.post("/api/get-games-list/steam", data).then(res => {
+      console.log(res.data);
       setGames([...games, ...res.data]);
       setSteam(1);
     });
@@ -122,7 +122,7 @@ export default function HomePage() {
   const enableGuestUser = () => {
     setGuestUser(true);
   };
-  console.log(authUser);
+  console.log(games);
 
   return (
     <>
@@ -138,7 +138,7 @@ export default function HomePage() {
                 manualData={manualData}
                 steam={steam}
                 steamId={steamId}
-                value={value}
+                value={steamId}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 handleClick={handleClick}
@@ -147,7 +147,7 @@ export default function HomePage() {
             )}
           />
         </Switch>
-        <a
+        {games.length == 0 ? <a
           className="creditIcon"
           style={{
             backgroundColor: "black",
@@ -198,7 +198,7 @@ export default function HomePage() {
           >
             Image credit to Alexey Savchenko
           </span>
-        </a>
+          </a> : null }
       </Router>
     </>
   );
