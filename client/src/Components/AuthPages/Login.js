@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import "../css/Forms.css";
 
-export default function LoginPage() {
+export default function LoginPage({ LoginData }) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -42,6 +42,7 @@ export default function LoginPage() {
     axios
       .post("/api/users/login", userData)
       .then(res => {
+        console.log(res.data);
         // Save to localStorage
         // Set token to localStorage
         const { token } = res.data;
@@ -52,6 +53,11 @@ export default function LoginPage() {
         const decoded = jwt_decode(token);
         // Set current user
         console.log(decoded);
+        const userObj = {
+          id: decoded.id,
+          name: decoded.name
+        }
+        LoginData(userObj);
       })
       .catch(err =>
         console.log(err)
@@ -63,13 +69,13 @@ export default function LoginPage() {
       {redirectPage ? (
         <Redirect to="/dashboard" />
       ) : (
-        <LoginForm
-          handleSubmit={handleSubmit}
-          name={name}
-          onChange={onChange}
-          password={password}
-        />
-      )}
+          <LoginForm
+            handleSubmit={handleSubmit}
+            name={name}
+            onChange={onChange}
+            password={password}
+          />
+        )}
     </>
   );
 }

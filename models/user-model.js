@@ -10,6 +10,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  games:{
+    type: Array
+  },
   date: {
     type: Date,
     default: Date.now
