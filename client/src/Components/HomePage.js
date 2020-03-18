@@ -43,6 +43,11 @@ export default function HomePage() {
     }
   }
 
+  //remove stored-gamedata if user logged in after going to the dashboard
+  if(token){
+    localStorage.removeItem('stored-gamedata');
+  }
+
   //listen for changes if the steamId state is altered
   useEffect(() => {
     console.log("useEffect");
