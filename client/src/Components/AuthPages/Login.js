@@ -45,7 +45,7 @@ export default function LoginPage({ LoginData }) {
         console.log(res.data);
         // Save to localStorage
         // Set token to localStorage
-        const { token } = res.data;
+        const { token, user } = res.data;
         localStorage.setItem("jwtToken", token);
         // Set token to Auth header
         setAuthToken(token);

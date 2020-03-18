@@ -7,7 +7,7 @@ export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
   const [systemID, setSystemID] = useState("");
-  const [items, setItems] = useState('');
+  const [items, setItems] = useState("");
   const [showResults, setShowResults] = useState(0);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
@@ -15,9 +15,9 @@ export default function ManuallyAdded(props) {
   const [value, setValue] = useState("");
   const [valueText, setValueText] = useState("");
   const [options, setOptions] = useState([]);
-  const [isLoaded, setLodaded] = useState(false);
+  const [isLoaded, setLoaded] = useState(false);
 
-  //store to see if platforms data is in localstorage 
+  //store to see if platforms data is in localstorage
   useEffect(() => {
     let savedPlatforms;
 
@@ -28,9 +28,7 @@ export default function ManuallyAdded(props) {
     }
 
     if (savedPlatforms) {
-      setLodaded(true);
-      console.log(savedPlatforms.value);
-      setItems(savedPlatforms.value);
+      setLoaded(true);
     } else {
       var getData = "/api/get-platforms-list";
       axios
@@ -40,11 +38,8 @@ export default function ManuallyAdded(props) {
           var data = response.data;
           localStorage.setItem("stored-plats", JSON.stringify(data));
           console.log(data);
-          this.setState({
-            isLoaded: true,
-            options: [...data]
-          });
-          setLodaded(true);
+          console.log("setLoaded");
+          setLoaded(true);
           setOptions([...data]);
         })
         .catch(error => {
@@ -52,7 +47,7 @@ export default function ManuallyAdded(props) {
         });
     }
   }, []);
-
+  
   // Game Text Input: onChange to set value of input text
   const updateName = e => {
     setValueText(e.target.value);
@@ -99,8 +94,8 @@ export default function ManuallyAdded(props) {
   };
 
   //move data to Home Component to render results
-  const addGameFromResults = (item) => {
-    console.log('click');
+  const addGameFromResults = item => {
+    console.log("click");
     console.log(item);
     var gameData = {
       name: item.name,
@@ -108,22 +103,26 @@ export default function ManuallyAdded(props) {
       img: item.background_image
     };
     props.uploadData(gameData);
-  }
+  };
 
   return (
     <div className="manualAddition">
       <form onSubmit={submitValues}>
         <input type="text" value={valueText} onChange={updateName} />
-        <Dropdown
-          placeholder="Select system"
-          fluid
-          selection
-          search={search}
-          options={options}
-          value={value}
-          onChange={handleChange}
-          onSearchChange={handleSearchChange}
-        />
+        {isLoaded ? (
+          <Dropdown
+            placeholder="Select system"
+            fluid
+            selection
+            search={search}
+            options={options}
+            value={value}
+            onChange={handleChange}
+            onSearchChange={handleSearchChange}
+          />
+        ) : (
+          <p>Loading...</p>
+        )}
         <input type="submit" value="Add Game" />
       </form>
       {apiResults.length > 0 ? (
@@ -134,7 +133,9 @@ export default function ManuallyAdded(props) {
           showResults={showResults}
           uploadData={addGameFromResults}
         />
-      ) : apiResults.length == 0 && showResults == 1 ? <p>Sorry no results</p> : null }
+      ) : apiResults.length == 0 && showResults == 1 ? (
+        <p>Sorry no results</p>
+      ) : null}
     </div>
   );
 }
