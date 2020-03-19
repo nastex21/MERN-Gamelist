@@ -138,7 +138,7 @@ function HomePage(props) {
   }
 
   return (
-    <>
+    <div className="homePage">
         <NavbarTop token={token} enableGuestUser={enableGuestUser} {...props}/>
         <Switch>
           {token ?
@@ -234,7 +234,7 @@ function HomePage(props) {
             Image credit to Alexey Savchenko
           </span>
         </a> : null}
-    </>
+    </div>
   );
 }
 
