@@ -20,17 +20,42 @@ function HomePage(props) {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(false); //boolean to see if there's a token
   const [storedData, setDataFlag] = useState(false);
-  const [pageLocation, setPage] = useState(0); // 0 = HomePage, Login, Register / 1 = Dashboard 
 
-  //Check to see if there's a token meaning user has made an account and has logged in.
+  //Authenticated: Check to see if there's a token meaning user has made an account and has logged in.
   if (!token) {
     if (localStorage.jwtToken) {
       const token = localStorage.jwtToken;
       const decoded = jwt_decode(token);
       setToken(true);
       setAuthUser(decoded);
+      //delete localStorage data if user went from guest to registered
+      if (localStorage.getItem("guest") || localStorage.getItem("stored-gamedata")) {
+        localStorage.removeItem("guest");
+        localStorage.removeItem("stored-gamedata");
+      }
     }
   }
+
+  //Guest: if item guest exists, set guest state to true;
+  if (localStorage.getItem("guest")) {
+    if (!guestUser) {
+      setGuestUser(true);
+    }
+  }
+
+  //Guest: set localStorage for user that clicked on as Guest
+  useEffect(() => {
+    if (guestUser) {
+      localStorage.setItem("guest", true)
+    }
+  }, [guestUser])
+
+  //Guest: if there's saved game data in the localstorage, populate the "games" state
+  useEffect(() => {
+    if (localStorage.getItem("stored-gamedata")) {
+      localStorage.setItem("stored-gamedata", JSON.stringify(games));
+    }
+  }, [games])
 
   //get local temp data in the localStorage since user is a GUEST. If localStorage doesn't exist, make one.
   if (!localStorage.jwtToken && storedData == false) {
@@ -41,11 +66,6 @@ function HomePage(props) {
     } else {
       localStorage.setItem("stored-gamedata", JSON.stringify(games));
     }
-  }
-
-  //remove stored-gamedata if user logged in after going to the dashboard
-  if (token) {
-    localStorage.removeItem('stored-gamedata');
   }
 
   //listen for changes if the steamId state is altered
@@ -66,13 +86,6 @@ function HomePage(props) {
       }
     });
   }, [steamId]);
-
-  //set localStorage for user that clicked on as Guest
-  useEffect(() => {
-    if (guestUser) {
-      localStorage.setItem("guest", true)
-    }
-  }, [guestUser])
 
   //for manual addition of Steam ID
   const handleChange = event => {
@@ -123,15 +136,16 @@ function HomePage(props) {
     setGames(newGames);
   };
 
+  //user logged in and authenticated
   const LoginData = data => {
     console.log(data);
     setAuthUser(data);
   };
 
+  //user is a guest;
   const enableGuestUser = () => {
     console.log("running");
     setGuestUser(true);
-    setPage(1);
   };
 
   const handleLogout = () => {
@@ -139,16 +153,9 @@ function HomePage(props) {
     console.log(props);
   }
 
-  const setLocation = (num) => {
-    console.log("setLocation triggered");
-    setPage(num);
-  }
-
-  console.log("pageLocation");
-  console.log(pageLocation);
   return (
     <>
-      <NavbarTop token={token} enableGuestUser={enableGuestUser} setLocation={setLocation} />
+      <NavbarTop token={token} enableGuestUser={enableGuestUser} />
       <Switch>
         {token ?
           <>
@@ -163,7 +170,6 @@ function HomePage(props) {
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
-                  setLocation={setLocation}
                   games={games}
                 />
               )}
@@ -185,7 +191,6 @@ function HomePage(props) {
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
-                  setLocation={setLocation}
                   games={games}
                 />
               )}
