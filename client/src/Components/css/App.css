@@ -1,14 +1,14 @@
-
-#root, .dashboardPage {
+#root {
+   overflow: hidden; 
+}
+#root, .dashboard, .frontPage, .registerPage, .loginPage {
     height: 100%;
     width: 100%;
   }
 
   /*Div underneat root to add different stylings to front page splash */
   .frontPage, .registerPage, .loginPage {
-   height: 100%;
-   width: 100%;
-   background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./Images/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg');
+   background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../../Images/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg');
    /* Background image is centered vertically and horizontally at all times */
    background-position: center center;
   

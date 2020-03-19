@@ -23,7 +23,7 @@ function NavbarTop(props) {
      
     return (
         <>
-            <Navbar bg="dark" variant="dark" fixed="top">
+            <Navbar bg="dark" variant="dark" fixed="sticky">
                 <NavbarBrand href="/">Video Game Catalog</NavbarBrand>
                 <Nav className="ml-auto">
                     {!props.token ? 
