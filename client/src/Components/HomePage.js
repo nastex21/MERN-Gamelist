@@ -69,8 +69,8 @@ function HomePage(props) {
 
   //set localStorage for user that clicked on as Guest
   useEffect(() => {
-    if (guestUser){
-    localStorage.setItem("guest", true)
+    if (guestUser) {
+      localStorage.setItem("guest", true)
     }
   }, [guestUser])
 
@@ -148,103 +148,103 @@ function HomePage(props) {
   console.log(pageLocation);
   return (
     <>
-        <NavbarTop token={token} enableGuestUser={enableGuestUser} setLocation={setLocation} />
-        <Switch>
-          {token ?
-          <> 
-          <Redirect exact to={{ pathname: "/dashboard", handleChange: handleChange }} />
-          <Route exact path="/dashboard"
-            render={props => (
-              <Dashboard
-                manualData={manualData}
-                steam={steam}
-                steamId={steamId}
-                value={steamId}
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-                handleClick={handleClick}
-                setLocation={setLocation}
-                games={games}
-              />
-            )}
+      <NavbarTop token={token} enableGuestUser={enableGuestUser} setLocation={setLocation} />
+      <Switch>
+        {token ?
+          <>
+            <Redirect exact to={{ pathname: "/dashboard", handleChange: handleChange }} />
+            <Route exact path="/dashboard"
+              render={props => (
+                <Dashboard
+                  manualData={manualData}
+                  steam={steam}
+                  steamId={steamId}
+                  value={steamId}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  handleClick={handleClick}
+                  setLocation={setLocation}
+                  games={games}
+                />
+              )}
             />
-            <Route exact path="/logout" render={props => <LogoutPage onClick={handleLogout} />}/>
+            <Route exact path="/logout" render={props => <LogoutPage onClick={handleLogout} />} />
           }
           </> :
-            <>
-              <Route exact path="/register" component={RegisterPage} />
-              <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
-              <Route exact path="/" component={FrontPage} /> 
-          <Route exact path="/dashboard"
-                render={props => (
-                  <Dashboard
-                    manualData={manualData}
-                    steam={steam}
-                    steamId={steamId}
-                    value={steamId}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    handleClick={handleClick}
-                    setLocation={setLocation}
-                    games={games}
-                  />
-                )}
-              />
-            </>
-          }
-        </Switch>
-     {games.length == 0 ? <a
-          className="creditIcon"
+          <>
+            <Route exact path="/register" component={RegisterPage} />
+            <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
+            <Route exact path="/" component={FrontPage} />
+            <Route exact path="/dashboard"
+              render={props => (
+                <Dashboard
+                  manualData={manualData}
+                  steam={steam}
+                  steamId={steamId}
+                  value={steamId}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  handleClick={handleClick}
+                  setLocation={setLocation}
+                  games={games}
+                />
+              )}
+            />
+          </>
+        }
+      </Switch>
+      {games.length == 0 ? <a
+        className="creditIcon"
+        style={{
+          backgroundColor: "black",
+          color: "white",
+          textDecoration: "none",
+          padding: "4px 6px",
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif',
+          fontSize: "12px",
+          fontWeight: "bold",
+          lineHeight: "1.2",
+          display: "inline-block",
+          borderRadius: "3px",
+          position: "absolute"
+        }}
+        href="https://unsplash.com/@alexxsvch?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Download free do whatever you want high-resolution photos from Alexey Savchenko"
+      >
+        <span
           style={{
-            backgroundColor: "black",
-            color: "white",
-            textDecoration: "none",
-            padding: "4px 6px",
-            fontFamily:
-              '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif',
-            fontSize: "12px",
-            fontWeight: "bold",
-            lineHeight: "1.2",
             display: "inline-block",
-            borderRadius: "3px",
-            position: "absolute"
+            padding: "2px 3px"
           }}
-          href="https://unsplash.com/@alexxsvch?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Download free do whatever you want high-resolution photos from Alexey Savchenko"
         >
-          <span
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             style={{
-              display: "inline-block",
-              padding: "2px 3px"
+              height: "12px",
+              width: "auto",
+              position: "relative",
+              verticalAlign: "middle",
+              top: "-2px",
+              fill: "white"
             }}
+            viewBox="0 0 32 32"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              style={{
-                height: "12px",
-                width: "auto",
-                position: "relative",
-                verticalAlign: "middle",
-                top: "-2px",
-                fill: "white"
-              }}
-              viewBox="0 0 32 32"
-            >
-              <title> unsplash - logo </title>
-              <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z" />
-            </svg>
+            <title> unsplash - logo </title>
+            <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z" />
+          </svg>
+        </span>
+        <span
+          style={{
+            display: "inline-block",
+            padding: "2px 3px"
+          }}
+        >
+          Image credit to Alexey Savchenko
           </span>
-          <span
-            style={{
-              display: "inline-block",
-              padding: "2px 3px"
-            }}
-          >
-            Image credit to Alexey Savchenko
-          </span>
-        </a> : null} 
+      </a> : null}
     </>
   );
 }
