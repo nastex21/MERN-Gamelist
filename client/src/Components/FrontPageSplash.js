@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './css/FrontPage.css';
-import Guest from './Guest';
+import ImageCredit from './ImageCredit';
 
 export default function FrontPage() {
 
@@ -10,6 +10,8 @@ export default function FrontPage() {
                <h1>Catalog your video game collection</h1>
                 <h5>Everything from yesterday to today.</h5>
             </div>
+            <ImageCredit />
+
         </div>
     )
 }
