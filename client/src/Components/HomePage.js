@@ -20,6 +20,7 @@ function HomePage(props) {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(false); //boolean to see if there's a token
   const [storedData, setDataFlag] = useState(false);
+  const [pageLocation, setPage] = useState(0); // 0 = HomePage, Login, Register / 1 = Dashboard 
 
   //Check to see if there's a token meaning user has made an account and has logged in.
   if (!token) {
@@ -130,6 +131,7 @@ function HomePage(props) {
   const enableGuestUser = () => {
     console.log("running");
     setGuestUser(true);
+    setPage(1);
   };
 
   const handleLogout = () => {
@@ -137,9 +139,16 @@ function HomePage(props) {
     console.log(props);
   }
 
+  const setLocation = (num) => {
+    console.log("setLocation triggered");
+    setPage(num);
+  }
+
+  console.log("pageLocation");
+  console.log(pageLocation);
   return (
-    <div className="homePage">
-        <NavbarTop token={token} enableGuestUser={enableGuestUser} {...props}/>
+    <>
+        <NavbarTop token={token} enableGuestUser={enableGuestUser} setLocation={setLocation} />
         <Switch>
           {token ?
           <> 
@@ -154,6 +163,7 @@ function HomePage(props) {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 handleClick={handleClick}
+                setLocation={setLocation}
                 games={games}
               />
             )}
@@ -175,6 +185,7 @@ function HomePage(props) {
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                     handleClick={handleClick}
+                    setLocation={setLocation}
                     games={games}
                   />
                 )}
@@ -182,7 +193,7 @@ function HomePage(props) {
             </>
           }
         </Switch>
-        {games.length == 0 ? <a
+     {games.length == 0 ? <a
           className="creditIcon"
           style={{
             backgroundColor: "black",
@@ -233,8 +244,8 @@ function HomePage(props) {
           >
             Image credit to Alexey Savchenko
           </span>
-        </a> : null}
-    </div>
+        </a> : null} 
+    </>
   );
 }
 

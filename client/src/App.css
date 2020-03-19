@@ -1,12 +1,14 @@
 
-#root, .homePage, .dashboardPage {
+#root, .dashboardPage {
     height: 100%;
     width: 100%;
   }
 
   /*Div underneat root to add different stylings to front page splash */
-  .homePage {
-   background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(./Images/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg);
+  .frontPage, .registerPage, .loginPage {
+   height: 100%;
+   width: 100%;
+   background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./Images/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg');
    /* Background image is centered vertically and horizontally at all times */
    background-position: center center;
   
@@ -24,7 +26,15 @@
    /* Set a background color that will be displayed
       while the background image is loading */
    background-color: #464646;
-  }
+}
+
+.sloganTitle {
+   position: absolute;
+   width: 100%;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, 0);
+}
   /* forms */
   .formsGroup {
       width: 50%;

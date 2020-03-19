@@ -70,12 +70,14 @@ export default function LoginPage({ LoginData }) {
       {redirectPage ? (
         <Redirect to="/dashboard" />
       ) : (
+        <div className="loginPage">
           <LoginForm
             handleSubmit={handleSubmit}
             name={name}
             onChange={onChange}
             password={password}
           />
+          </div>
         )}
     </>
   );

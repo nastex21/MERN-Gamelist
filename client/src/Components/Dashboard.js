@@ -11,9 +11,18 @@ export default function Dashboard({
   handleChange,
   handleSubmit,
   handleClick,
-  games
+  games,
+  setLocation
 }) {
-  console.log(handleChange);
+  const [dashboardPage, setPage] = useState(0);
+  useEffect(() => {
+    console.log(dashboardPage);
+    if (dashboardPage == 0){
+      setPage(1);
+      setLocation(1);
+    }
+  });
+  console.log(setLocation);
   return (
     <div className="dashboard">
       <div className="manualBox">

@@ -46,8 +46,8 @@ export default function Register() {
 
   
   return (
-    <>
+    <div className="registerPage">
         {redirectPage ? <Redirect to="/login" /> : <RegisterForm handleSubmit={handleSubmit} name={name} onChange={onChange} password={password} password2={password2}/>}
-    </>
+    </div>
   );
 }
