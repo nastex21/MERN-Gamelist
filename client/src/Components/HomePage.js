@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NavbarTop from "./Navbar";
@@ -11,7 +11,7 @@ import LogoutPage from './AuthPages/Logout';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 
-export default function HomePage() {
+function HomePage(props) {
   const [guestUser, setGuestUser] = useState(false); //user is a Guest boolean
   const [authUser, setAuthUser] = useState(""); //registered and logged in user
   const [steamId, setSteamId] = useState(""); //steam ID 
@@ -132,10 +132,14 @@ export default function HomePage() {
     setGuestUser(true);
   };
 
+  const handleLogout = () => {
+    props.history.push("/login");
+    console.log(props);
+  }
+
   return (
     <>
-      <Router>
-        <NavbarTop token={token} enableGuestUser={enableGuestUser}/>
+        <NavbarTop token={token} enableGuestUser={enableGuestUser} {...props}/>
         <Switch>
           {token ?
           <> 
@@ -154,13 +158,13 @@ export default function HomePage() {
               />
             )}
             />
-            <Route exact path="/logout" component={LogoutPage}/>
+            <Route exact path="/logout" render={props => <LogoutPage onClick={handleLogout} />}/>
           }
           </> :
             <>
               <Route exact path="/register" component={RegisterPage} />
               <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
-              <Route exact path="/" component={FrontPage} /> : null}
+              <Route exact path="/" component={FrontPage} /> 
           <Route exact path="/dashboard"
                 render={props => (
                   <Dashboard
@@ -230,7 +234,8 @@ export default function HomePage() {
             Image credit to Alexey Savchenko
           </span>
         </a> : null}
-      </Router>
     </>
   );
 }
+
+export default withRouter(HomePage);

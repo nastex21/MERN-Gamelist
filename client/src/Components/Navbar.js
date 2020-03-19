@@ -7,15 +7,16 @@ function NavbarTop(props) {
 
     const logoutHandler = e => {
         e.preventDefault();
-        console.log("runs")
-        props.history.push('/login')
+        console.log("runs");
+        console.log(props);
+        localStorage.removeItem('jwtToken');
+        props.history.push('/login');
     }
 
-    const continueGuest = e => {
-        e.preventDefault();
+     const continueGuest = e => {
         props.enableGuestUser();
     }
-    
+     
     return (
         <>
             <Navbar bg="dark" variant="dark" sticky="top">

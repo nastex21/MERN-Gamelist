@@ -15,11 +15,11 @@ export default function Dashboard({
 }) {
   console.log(handleChange);
   return (
-    <>
+    <div className="dashboard">
       <div className="manualBox">
         <ManuallyAdded uploadData={manualData} />
       </div>
-      <div className="button">
+      <div className="buttonBox">
         {steam == 0 || steamId == "" ? (
           <SteamForm
             value={value}
@@ -38,6 +38,6 @@ export default function Dashboard({
         {games.length === 0 ? null : <p>You have {games.length} games</p>}
       </div>
       {games.length === 0 ? null : <GenerateTable gamelist={games} />}
-    </>
+      </div>
   );
 }

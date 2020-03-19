@@ -1,0 +1,7 @@
+.dashboard {
+    position: absolute;
+    background-color: black;
+    width: 90%;
+    height: 90%;
+    opacity: .5;
+}
