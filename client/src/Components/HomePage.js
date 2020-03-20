@@ -28,6 +28,10 @@ function HomePage(props) {
       const decoded = jwt_decode(token);
       setToken(true);
       setAuthUser(decoded);
+      if (games.length == 0){
+        console.log(authUser);
+        axios.get('/api/get-games-list/user-db').then(item => console.log('item'));
+      }
       //delete localStorage data if user went from guest to registered
       if (localStorage.getItem("guest") || localStorage.getItem("stored-gamedata")) {
         localStorage.removeItem("guest");
@@ -63,7 +67,7 @@ function HomePage(props) {
       const savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       setGames([...savedGames]);
       setDataFlag(true);
-    } else {
+    } else if(storedData) {
       localStorage.setItem("stored-gamedata", JSON.stringify(games));
     }
   }

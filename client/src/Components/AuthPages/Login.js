@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "./Forms/LoginForm";
 import setAuthToken from "../../utils/setAuthToken";
@@ -59,6 +59,7 @@ export default function LoginPage({ LoginData }) {
           name: decoded.name
         }
         LoginData(userObj);
+        setRedirect(true);
       })
       .catch(err =>
         console.log(err)

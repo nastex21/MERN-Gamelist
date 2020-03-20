@@ -3,6 +3,7 @@ const keys = require("../../config/keys");
 const axios = require('axios');
 const unirest = require("unirest");
 const router = express.Router();
+const User = require("../../models/user-model");
 
 router.post("/steam", (req, res) => {
   const userID = req.body;
@@ -14,6 +15,7 @@ router.post("/steam", (req, res) => {
     axios
       .get(httpVar)
       .then(data => {
+
         var gameData = data.data.response.games.map((item, key) => ({
           'game_num': key + 1,
           'game_appid': item.appid,
@@ -22,7 +24,13 @@ router.post("/steam", (req, res) => {
           'game_system': 'PC',
           'provider': 'steam'
         }));
-        res.send(gameData);
+        User.findOneAndUpdate(
+          { name: "ninja" }, 
+          { $push: { 'games': gameData } },
+          {new: true}, (err, result) => {
+            res.send(gameData);
+          }
+      );
       })
       .catch(err => res.send(err));
   } catch (err) {
@@ -50,6 +58,10 @@ router.get('/db', (req, res) => {
   } else {
     axios.get(urlWithPlatform, sendHeaders).then(response => res.send(response.data)).catch(error => console.log(error));
   }
+});
+
+router.get('/user-db', (req, res) => {
+  console.log('user-db')
 });
 
 module.exports = router;

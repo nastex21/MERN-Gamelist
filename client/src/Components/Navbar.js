@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Nav, Navbar, NavbarBrand } from 'react-bootstrap'; 
+import Logout from './AuthPages/Logout';
 import { withRouter } from 'react-router';
 
 function NavbarTop(props) {
     console.log(props);
 
     const logoutHandler = e => {
-        e.preventDefault();
-        console.log("runs");
-        console.log(props);
-        localStorage.removeItem('jwtToken');
-        props.history.push('/login');
-    }
+        Logout();
+    }   
 
      const continueGuest = e => {
         props.enableGuestUser();

@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
-function LogoutPage() {
-  useEffect(() => {
-    localStorage.removeItem("jwtToken");
-  });
-  return <div></div>
+export default function Logout() {
+
+  localStorage.removeItem('jwtToken');
+  console.log("running Logout")
+
+  return (
+    <>
+   <Redirect to = "/login" /> 
+    </>
+)
 }
-
-export default LogoutPage;
