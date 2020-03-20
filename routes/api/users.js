@@ -42,9 +42,9 @@ router.post("/login", (req, res) => {
 
   const name = req.body.name;
   const password = req.body.password;
-  console.log(name);
   // Find user by name
   User.findOne({ name }).then(user => {
+    console.log('user');
     console.log(user);
     // Check if user exists
     if (!user) {
@@ -57,7 +57,8 @@ router.post("/login", (req, res) => {
         // Create JWT Payload
         const payload = {
           id: user.id,
-          name: user.name
+          name: user.name,
+          games: user.games
         };
         // Sign token
         jwt.sign(payload, keys.SECRET,

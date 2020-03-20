@@ -56,7 +56,8 @@ export default function LoginPage({ LoginData }) {
         console.log(decoded);
         const userObj = {
           id: decoded.id,
-          name: decoded.name
+          name: decoded.name,
+          games: decoded.games
         }
         LoginData(userObj);
         setRedirect(true);

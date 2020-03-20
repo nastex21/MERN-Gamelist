@@ -28,10 +28,7 @@ function HomePage(props) {
       const decoded = jwt_decode(token);
       setToken(true);
       setAuthUser(decoded);
-      if (games.length == 0){
-        console.log(authUser);
-        axios.get('/api/get-games-list/user-db').then(item => console.log('item'));
-      }
+
       //delete localStorage data if user went from guest to registered
       if (localStorage.getItem("guest") || localStorage.getItem("stored-gamedata")) {
         localStorage.removeItem("guest");
@@ -39,6 +36,13 @@ function HomePage(props) {
       }
     }
   }
+
+  //Authenticated: when user refreshses and the authUser is set, set the games state
+  useEffect(() => {
+    if (games.length == 0){
+      setGames([...authUser.games]);
+    }
+  }, [authUser]);
 
   //Guest: if item guest exists, set guest state to true;
   if (localStorage.getItem("guest")) {
@@ -52,14 +56,14 @@ function HomePage(props) {
     if (guestUser) {
       localStorage.setItem("guest", true)
     }
-  }, [guestUser])
+  }, [guestUser]);
 
   //Guest: if there's saved game data in the localstorage, populate the "games" state
   useEffect(() => {
     if (localStorage.getItem("stored-gamedata")) {
       localStorage.setItem("stored-gamedata", JSON.stringify(games));
     }
-  }, [games])
+  }, [games]);
 
   //get local temp data in the localStorage since user is a GUEST. If localStorage doesn't exist, make one.
   if (!localStorage.jwtToken && storedData == false) {
@@ -67,7 +71,7 @@ function HomePage(props) {
       const savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       setGames([...savedGames]);
       setDataFlag(true);
-    } else if(storedData) {
+    } else if (storedData) {
       localStorage.setItem("stored-gamedata", JSON.stringify(games));
     }
   }
@@ -144,6 +148,9 @@ function HomePage(props) {
   const LoginData = data => {
     console.log(data);
     setAuthUser(data);
+    if (data.games.length > 0) {
+    setGames([...data.games])
+    }
   };
 
   //user is a guest;

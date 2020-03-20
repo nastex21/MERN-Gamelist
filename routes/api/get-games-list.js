@@ -62,6 +62,13 @@ router.get('/db', (req, res) => {
 
 router.get('/user-db', (req, res) => {
   console.log('user-db')
+  const { id, name } = req.query;
+  console.log(id);
+  console.log(name);
+  User.findById(id, function(err, data){
+    console.log("data");
+    console.log(data);
+  })
 });
 
 module.exports = router;
