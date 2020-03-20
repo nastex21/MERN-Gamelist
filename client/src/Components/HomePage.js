@@ -39,7 +39,7 @@ function HomePage(props) {
 
   //Authenticated: when user refreshses and the authUser is set, set the games state
   useEffect(() => {
-    if (games.length == 0){
+    if (games.length == 0 && authUser.games !== undefined){
       setGames([...authUser.games]);
     }
   }, [authUser]);
