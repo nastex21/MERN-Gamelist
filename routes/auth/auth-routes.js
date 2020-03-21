@@ -24,7 +24,7 @@ router.get("/login/success", (req, res) => {
   });
 
   // auth with steam
-  router.get("/steam", function(req, res, next){
+  router.get("/steam/:id", function(req, res, next){
   req.session.lastQuery = 'Hello'
   return next()
   }, 
