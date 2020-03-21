@@ -125,7 +125,7 @@ function HomePage(props) {
 
   //for logging in with Steam
   const handleClick = () => {
-    window.open("/auth/steam/12312321" , "_self");
+    window.open("http://localhost:5555/auth/steam/12312321" , "_self");
   };
 
   //data sent from the Pull-Gamelists/ManualEntries component

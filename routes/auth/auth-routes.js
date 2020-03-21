@@ -29,8 +29,7 @@ router.get("/steam/:id", function (req, res, next) {
   console.log(req.params);
   req.session.firstquery = 'Bye!';
   return next()
-});
-//passport.authenticate("steam")); 
+}, passport.authenticate("steam")); 
 
 /*  router.get('/steam', passport.authenticate('steam')); */
 /* 

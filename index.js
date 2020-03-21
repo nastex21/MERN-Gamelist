@@ -11,9 +11,9 @@ const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
 const app = express();
-app.use(cookieParser());
+app.use(cookieParser(keys.COOKIE_KEY));
 app.use(session({
-  secret: process.env.COOKIE_SECRET,
+  secret: keys.COOKIE_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
