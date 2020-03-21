@@ -15,22 +15,24 @@ router.get("/login/success", (req, res) => {
   }
 });
 
-  // when login failed, send failed msg
-  router.get("/login/failed", (req, res) => {
-    res.status(401).json({
-      success: false,
-      message: "user failed to authenticate."
-    });
+// when login failed, send failed msg
+router.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "user failed to authenticate."
   });
+});
 
-  // auth with steam
-  /* router.get("/steam", function(req, res, next){
-  req.session.lastQuery = 'Hello'
+// auth with steam
+router.get("/steam/:id", function (req, res, next) {
+  console.log('req.params!');
+  console.log(req.params);
+  req.session.firstquery = 'Bye!';
   return next()
-  }, 
-  passport.authenticate("steam")); */
+});
+//passport.authenticate("steam")); 
 
-  router.get('/steam', passport.authenticate('steam'));
+/*  router.get('/steam', passport.authenticate('steam')); */
 /* 
   router.get(
     "/steam/return",
@@ -40,9 +42,9 @@ router.get("/login/success", (req, res) => {
     })
   ); */
 
-  router.get('/steam/return',
+router.get('/steam/return',
   passport.authenticate('steam', { failureRedirect: '/login/failed' }),
-  function(req, res) {
+  function (req, res) {
     // Successful authentication, redirect home.
     console.log('req.session from /steam/return');
     req.session.lastQuery = "Hi!";
@@ -50,4 +52,4 @@ router.get("/login/success", (req, res) => {
     res.redirect(CLIENT_HOME_PAGE_URL);
   });
 
-  module.exports = router;
+module.exports = router;

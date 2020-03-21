@@ -5,7 +5,7 @@ const unirest = require("unirest");
 const router = express.Router();
 const User = require("../../models/user-model");
 
-router.post("/steam", (req, res) => {
+/* router.post("/steam", (req, res) => {
   const userID = req.body;
   console.log("userid")
   console.log(userID);
@@ -47,7 +47,7 @@ router.post("/steam", (req, res) => {
     console.error("GG", err);
   }
 });
-
+ */
 router.get('/db', (req, res) => {
   const { id, system, name } = req.query;
 
