@@ -1,8 +1,9 @@
 require("dotenv").config();
 const mongoose = require('mongoose');
-const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const users = require("./routes/api/users");
 const authRoutes = require("./routes/auth/auth-routes");
@@ -10,27 +11,23 @@ const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
 const app = express();
-const cookieParser = require("cookie-parser"); // parse cookie header
-
-
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.COOKIE_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.set('trust proxy', 1);// trust first proxy
+
 
 //connect to database
 mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
 
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [keys.COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 100
-  })
-);
-
-// parse cookies
-app.use(cookieParser());
 
 app.use(cors({
   origin: "http://localhost:5556", // allow to server to accept request from different origin
