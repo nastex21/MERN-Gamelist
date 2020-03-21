@@ -50,8 +50,8 @@ module.exports = passport => {
         console.log(identifier);
         console.log('profile');
         console.log(profile);
-        console.log('req.session.lastquery')
-        
+        console.log('req.sessesion.lastquery')
+        console.log(req.session.lastQuery);
         const currentUser = await User.findOne({ steamId: profile.id });
         console.log(mongoose.connection.readyState);
   

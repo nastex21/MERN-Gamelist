@@ -10,8 +10,6 @@ const User = require("../../models/user-model");
   console.log("userid")
   console.log(userID);
   console.log(userID.steamid);
-  console.log('req.session');
-  console.log(req.session.quote);
   var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID.steamId}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");

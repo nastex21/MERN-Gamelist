@@ -1,9 +1,8 @@
 require("dotenv").config();
 const mongoose = require('mongoose');
+const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
 const express = require("express");
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const users = require("./routes/api/users");
 const authRoutes = require("./routes/auth/auth-routes");
@@ -11,6 +10,7 @@ const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
 const app = express();
+<<<<<<< HEAD
 app.use(cookieParser(keys.COOKIE_KEY));
 app.use(session({
   secret: keys.COOKIE_KEY,
@@ -18,16 +18,29 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
+=======
+const cookieParser = require("cookie-parser"); // parse cookie header
+
+
+>>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.set('trust proxy', 1);// trust first proxy
-
 
 //connect to database
 mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
 
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [keys.COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 100
+  })
+);
+
+// parse cookies
+app.use(cookieParser());
 
 app.use(cors({
   origin: "http://localhost:5556", // allow to server to accept request from different origin
