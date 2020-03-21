@@ -42,6 +42,9 @@ router.get("/steam/:id", function (req, res, next) {
   }, 
   passport.authenticate("steam"));
 
+<<<<<<< HEAD
+>>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
+=======
 >>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
   router.get(
     "/steam/return",
@@ -49,6 +52,7 @@ router.get("/steam/:id", function (req, res, next) {
       successRedirect: CLIENT_HOME_PAGE_URL,
       failureRedirect: "/auth/login/failed"
     })
+<<<<<<< HEAD
 <<<<<<< HEAD
   ); */
 
@@ -61,6 +65,9 @@ router.get('/steam/return',
     console.log(req.session);
     res.redirect(CLIENT_HOME_PAGE_URL);
   });
+=======
+  );
+>>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
 =======
   );
 >>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.

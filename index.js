@@ -11,6 +11,7 @@ const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
 const app = express();
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.use(cookieParser(keys.COOKIE_KEY));
 app.use(session({
   secret: keys.COOKIE_KEY,
@@ -18,6 +19,11 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
+=======
+const cookieParser = require("cookie-parser"); // parse cookie header
+
+
+>>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
 =======
 const cookieParser = require("cookie-parser"); // parse cookie header
 
