@@ -9,7 +9,8 @@ router.post("/steam", (req, res) => {
   const userID = req.body;
   console.log("userid")
   console.log(userID);
-  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID.steamID}&include_appinfo=true&format=json`;
+  console.log(userID.steamid);
+  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID.steamId}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");
     axios
@@ -24,12 +25,19 @@ router.post("/steam", (req, res) => {
           'game_system': 'PC',
           'provider': 'steam'
         }));
-        User.findOneAndUpdate(
-          { name: "ninja" }, 
-          { $push: { 'games': gameData } },
+        User.findByIdAndUpdate(
+          { id: userID.creditentials.id }, 
+          { $set: { 'games': gameData } },
           {new: true}, (err, result) => {
+            console.log("result");
+            console.log(result);
             res.send(gameData);
-          }
+
+            if (err){
+              console.log("err");
+              console.log(err);
+            }
+          } 
       );
       })
       .catch(err => res.send(err));
@@ -67,7 +75,7 @@ router.get('/user-db', (req, res) => {
   console.log(name);
   User.findById(id, function(err, data){
     console.log("data");
-    console.log(data);
+    console.log(data.length);
   })
 });
 

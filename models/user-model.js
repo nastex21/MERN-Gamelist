@@ -10,6 +10,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  steamGames: {
+    type:Array
+  },
   games:{
     type: Array
   },

@@ -46,6 +46,12 @@ module.exports = passport => {
         apiKey: keys.STEAM_KEY
       },
       async (identifier, profile, done) => {
+        console.log('identifier');
+        console.log(identifier);
+        console.log('profile');
+        console.log(profile);
+        console.log('req.sessesion.lastquery')
+        console.log(req.session.lastQuery);
         const currentUser = await User.findOne({ steamId: profile.id });
         console.log(mongoose.connection.readyState);
   
