@@ -39,7 +39,7 @@ function HomePage(props) {
 
   //Authenticated: when user refreshses and the authUser is set, set the games state
   useEffect(() => {
-    if (games.length == 0){
+    if (games.length == 0 && authUser.games !== undefined){
       setGames([...authUser.games]);
     }
   }, [authUser]);
@@ -125,7 +125,7 @@ function HomePage(props) {
 
   //for logging in with Steam
   const handleClick = () => {
-    window.open("http://localhost:5555/auth/steam/12312321" , "_self");
+    window.open("http://localhost:5555/auth/steam" , "_self");
   };
 
   //data sent from the Pull-Gamelists/ManualEntries component

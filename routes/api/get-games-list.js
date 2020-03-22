@@ -5,18 +5,20 @@ const unirest = require("unirest");
 const router = express.Router();
 const User = require("../../models/user-model");
 
-/* router.post("/steam", (req, res) => {
+router.post("/steam", (req, res) => {
   const userID = req.body;
   console.log("userid")
   console.log(userID);
   console.log(userID.steamid);
+  console.log('req.session');
+  console.log(req.session.quote);
   var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${userID.steamId}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");
     axios
       .get(httpVar)
       .then(data => {
-
+        console.log('its in the then');
         var gameData = data.data.response.games.map((item, key) => ({
           'game_num': key + 1,
           'game_appid': item.appid,
@@ -45,7 +47,7 @@ const User = require("../../models/user-model");
     console.error("GG", err);
   }
 });
- */
+
 router.get('/db', (req, res) => {
   const { id, system, name } = req.query;
 

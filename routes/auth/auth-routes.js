@@ -15,61 +15,40 @@ router.get("/login/success", (req, res) => {
   }
 });
 
-// when login failed, send failed msg
-router.get("/login/failed", (req, res) => {
-  res.status(401).json({
-    success: false,
-    message: "user failed to authenticate."
+  // when login failed, send failed msg
+  router.get("/login/failed", (req, res) => {
+    res.status(401).json({
+      success: false,
+      message: "user failed to authenticate."
+    });
   });
-});
 
-<<<<<<< HEAD
-// auth with steam
-router.get("/steam/:id", function (req, res, next) {
-  console.log('req.params!');
-  console.log(req.params);
-  req.session.firstquery = 'Bye!';
-  return next()
-}, passport.authenticate("steam")); 
-
-/*  router.get('/steam', passport.authenticate('steam')); */
-/* 
-=======
   // auth with steam
-  router.get("/steam/:id", function(req, res, next){
+  /* router.get("/steam", function(req, res, next){
   req.session.lastQuery = 'Hello'
   return next()
   }, 
-  passport.authenticate("steam"));
+  passport.authenticate("steam")); */
 
-<<<<<<< HEAD
->>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
-=======
->>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
+/* 
   router.get(
     "/steam/return",
     passport.authenticate("steam", {
       successRedirect: CLIENT_HOME_PAGE_URL,
       failureRedirect: "/auth/login/failed"
     })
-<<<<<<< HEAD
-<<<<<<< HEAD
   ); */
 
-router.get('/steam/return',
-  passport.authenticate('steam', { failureRedirect: '/login/failed' }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    console.log('req.session from /steam/return');
-    req.session.lastQuery = "Hi!";
-    console.log(req.session);
-    res.redirect(CLIENT_HOME_PAGE_URL);
-  });
-=======
-  );
->>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
-=======
-  );
->>>>>>> parent of c0b5a0e... Session works! Now just need to implement it correctly.
+  // auth with steam
+  router.get("/steam", passport.authenticate("steam"));
 
-module.exports = router;
+  router.get(
+    "/steam/return",
+    passport.authenticate("steam", {
+      successRedirect: CLIENT_HOME_PAGE_URL,
+      failureRedirect: "/auth/login/failed"
+    })
+  );
+
+
+  module.exports = router;
