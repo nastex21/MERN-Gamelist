@@ -84,7 +84,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.post('/logout', function(req, res){
+router.get('/logout', function(req, res){
   console.log('logout');
   console.log(req.session);
   const { name, id } = req.session;
