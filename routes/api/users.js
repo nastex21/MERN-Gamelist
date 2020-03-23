@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require('passport');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
@@ -7,10 +8,12 @@ const keys = require("../../config/keys");
 const User = require("../../models/user-model");
 
 router.post("/register", (req, res) => {
-
-  User.findOne({ name: req.body.name }).then(user => {
-
-    const { name, password} = req.body;
+  const { name, password} = req.body;
+  console.log("name");
+  console.log(name);
+  console.log('password');
+  console.log(password);
+  User.findOne({ name: name }).then(user => {
     if (user) {
       return res.status(400).json({ name: "Username or email already exists" });
     } else {
@@ -25,7 +28,19 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => {
+              console.log('before sercond FindOne');
+              console.log(user);
+              User.findOne({name: name}, function(err, results){
+                if (err) throw err;
+                console.log('second FindOne results');
+                console.log(results);
+                const user_id = results.id;
+                 req.login(user_id, function(err){
+                  res.json(user);
+                }) 
+              });
+            })
             .catch(err => console.log(err));
         });
       });
@@ -51,7 +66,7 @@ router.post("/login", (req, res) => {
       if (isMatch) {
         // User matched
         // Create JWT Payload
-        const user_id = user.id;
+
         const payload = {
           id: user.id,
           name: user.name,
@@ -97,5 +112,16 @@ router.post('/logout', function(req, res){
   });
 });
 
+passport.serializeUser((user_id, done) => {
+  console.log('serialize');
+  console.log(user_id);
+  done(null, user_id);
+});
+
+passport.deserializeUser((user_id, done) => {
+  console.log('deserialize');
+  console.log(user_id);
+  done(null, user_id);
+});
 
 module.exports = router;

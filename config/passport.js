@@ -23,7 +23,6 @@ module.exports = passport => {
         .catch(err => console.log(err));
     })
   );
-
   
   passport.use(
     new SteamStrategy(
@@ -32,13 +31,11 @@ module.exports = passport => {
         realm: "http://localhost:5555/",
         apiKey: keys.STEAM_KEY
       },
-      async (req, identifier, profile, done) => {
+      async (identifier, profile, done) => {
         console.log('identifier');
         console.log(identifier);
         console.log('profile');
         console.log(profile);
-        console.log('req.session.lastquery');
-        console.log(req.session);
 
         const currentUser = await User.findOne({ steamId: profile.id });
         console.log(mongoose.connection.readyState);
