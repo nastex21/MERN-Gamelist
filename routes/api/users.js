@@ -86,11 +86,15 @@ router.post("/login", (req, res) => {
 
 router.get('/logout', function(req, res){
   console.log('logout');
+  console.log(req.session);
+  const { name, id } = req.session;
+  console.log(name);
+  console.log(id);
   req.session.destroy((err) => {
     //delete session data from store, using sessionID in cookie
     if (err) throw err;
-    res.clearCookie("session-id"); // clears cookie containing expired sessionID
-    res.send("Logged out successfully");
+    res.clearCookie('connect.sid', {path: '/'}).status(200).send('Ok.');
+    
   });
 });
 
