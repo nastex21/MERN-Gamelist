@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -8,19 +7,17 @@ const keys = require("../../config/keys");
 const User = require("../../models/user-model");
 
 router.post("/register", (req, res) => {
-  console.log('triggered');
-  console.log(req.body);
+
   User.findOne({ name: req.body.name }).then(user => {
-    console.log('user');
-    console.log(user);
+
+    const { name, password} = req.body;
     if (user) {
       return res.status(400).json({ name: "Username or email already exists" });
     } else {
       const newUser = new User({
-        name: req.body.name,
-        password: req.body.password
+        name: name,
+        password: password
       });
-      console.log('inside register and after newUser');
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -28,17 +25,7 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => 
-              User.findById(user.id, function(err, results){
-                console.log('inside findById')
-                console.log(results);
-                const user_id = results.id;
-                req.login(user_id, function(err){
-                  console.log('req.login');
-                  res.redirect('/');
-                  })
-                })
-            )
+            .then(user => res.json(user))
             .catch(err => console.log(err));
         });
       });
@@ -47,12 +34,12 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  
-
-  const name = req.body.name;
-  const password = req.body.password;
+  const { name, password } = req.body;
+  console.log('name, password');
+  console.log(name);
+  console.log(password)
   // Find user by name
-  User.findOne({ name }).then(user => {
+  User.findOne({name: name}).then(user => {
     console.log('user');
     console.log(user);
     // Check if user exists
@@ -70,6 +57,11 @@ router.post("/login", (req, res) => {
           name: user.name,
           games: user.games
         };
+
+        //Store session
+        const sessUser = { id: user.id, name: user.name };
+        req.session.user = sessUser; // Auto saves session data in mongo store  
+
         // Sign token
         jwt.sign(payload, keys.SECRET,
           {
@@ -92,20 +84,15 @@ router.post("/login", (req, res) => {
   });
 });
 
-/* User.findById(user.id, function(err, results){
-  console.log('inside findById');
-  console.log(results);
-  const user_id = results.id;
-  req.login(user_id, function(err){
-    res.redirect('/');
-  }); */
-
-passport.serializeUser((user_id, done) => {
-  done(null, user_id);
+router.get('/logout', function(req, res){
+  console.log('logout');
+  req.session.destroy((err) => {
+    //delete session data from store, using sessionID in cookie
+    if (err) throw err;
+    res.clearCookie("session-id"); // clears cookie containing expired sessionID
+    res.send("Logged out successfully");
+  });
 });
 
-passport.deserializeUser((user_id, done) => {
-  done(null, user_id);
-});
 
 module.exports = router;
