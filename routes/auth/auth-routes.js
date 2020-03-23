@@ -40,7 +40,10 @@ router.get("/login/success", (req, res) => {
   ); */
 
   // auth with steam
-  router.get("/steam", passport.authenticate("steam"));
+  router.get("/steam", (req, res, next) => {
+    req.session.quote = "Hi";
+    req.session.save(next);
+  }, passport.authenticate("steam"));
 
   router.get(
     "/steam/return",

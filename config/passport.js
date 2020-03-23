@@ -24,19 +24,6 @@ module.exports = passport => {
     })
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser((id, done) => {
-    User.findById(id)
-      .then(user => {
-        done(null, user);
-      })
-      .catch(e => {
-        done(new Error("Failed to deserialize a user"));
-      });
-  });
   
   passport.use(
     new SteamStrategy(
@@ -45,13 +32,14 @@ module.exports = passport => {
         realm: "http://localhost:5555/",
         apiKey: keys.STEAM_KEY
       },
-      async (identifier, profile, done) => {
+      async (req, identifier, profile, done) => {
         console.log('identifier');
         console.log(identifier);
         console.log('profile');
         console.log(profile);
-        console.log('req.session.lastquery')
-        
+        console.log('req.session.lastquery');
+        console.log(req.session);
+
         const currentUser = await User.findOne({ steamId: profile.id });
         console.log(mongoose.connection.readyState);
   
@@ -70,3 +58,4 @@ module.exports = passport => {
     )
   )
 };
+

@@ -77,7 +77,7 @@ function HomePage(props) {
   }
 
   //listen for changes if the steamId state is altered
-  useEffect(() => {
+/*   useEffect(() => {
     console.log("useEffect");
     var steamID = steamId;
     var dataValue = {
@@ -93,7 +93,11 @@ function HomePage(props) {
         setSteam(1);
       }
     });
-  }, [steamId]);
+  }, [steamId]); */
+
+  useEffect(() => {
+    console.log(steamId);
+  }, [steamId])
 
   //for manual addition of Steam ID
   const handleChange = event => {

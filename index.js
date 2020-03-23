@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const keys = require("./config/keys");
 const express = require("express");
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const users = require("./routes/api/users");
@@ -11,16 +12,6 @@ const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const passport = require("passport");
 const app = express();
-app.use(cookieParser());
-app.use(session({
-  secret: keys.COOKIE_KEY,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.set('trust proxy', 1);// trust first proxy
 
 
 //connect to database
@@ -28,6 +19,30 @@ mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true 
   console.log("connected to mongo db");
 });
 
+var store = new MongoDBStore({
+  uri: keys.MONGODB_URI,
+  collection: 'mySessions'
+});
+
+// Catch errors
+store.on('error', function(error) {
+  console.log(error);
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.set('trust proxy', 1);// trust first proxy
+
+app.use(cookieParser());
+app.use(session({
+  secret: keys.COOKIE_KEY,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  },
+  store: store,
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(cors({
   origin: "http://localhost:5556", // allow to server to accept request from different origin
