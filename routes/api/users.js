@@ -93,8 +93,7 @@ router.get('/logout', function(req, res){
   req.session.destroy((err) => {
     //delete session data from store, using sessionID in cookie
     if (err) throw err;
-    res.clearCookie('connect.sid', {path: '/'}).status(200).send('Ok.');
-    
+    res.clearCookie('connect.sid',  {domain: "localhost", path: '/'}).status(200).send('Ok.');
   });
 });
 
