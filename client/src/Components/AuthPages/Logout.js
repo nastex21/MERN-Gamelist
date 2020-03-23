@@ -4,10 +4,7 @@ import axios from 'axios';
 
 export default function Logout() {
 
-  axios
-  .get("/api/users/logout")
-  .then(res => console.log("hi")) // re-direct to login on successful register
-  .catch(err => console.log(err));
+ axios.post('/api/users/logout', { } , { withCredentials: true }).then(res => console.log("hi")).catch(err => console.log(err));
 
   localStorage.removeItem('jwtToken');
   console.log("running Logout");
