@@ -6,7 +6,6 @@ const keys = require("../config/keys");
 const opts = {};
 const passport = require("passport");
 const SteamStrategy = require("passport-steam");
-const insertDB = require('../created-middleware/insertUserDB');
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.SECRET;
@@ -33,25 +32,9 @@ module.exports = passport => {
         apiKey: keys.STEAM_KEY
       },
       async (identifier, profile, done) => {
-        console.log('identifier');
-        console.log(identifier);
-        console.log('profile');
-        console.log(profile);
-
-        const currentUser = await User.findOne({ steamId: profile.id });
-        console.log(mongoose.connection.readyState);
-  
-        if (!currentUser) {
-           const newUser = await new User({
-            steamId: profile._json.steamid
-          }).save();
-          if (newUser) {
-            done(null, newUser); 
-
-          }
-        }
-        
-        done(null, currentUser);
+        console.log('profile id');
+        console.log(profile.id);
+        done(null, profile.id);
       }
     )
   )

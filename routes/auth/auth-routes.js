@@ -23,42 +23,19 @@ router.get("/login/success", (req, res) => {
     });
   });
 
-  // auth with steam
-  /* router.get("/steam", function(req, res, next){
-  req.session.lastQuery = 'Hello'
-  return next()
-  }, 
-  passport.authenticate("steam")); */
-
-/* 
   router.get(
-    "/steam/return",
-    passport.authenticate("steam", {
-      successRedirect: CLIENT_HOME_PAGE_URL,
-      failureRedirect: "/auth/login/failed"
-    })
-  ); */
-
-
- router.get('/steam', function(req, res, next) {
-    passport.authenticate('steam', function(err, user, info) {
-      console.log("steam after authenticate");
-      console.log(user);
-      if (!user) {
-        console.log('Failed!');
-      } else {
-        res.redirect('/');
-      }
-    })(req, res, next);
-  });
-
-  router.get(
-    "/steam/return",
-    passport.authenticate("steam", {
-      successRedirect: CLIENT_HOME_PAGE_URL,
-      failureRedirect: "/auth/login/failed"
-    })
+    /^\/steam(\/return)?$/,
+    passport.authenticate('steam', { failureRedirect: '/' }),
+    (req, res) => {
+      console.log('req');
+      console.log(req);
+      console.log('res');
+      console.log(res);
+      res.send('/');
+    }
   );
+  
+  
 
 
   module.exports = router;

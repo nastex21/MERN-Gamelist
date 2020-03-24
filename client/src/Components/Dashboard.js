@@ -32,7 +32,7 @@ export default function Dashboard({
         {steam == 0 ? (
           <div className="steamLogIn">
             <a onClick={handleClick}>
-              <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/steamworks_docs/english/sits_large_border.png" />
+              <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" />
             </a>
           </div>
         ) : null}

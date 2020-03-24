@@ -21,6 +21,30 @@ function HomePage(props) {
   const [token, setToken] = useState(false); //boolean to see if there's a token
   const [storedData, setDataFlag] = useState(false);
 
+  useEffect(() => {
+    // Fetch does not send cookies. So you should add credentials: 'include'
+    fetch("/auth/login/success", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        console.log("failed")
+        if (response.status === 200) return response.json();
+        throw new Error("failed to authenticate user");
+      })
+      .then(responseJson => {
+        setSteamId(responseJson.user)
+      })
+      .catch(error => {
+        setError("Failed to authenticated user");
+      });
+  }, []);
+
   //Authenticated: Check to see if there's a token meaning user has made an account and has logged in.
   if (!token) {
     if (localStorage.jwtToken) {
@@ -77,7 +101,7 @@ function HomePage(props) {
   }
 
   //listen for changes if the steamId state is altered
-/*   useEffect(() => {
+   useEffect(() => {
     console.log("useEffect");
     var steamID = steamId;
     var dataValue = {
@@ -93,11 +117,7 @@ function HomePage(props) {
         setSteam(1);
       }
     });
-  }, [steamId]); */
-
-  useEffect(() => {
-    console.log(steamId);
-  }, [steamId])
+  }, [steamId]); 
 
   //for manual addition of Steam ID
   const handleChange = event => {

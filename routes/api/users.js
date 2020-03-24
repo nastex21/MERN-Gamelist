@@ -9,10 +9,6 @@ const User = require("../../models/user-model");
 
 router.post("/register", (req, res) => {
   const { name, password} = req.body;
-  console.log("name");
-  console.log(name);
-  console.log('password');
-  console.log(password);
   User.findOne({ name: name }).then(user => {
     if (user) {
       return res.status(400).json({ name: "Username or email already exists" });
@@ -29,15 +25,12 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then(user => {
-              console.log('before sercond FindOne');
-              console.log(user);
+ 
               User.findOne({name: name}, function(err, results){
                 if (err) throw err;
-                console.log('second FindOne results');
-                console.log(results);
+
                 const user_id = results.id;
-                console.log('user_id');
-                console.log(user_id);
+        
                  req.login(user_id, function(err){
                   res.json(user);
                 }) 
@@ -52,13 +45,10 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   const { name, password } = req.body;
-  console.log('name, password');
-  console.log(name);
-  console.log(password)
+ 
   // Find user by name
   User.findOne({name: name}).then(user => {
-    console.log('user');
-    console.log(user);
+  
     // Check if user exists
     if (!user) {
       return res.status(404).json({ Namenotfound: "Username or email not found" });
@@ -102,11 +92,9 @@ router.post("/login", (req, res) => {
 });
 
 router.post('/logout', function(req, res){
-  console.log('logout');
-  console.log(req.session);
+  
   const { name, id } = req.session;
-  console.log(name);
-  console.log(id);
+
   req.session.destroy((err) => {
     //delete session data from store, using sessionID in cookie
     if (err) throw err;
@@ -115,14 +103,12 @@ router.post('/logout', function(req, res){
 });
 
 passport.serializeUser((user_id, done) => {
-  console.log('serialize');
-  console.log(user_id);
+
   done(null, user_id);
 });
 
 passport.deserializeUser((user_id, done) => {
-  console.log('deserialize');
-  console.log(user_id);
+
   done(null, user_id);
 });
 
