@@ -36,6 +36,8 @@ router.post("/register", (req, res) => {
                 console.log('second FindOne results');
                 console.log(results);
                 const user_id = results.id;
+                console.log('user_id');
+                console.log(user_id);
                  req.login(user_id, function(err){
                   res.json(user);
                 }) 

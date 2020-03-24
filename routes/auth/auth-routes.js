@@ -39,11 +39,18 @@ router.get("/login/success", (req, res) => {
     })
   ); */
 
-  // auth with steam
-  router.get("/steam", (req, res, next) => {
-    req.session.quote = "Hi";
-    req.session.save(next);
-  }, passport.authenticate("steam"));
+
+ router.get('/steam', function(req, res, next) {
+    passport.authenticate('steam', function(err, user, info) {
+      console.log("steam after authenticate");
+      console.log(user);
+      if (!user) {
+        console.log('Failed!');
+      } else {
+        res.redirect('/');
+      }
+    })(req, res, next);
+  });
 
   router.get(
     "/steam/return",
