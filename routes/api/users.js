@@ -45,10 +45,12 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   const { name, password } = req.body;
- 
+  console.log(name)
+  console.log(password);
   // Find user by name
   User.findOne({name: name}).then(user => {
-  
+    console.log('user');
+    console.log(user);
     // Check if user exists
     if (!user) {
       return res.status(404).json({ Namenotfound: "Username or email not found" });

@@ -6,6 +6,8 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:5556/dashboard";
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
   if (req.user) {
+    console.log('req.user');
+    console.log(req.user);
     res.json({
       success: true,
       message: "user has successfully authenticated",

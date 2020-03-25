@@ -21,7 +21,26 @@ function HomePage(props) {
   const [token, setToken] = useState(false); //boolean to see if there's a token
   const [storedData, setDataFlag] = useState(false);
 
+//Authenticated: Check to see if there's a token meaning user has made an account and has logged in.
+  if (!token) {
+    console.log('first')
+    if (localStorage.jwtToken) {
+      const token = localStorage.jwtToken;
+      const decoded = jwt_decode(token);
+      setToken(true);
+      setAuthUser(decoded);
+
+      //delete localStorage data if user went from guest to registered
+      if (localStorage.getItem("guest") || localStorage.getItem("stored-gamedata")) {
+        localStorage.removeItem("guest");
+        localStorage.removeItem("stored-gamedata");
+      }
+    }
+  }
+
+  //Authenticated user: fetch Steam ID if Steam ID  exists
   useEffect(() => {
+      console.log("inside token")
     // Fetch does not send cookies. So you should add credentials: 'include'
     fetch("/auth/login/success", {
       method: "GET",
@@ -38,28 +57,15 @@ function HomePage(props) {
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
-        setSteamId(responseJson.user)
+        console.log('responseJSON');
+        console.log(responseJson);
+        setSteamId(responseJson.user);
+        setGames([...responseJson.games, ...responseJson.steamGames])
       })
       .catch(error => {
         setError("Failed to authenticated user");
       });
-  }, []);
-
-  //Authenticated: Check to see if there's a token meaning user has made an account and has logged in.
-  if (!token) {
-    if (localStorage.jwtToken) {
-      const token = localStorage.jwtToken;
-      const decoded = jwt_decode(token);
-      setToken(true);
-      setAuthUser(decoded);
-
-      //delete localStorage data if user went from guest to registered
-      if (localStorage.getItem("guest") || localStorage.getItem("stored-gamedata")) {
-        localStorage.removeItem("guest");
-        localStorage.removeItem("stored-gamedata");
-      }
-    }
-  }
+}, []);
 
   //Authenticated: when user refreshses and the authUser is set, set the games state
   useEffect(() => {
@@ -67,6 +73,9 @@ function HomePage(props) {
       setGames([...authUser.games]);
     }
   }, [authUser]);
+
+  /* 
+
 
   //Guest: if item guest exists, set guest state to true;
   if (localStorage.getItem("guest")) {
@@ -120,7 +129,7 @@ function HomePage(props) {
       }
     });
   };
-  }, [steamId]); 
+  }, [steamId]);  */
 
   //for manual addition of Steam ID
   const handleChange = event => {
