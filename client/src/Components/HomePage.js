@@ -54,7 +54,7 @@ function HomePage(props) {
         console.log(response.status);
         if (response.status === 200){
             console.log(response);
-           setSteamId(response.data.user.id);
+           setSteamId(response.data.steamID);
         } else {
         throw new Error("failed to authenticate user");
         }
@@ -64,12 +64,34 @@ function HomePage(props) {
       });
 }, []);
 
-  //Authenticated: when user refreshses and the authUser is set, set the games state
+   //listen for changes if the steamId state is altered
+    useEffect(() => {
+    console.log("useEffect");
+    console.log(steamId);
+    var dataValue = {
+      steamId: steamId,
+      creditentials: authUser
+    };
+    console.log(dataValue);
+    if(steamId && dataValue){
+    axios.post("/api/get-games-list/steam", dataValue).then(res => {
+      console.log(res);
+      if (res.data.name === "Error") {
+        return null;
+      } else {
+        setGames([...games, ...res.data]);
+        setSteam(1);
+      }
+    });
+  };
+  }, [steamId]);
+
+  /* //Authenticated: when user refreshses and the authUser is set, set the games state
   useEffect(() => {
     if (games.length == 0 && authUser.games !== undefined){
       setGames([...authUser.games]);
     }
-  }, [authUser]);
+  }, [authUser]); */
 
   /* 
 
@@ -108,27 +130,7 @@ function HomePage(props) {
 
    */
 
-   //listen for changes if the steamId state is altered
-  /*  useEffect(() => {
-    console.log("useEffect");
-    console.log(steamId);
-    var dataValue = {
-      steamId: steamId,
-      creditentials: authUser
-    };
-    console.log(dataValue);
-    if(steamId && dataValue){
-    axios.post("/api/get-games-list/steam", dataValue).then(res => {
-      console.log(res);
-      if (res.data.name === "Error") {
-        return null;
-      } else {
-        setGames([...games, ...res.data]);
-        setSteam(1);
-      }
-    });
-  };
-  }, [steamId]);  */
+
 
   //for manual addition of Steam ID
   const handleChange = event => {

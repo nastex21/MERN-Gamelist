@@ -43,7 +43,7 @@ router.post("/steam", (req, res) => {
       .catch(err => res.send(err));
   } catch (err) {
     console.error("GG", err);
-  }
+  } 
 });
 
 router.get('/db', (req, res) => {

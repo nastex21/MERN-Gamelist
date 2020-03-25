@@ -72,19 +72,21 @@ router.post("/login", (req, res) => {
         req.session.user = sessUser; // Auto saves session data in mongo store  
         req.session.save();
 
-        // Sign token
-        jwt.sign(payload, keys.SECRET,
-          {
-            expiresIn: 31556926 // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token,
-              user: payload
-            })
-          }
-        );
+        req.login(user, function(err) {
+          if (err) { return next(err); }
+          jwt.sign(payload, keys.SECRET,
+            {
+              expiresIn: 31556926 // 1 year in seconds
+            },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token,
+                user: payload
+              })
+            }
+          );
+        });
       } else {
         return res
           .status(400)
@@ -103,6 +105,8 @@ router.post('/logout', function(req, res){
     if (err) throw err;
     res.clearCookie('connect.sid',  {domain: "localhost", path: '/'}).status(200).send('Ok.');
   });
+
+  req.logout();
 });
 
 passport.serializeUser((user_id, done) => {
