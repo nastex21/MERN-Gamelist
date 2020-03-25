@@ -70,6 +70,7 @@ router.post("/login", (req, res) => {
         //Store session
         const sessUser = { id: user.id, name: user.name };
         req.session.user = sessUser; // Auto saves session data in mongo store  
+        req.session.save();
 
         // Sign token
         jwt.sign(payload, keys.SECRET,
