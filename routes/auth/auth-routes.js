@@ -25,15 +25,7 @@ router.get("/login/success", (req, res) => {
 
   router.get(
     /^\/steam(\/return)?$/,
-    passport.authenticate('steam', { failureRedirect: '/' }),
-    (req, res) => {
-      console.log('req');
-      console.log(req);
-      console.log('res');
-      console.log(res);
-      res.send('/');
-    }
-  );
+    passport.authenticate('steam', { failureRedirect: '/', successRedirect: CLIENT_HOME_PAGE_URL }));
   
   
 

@@ -108,6 +108,7 @@ function HomePage(props) {
       steamId: steamID,
       creditentials: authUser
     };
+    console.log(dataValue);
     axios.post("/api/get-games-list/steam", dataValue).then(res => {
       console.log(res);
       if (res.data.name === "Error") {
