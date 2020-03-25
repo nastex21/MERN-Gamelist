@@ -28,11 +28,9 @@ router.post("/steam", (req, res) => {
           'provider': 'steam'
         }));
         User.findByIdAndUpdate(
-          { id: userID.creditentials.id }, 
-          { $set: { 'games': gameData } },
+          userID.creditentials.id, 
+          { $set: { 'steamGames': gameData } },
           {new: true}, (err, result) => {
-            console.log("result");
-            console.log(result);
             res.send(gameData);
 
             if (err){

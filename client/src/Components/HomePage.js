@@ -103,12 +103,13 @@ function HomePage(props) {
   //listen for changes if the steamId state is altered
    useEffect(() => {
     console.log("useEffect");
-    var steamID = steamId;
+    console.log(steamId);
     var dataValue = {
-      steamId: steamID,
+      steamId: steamId,
       creditentials: authUser
     };
     console.log(dataValue);
+    if(steamId && dataValue){
     axios.post("/api/get-games-list/steam", dataValue).then(res => {
       console.log(res);
       if (res.data.name === "Error") {
@@ -118,6 +119,7 @@ function HomePage(props) {
         setSteam(1);
       }
     });
+  };
   }, [steamId]); 
 
   //for manual addition of Steam ID
