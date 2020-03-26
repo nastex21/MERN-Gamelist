@@ -20,7 +20,7 @@ function NavbarTop(props) {
             <Navbar bg="dark" variant="dark" fixed="sticky">
                 <NavbarBrand href="/">Video Game Catalog</NavbarBrand>
                 <Nav className="ml-auto">
-                    {!props.token ? 
+                    {props.guestUser ? 
                     <>
                     <Nav.Link href="register" onClick={e => clickHandler}>Register</Nav.Link>
                     <Navbar.Text >/</Navbar.Text>

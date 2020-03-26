@@ -10,6 +10,7 @@ import LoginPage from "./AuthPages/Login";
 import LogoutPage from './AuthPages/Logout';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
+import { localsName } from "ejs";
 
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
@@ -20,6 +21,7 @@ function HomePage(props) {
   const [error, setError] = useState(null);
 
   //If there's no token then set to true since the user isn't logged in
+  console.log(localStorage.jwtToken);
   if (!localStorage.jwtToken) {
     var savedGames;
     //if localstorage item doesn't exist, then set item else populatet the games state else 
@@ -43,6 +45,8 @@ function HomePage(props) {
       setAuthUserInfo(decoded);
     }
   }
+
+  console.log(guestUser);
 
   //Authenticated user: fetch Steam ID if Steam ID  exists
   useEffect(() => {
