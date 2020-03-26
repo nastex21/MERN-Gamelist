@@ -10,9 +10,6 @@ function NavbarTop(props) {
         Logout();
     }   
 
-     const continueGuest = e => {
-        props.enableGuestUser();
-    }
 
     const clickHandler = () => {
         props.setLocation(0);
@@ -29,7 +26,7 @@ function NavbarTop(props) {
                     <Navbar.Text >/</Navbar.Text>
                     <Nav.Link href="login" onClick={e => clickHandler}>Log In</Nav.Link>
                     <Navbar.Text >/</Navbar.Text>
-                    <Nav.Link href="dashboard" onClick={ e => continueGuest(e)}>Continue as Guest</Nav.Link>
+                    <Nav.Link href="dashboard">Continue as Guest</Nav.Link>
                     </>
                     : 
                     <Nav.Link href="/" onClick={e=> logoutHandler(e)}>Log Out</Nav.Link>
