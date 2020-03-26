@@ -15,6 +15,7 @@ function NavbarTop(props) {
         props.setLocation(0);
     }
      
+    console.log(props.guestUser);
     return (
         <>
             <Navbar bg="dark" variant="dark" fixed="sticky">

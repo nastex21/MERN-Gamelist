@@ -20,16 +20,17 @@ function HomePage(props) {
   const [games, setGames] = useState([]); //array of games manually and automatically added (Only supports steam atm.)
   const [error, setError] = useState(null);
 
-  //If there's no token then set to true since the user isn't logged in
+  //If there's no token then user is a guest otherwise user is a authorized user
   console.log(localStorage.jwtToken);
   if (!localStorage.jwtToken) {
     var savedGames;
     //if localstorage item doesn't exist, then set item else populatet the games state else 
     // if local storage games db is bigger in length then update games
     if (!localStorage.getItem("stored-gamedata")) {
-      savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       localStorage.setItem("stored-gamedata", true); //local storage to act as a database
-    } else if (savedGames.length > games.length) {
+      savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
+      console.log(savedGames);
+    } else if (savedGames !== undefined && savedGames.length > games.length) {
       setGames(...savedGames);
     }
   } else {
@@ -40,7 +41,10 @@ function HomePage(props) {
     }
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
-    if (guestUser && token && authUserInfo === '') {
+    console.log(guestUser);
+    console.log(token);
+    console.log(authUserInfo);
+    if (guestUser && token) {
       setGuestUser(false);
       setAuthUserInfo(decoded);
     }
