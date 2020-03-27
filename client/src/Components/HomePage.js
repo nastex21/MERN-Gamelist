@@ -69,7 +69,7 @@ function HomePage(props) {
           console.log(response.status);
           if (response.status === 200) {
             console.log(response);
-            setSteamId(response.data.steamID);
+            setGames([...response.data.steamID.steamGames, ...response.data.steamID.games])
           } else {
             throw new Error("failed to authenticate user");
           }
@@ -78,7 +78,7 @@ function HomePage(props) {
           setError("Failed to authenticated user");
         });
     }
-  }, []);
+  }, [guestUser]);
 
   //Guest: if there's a change in the games state, then update the local games storage database
   useEffect(() => {
