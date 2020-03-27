@@ -21,7 +21,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   steamId: {
-    type: Array
+    type: String
   }
 });
 module.exports = User = mongoose.model("users", UserSchema);

@@ -97,7 +97,8 @@ function HomePage(props) {
     };
     console.log(dataValue);
     if (steamId && dataValue) {
-      axios.post("/api/get-games-list/steam", dataValue).then(res => {
+      console.log('inside steamID function'); 
+  /*     axios.post("/api/get-games-list/steam", dataValue).then(res => {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
@@ -105,16 +106,9 @@ function HomePage(props) {
           setGames([...games, ...res.data]);
           setSteam(1);
         }
-      });
+      }); */
     };
   }, [steamId]);
-
-  //Authenticated: when user refreshses and the authUserInfo is set, set the games state
-  useEffect(() => {
-    if (games.length == 0 && authUserInfo.games !== undefined) {
-      setGames([...authUserInfo.games]);
-    }
-  }, [authUserInfo]);
 
   //for manual addition of Steam ID
   const handleChange = event => {
