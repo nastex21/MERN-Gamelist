@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // Create Schema
 const UserSchema = new Schema({
@@ -11,9 +11,9 @@ const UserSchema = new Schema({
     required: true
   },
   steamGames: {
-    type:Array
+    type: Array
   },
-  games:{
+  games: {
     type: Array
   },
   date: {

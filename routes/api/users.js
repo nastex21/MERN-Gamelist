@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
                 if (err) throw err;
 
                 const user_id = results.id;
-        
+
                  req.login(user_id, function(err){
                   res.json(user);
                 }) 
@@ -60,15 +60,16 @@ router.post("/login", (req, res) => {
       if (isMatch) {
         // User matched
         // Create JWT Payload
-
+        console.log('user in login');
+        console.log(user)
         const payload = {
           id: user.id,
           name: user.name,
-          games: user.games
+          steamID: user.steamId
         };
 
         //Store session
-        const sessUser = { id: user.id, name: user.name };
+        const sessUser = { id: user.id, name: user.name, steamID: user.steamId };
         req.session.user = sessUser; // Auto saves session data in mongo store  
         req.session.save();
 
@@ -79,6 +80,10 @@ router.post("/login", (req, res) => {
               expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
+              console.log("inside login")
+              console.log('payload');
+              console.log(payload);
+              console.log(user);
               res.json({
                 success: true,
                 token: "Bearer " + token,

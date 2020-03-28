@@ -22,7 +22,6 @@ function HomePage(props) {
   const [error, setError] = useState(null);
 
   //If there's no token then user is a guest otherwise user is a authorized user
-  console.log(localStorage.jwtToken);
   if (!localStorage.jwtToken) {
     var savedGames;
     //if localstorage item doesn't exist, then set item else populatet the games state else 
@@ -42,9 +41,6 @@ function HomePage(props) {
     }
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
-    console.log(guestUser);
-    console.log(token);
-    console.log(authUserInfo);
     if (guestUser && token) {
       setGuestUser(false);
       setAuthUserInfo(decoded);

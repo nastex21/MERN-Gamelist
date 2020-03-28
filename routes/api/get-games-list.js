@@ -31,7 +31,7 @@ router.post("/steam", (req, res) => {
         if (user) {
           User.findByIdAndUpdate(
             user,
-            { $set: { steamGames: gameData } },
+            { $set: { steamId: steamID, steamGames: gameData } },
             { new: true },
             (err, result) => {
               res.send(gameData);

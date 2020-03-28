@@ -2,20 +2,21 @@ const passport = require("passport");
 const express = require("express");
 const router = express.Router();
 const CLIENT_HOME_PAGE_URL = "http://localhost:5556/dashboard";
-const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
+const User = require("../../models/user-model");
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
-  console.log("req");
-  console.log(req.session);
-  res.json({
-    success: true,
-    message: "user has successfully authenticated",
-    user: req.session.user,
-    steamID: req.session.passport.user,
-    cookies: req.cookies
-  }); 
+  User.findById(req.session.user.id, function (err, user) {
+    res.json({
+      success: true,
+      message: "user has successfully authenticated",
+      user: user.name,
+      steamID: user.steamId,
+      games: user.games,
+      steamGames: user.steamGames,
+      cookies: req.cookies
+    }); 
+  });
 });
 
 // when login failed, send failed msg
