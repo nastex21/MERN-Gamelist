@@ -13,7 +13,6 @@ export default function Dashboard({
   handleClick,
   games
 }) {
-  const [dashboardPage, setPage] = useState(0);
 
   return (
     <div className="dashboard">

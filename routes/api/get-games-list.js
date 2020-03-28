@@ -6,13 +6,10 @@ const router = express.Router();
 const User = require("../../models/user-model");
 
 router.post("/steam", (req, res) => {
-  const { steamID, user } = req.body;
-  console.log(req.body);
-  console.log("userid");
-  console.log(user);
-  console.log(steamID);
-  console.log("req.session");
-  console.log(req.session);
+  
+  const steamID = req.session.passport.user;
+  const savedUser = req.session.user.id;
+
   var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${steamID}&include_appinfo=true&format=json`;
   try {
     console.log("try axios working");
@@ -28,9 +25,9 @@ router.post("/steam", (req, res) => {
           game_system: "PC",
           provider: "steam"
         }));
-        if (user) {
+        if (savedUser) {
           User.findByIdAndUpdate(
-            user,
+            savedUser,
             { $set: { steamId: steamID, steamGames: gameData } },
             { new: true },
             (err, result) => {

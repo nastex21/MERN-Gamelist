@@ -65,6 +65,7 @@ function HomePage(props) {
           if (response.status === 200) {
             console.log(response);
             setSteamId(response.data.steamID);
+            setGames([...response.data.games, ...response.data.steamGames])
           } else {
             throw new Error("failed to authenticate user");
           }
@@ -98,8 +99,8 @@ function HomePage(props) {
         if (res.data.name === "Error") {
           return null;
         } else {
-          setGames([...games, ...res.data]);
-          setSteam(1);
+         setGames([...games, ...res.data]);
+          setSteam(1); 
         }
       }); 
     };

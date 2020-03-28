@@ -6,12 +6,14 @@ const User = require("../../models/user-model");
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
+  console.log('/login/success');
+  console.log(req.session);
   User.findById(req.session.user.id, function (err, user) {
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: user.name,
-      steamID: user.steamId,
+      steamID: req.session.passport.user,
       games: user.games,
       steamGames: user.steamGames,
       cookies: req.cookies

@@ -2,7 +2,6 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 function GenerateTable({ gamelist }) {
-  console.log(gamelist);
 
   return <div className="table">
     <Table striped bordered hover responsive variant="dark">
