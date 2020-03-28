@@ -15,7 +15,8 @@ import { localsName } from "ejs";
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
   const [authUserInfo, setAuthUserInfo] = useState(''); //registered and logged in user information
-  const [steamId, setSteamId] = useState(""); //steam ID 
+  const [steamId, setSteamId] = useState(""); //steam ID
+  const [steamInputValue, setValue] = useState(''); // needed a separate value that didn't constantly change the steamId state 
   const [steam, setSteam] = useState(0); //has steam been used? 
   const [games, setGames] = useState([]); //array of games manually and automatically added (Only supports steam atm.)
   const [error, setError] = useState(null);
@@ -49,8 +50,6 @@ function HomePage(props) {
       setAuthUserInfo(decoded);
     }
   }
-
-  console.log(guestUser);
 
   //Authenticated user: fetch Steam ID if Steam ID  exists
   useEffect(() => {
@@ -92,7 +91,7 @@ function HomePage(props) {
     console.log("useEffect");
     console.log(steamId);
     var dataValue = {
-      steamId: steamId,
+      steamID: steamId,
       creditentials: authUserInfo
     };
     console.log(dataValue);
@@ -112,7 +111,7 @@ function HomePage(props) {
 
   //for manual addition of Steam ID
   const handleChange = event => {
-    setSteamId(event.target.value);
+    setValue(event.target.value);
   };
 
   //for submitting Steam ID
@@ -121,12 +120,12 @@ function HomePage(props) {
     var data;
     if (!guestUser) {
       data = {
-        steamID: steamId,
+        steamID: steamInputValue,
         user: authUserInfo.id
       };
     } else {
       data = {
-        steamID: steamId
+        steamID: steamInputValue
       };
     }
 
@@ -187,7 +186,7 @@ function HomePage(props) {
                   manualData={manualData}
                   steam={steam}
                   steamId={steamId}
-                  value={steamId}
+                  value={steamInputValue}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
@@ -208,7 +207,7 @@ function HomePage(props) {
                   manualData={manualData}
                   steam={steam}
                   steamId={steamId}
-                  value={steamId}
+                  value={steamInputValue}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}

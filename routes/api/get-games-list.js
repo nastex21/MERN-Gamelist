@@ -7,6 +7,7 @@ const User = require("../../models/user-model");
 
 router.post("/steam", (req, res) => {
   const { steamID, user } = req.body;
+  console.log(req.body);
   console.log("userid");
   console.log(user);
   console.log(steamID);
