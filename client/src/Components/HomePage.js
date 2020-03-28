@@ -69,7 +69,7 @@ function HomePage(props) {
           console.log(response.status);
           if (response.status === 200) {
             console.log(response);
-            setGames([...response.data.steamID.steamGames, ...response.data.steamID.games])
+            setSteamId(response.data.steamID);
           } else {
             throw new Error("failed to authenticate user");
           }
@@ -98,7 +98,7 @@ function HomePage(props) {
     console.log(dataValue);
     if (steamId && dataValue) {
       console.log('inside steamID function'); 
-  /*     axios.post("/api/get-games-list/steam", dataValue).then(res => {
+       axios.post("/api/get-games-list/steam", dataValue).then(res => {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
@@ -106,7 +106,7 @@ function HomePage(props) {
           setGames([...games, ...res.data]);
           setSteam(1);
         }
-      }); */
+      }); 
     };
   }, [steamId]);
 
@@ -119,7 +119,7 @@ function HomePage(props) {
   const handleSubmit = event => {
     event.preventDefault();
     var data;
-    if (authUserInfo) {
+    if (!guestUser) {
       data = {
         steamID: steamId,
         user: authUserInfo.id
@@ -129,6 +129,7 @@ function HomePage(props) {
         steamID: steamId
       };
     }
+
 
     console.log(data);
     axios.post("/api/get-games-list/steam", data).then(res => {
