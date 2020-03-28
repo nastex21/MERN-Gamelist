@@ -6,9 +6,17 @@ const router = express.Router();
 const User = require("../../models/user-model");
 
 router.post("/steam", (req, res) => {
-  
-  const steamID = req.session.passport.user;
+  console.log('inside /steam');
+  console.log(req.body);
+  var steamID = req.body.steamID;
+  if (!steamID) {
+    steamID = req.session.passport.user;
+  }
+
   const savedUser = req.session.user.id;
+
+  console.log(steamID);
+  console.log(savedUser);
 
   var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${steamID}&include_appinfo=true&format=json`;
   try {
