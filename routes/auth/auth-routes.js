@@ -9,6 +9,7 @@ router.get("/login/success", (req, res) => {
   console.log('/login/success');
   console.log(req.session);
   User.findById(req.session.user.id, function (err, user) {
+    console.log(user);
     res.json({
       success: true,
       message: "user has successfully authenticated",
@@ -29,9 +30,7 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
-router.get(
-    /^\/steam(\/return)?$/,
-    passport.authenticate('steam', { failureRedirect: '/', successRedirect: CLIENT_HOME_PAGE_URL })); 
-
+  router.get(/^\/steam(\/return)?$/,
+  passport.authenticate('steam', { failureRedirect: '/', successRedirect: CLIENT_HOME_PAGE_URL })); 
 
 module.exports = router;

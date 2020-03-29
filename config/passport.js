@@ -29,11 +29,13 @@ module.exports = passport => {
       {
         returnURL: "http://localhost:5555/auth/steam/return",
         realm: "http://localhost:5555/",
-        apiKey: keys.STEAM_KEY
+        apiKey: keys.STEAM_KEY,
+        passReqToCallback: true
       },
-      async (identifier, profile, done) => {
+      async (req, identifier, profile, done) => {
         console.log('profile id');
         console.log(profile.id);
+        req.session.user.steamID = profile.id;
         done(null, profile.id);
       }
     )

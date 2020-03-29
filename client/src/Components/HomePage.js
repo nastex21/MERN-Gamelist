@@ -10,7 +10,6 @@ import LoginPage from "./AuthPages/Login";
 import LogoutPage from './AuthPages/Logout';
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { localsName } from "ejs";
 
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
