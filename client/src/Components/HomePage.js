@@ -40,9 +40,14 @@ function HomePage(props) {
     }
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
+    console.log('decoded');
+    console.log(decoded);
     if (guestUser && token) {
       setGuestUser(false);
       setAuthUserInfo(decoded);
+    }
+    if (decoded.steamID && steamId == ''){
+      setSteamId(decoded.steamID);
     }
   }
 
@@ -155,15 +160,6 @@ function HomePage(props) {
     setGames(newGames);
   };
 
-  //user logged in and authenticated
-  const LoginData = data => {
-    console.log(data);
-    setAuthUserInfo(data);
-    if (data.games.length > 0) {
-      setGames([...data.games])
-    }
-  };
-
   const handleLogout = () => {
     props.history.push("/login");
     console.log(props);
@@ -195,7 +191,7 @@ function HomePage(props) {
           </> :
           <>
             <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/login" render={props => <LoginPage LoginData={LoginData} />} />
+            <Route exact path="/login" render={props => <LoginPage />} />
             <Route exact path="/" component={FrontPage} />
             <Route exact path="/dashboard"
               render={props => (

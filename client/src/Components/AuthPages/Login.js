@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import "../css/Forms.css";
 
-export default function LoginPage({ LoginData }) {
+export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -59,7 +59,6 @@ export default function LoginPage({ LoginData }) {
           name: decoded.name,
           games: decoded.games
         }
-        LoginData(userObj);
         setRedirect(true);
       })
       .catch(err =>

@@ -69,7 +69,7 @@ router.post("/login", (req, res) => {
         };
 
         //Store session
-        const sessUser = { id: user.id, name: user.name, steamID: user.steamId };
+        const sessUser = payload;
         req.session.user = sessUser; // Auto saves session data in mongo store  
         req.session.save();
 

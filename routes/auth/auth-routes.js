@@ -8,18 +8,18 @@ const User = require("../../models/user-model");
 router.get("/login/success", (req, res) => {
   console.log('/login/success');
   console.log(req.session);
-  User.findById(req.session.user.id, function (err, user) {
+   User.findById(req.session.user.id, function (err, user) {
     console.log(user);
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: user.name,
-      steamID: req.session.passport.user,
+      steamID: req.session.user.steamID,
       games: user.games,
       steamGames: user.steamGames,
       cookies: req.cookies
-    }); 
-  });
+    });  
+  }); 
 });
 
 // when login failed, send failed msg
