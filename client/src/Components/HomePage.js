@@ -96,7 +96,7 @@ function HomePage(props) {
       creditentials: authUserInfo
     };
     console.log(dataValue);
-    if (steamId && dataValue) {
+    if (steamId && dataValue && games.length == 0 ) {
       console.log('inside steamID function'); 
        axios.post("/api/get-games-list/steam", dataValue).then(res => {
         console.log(res);
@@ -129,13 +129,11 @@ function HomePage(props) {
         steamID: steamInputValue
       };
     }
-
-
-    console.log(data);
     axios.post("/api/get-games-list/steam", data).then(res => {
       console.log(res.data);
       setGames([...games, ...res.data]);
       setSteam(1);
+      setSteamId(steamInputValue);
     });
   };
 
@@ -164,7 +162,7 @@ function HomePage(props) {
     props.history.push("/login");
     console.log(props);
   }
-
+  console.log(steamId);
   return (
     <>
       <NavbarTop guestUser={guestUser} />

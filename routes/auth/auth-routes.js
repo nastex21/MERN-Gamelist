@@ -10,11 +10,17 @@ router.get("/login/success", (req, res) => {
   console.log(req.session);
    User.findById(req.session.user.id, function (err, user) {
     console.log(user);
+    var steamNum = user.steamId;
+    console.log("user.id");
+    console.log(user.id);
+    if (!steamNum) {
+      req.session.user.steamID
+    }
     res.json({
       success: true,
       message: "user has successfully authenticated",
       user: user.name,
-      steamID: req.session.user.steamID,
+      steamID: steamNum,
       games: user.games,
       steamGames: user.steamGames,
       cookies: req.cookies
