@@ -10,7 +10,7 @@ router.post("/", (req, res) => {
   console.log(user.id);
   console.log(game);
   console.log(gameID);
-/*   { 
+  /*   { 
     "$push": {
         "post_IDs": {
             "$each": [articles],
@@ -19,11 +19,21 @@ router.post("/", (req, res) => {
      }
 },
 { new: true}, */
-  User.findOneAndUpdate(
-    { _id: user.id, "games.id": { $nin: [gameID] } },
+
+  /* "games.id": { $nin: [gameID] } },
     {
       $addToSet: {
         games: game
+      }
+    } */
+  User.findOneAndUpdate(
+    { _id: user.id, "games.game_id": { $nin: [gameID] } },
+    {
+      $push: {
+        games: {
+          $each: game,
+          $position: 0
+        }
       }
     },
     function(err, data) {
