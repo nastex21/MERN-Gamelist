@@ -17,7 +17,8 @@ function HomePage(props) {
   const [steamId, setSteamId] = useState(""); //steam ID
   const [steamInputValue, setValue] = useState(""); // needed a separate value that didn't constantly change the steamId state
   const [steam, setSteam] = useState(0); //has steam been used?
-  const [games, setGames] = useState([]); //array of games manually and automatically added (Only supports steam atm.)
+  const [games, setGames] = useState([]); //array of all games manually and automatically added (Only supports steam atm.)
+  const [manEntryGames, setManualGame] = useState([]) //container to hold manually added games
   const [error, setError] = useState(null);
 
   //If there's no token then user is a guest otherwise user is a authorized user
@@ -87,21 +88,6 @@ function HomePage(props) {
       if (localStorage.getItem("stored-gamedata")) {
         localStorage.setItem("stored-gamedata", JSON.stringify(games));
       }
-
-      if (!guestUser) {
-        if (prevGames) {
-          console.log("prevGames");
-          console.log(prevGames);
-          console.log(games.length);
-          console.log(prevGames.length);
-          if (games.length !== prevGames.length) {
-            console.log("inside games.length if section");
-            axios.post("/api/save-games", games).then(res => {
-              console.log("woot");
-            });
-          }
-        }
-      }
     },
     [games]
   );
@@ -133,6 +119,24 @@ function HomePage(props) {
   const handleChange = event => {
     setValue(event.target.value);
   };
+
+  //upload manual entry games to database
+  useEffect(() => {
+    if (!guestUser) {
+      if (prevGames) {
+        console.log("prevGames");
+        console.log(prevGames);
+        console.log(games.length);
+        console.log(prevGames.length);
+        if (manEntryGames.length !== prevGames.length) {
+          console.log("inside games.length if section");
+          axios.post("/api/save-games", manEntryGames).then(res => {
+            console.log("woot");
+          });
+        }
+      }
+    }
+  }, [manEntryGames]);
 
   //for submitting Steam ID
   const handleSubmit = event => {
@@ -172,9 +176,12 @@ function HomePage(props) {
     };
     console.log(newObj);
     let newGames = [...games];
+    let newEntryGames = [...manEntryGames];
     newGames.unshift(newObj);
+    newEntryGames.unshift(newObj);
     console.log(newGames);
     setGames(newGames);
+    setManualGame(newEntryGames);
   };
 
   const handleLogout = () => {
@@ -183,7 +190,7 @@ function HomePage(props) {
   };
 
   // Get the previous value (was passed into hook on last render)
-  const prevGames = usePrevious(games);
+  const prevGames = usePrevious(manEntryGames);
   console.log(steamId);
   return (
     <>

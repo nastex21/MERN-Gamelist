@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require("../../models/user-model");
 
 router.post('/', (req, res) => {
-console.log("WOOOOT")
+console.log("WOOOOT");
+console.log(req.body);
 
 
 })
