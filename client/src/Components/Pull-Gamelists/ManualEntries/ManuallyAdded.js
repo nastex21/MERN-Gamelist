@@ -100,7 +100,9 @@ export default function ManuallyAdded(props) {
     var gameData = {
       name: item.name,
       system: value,
-      img: item.background_image
+      img: item.background_image,
+      id: item.id,
+      released_date: item.released
     };
     props.uploadData(gameData);
   };

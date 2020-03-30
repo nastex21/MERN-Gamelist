@@ -130,7 +130,14 @@ function HomePage(props) {
         console.log(prevGames.length);
         if (manEntryGames.length !== prevGames.length) {
           console.log("inside games.length if section");
-          axios.post("/api/save-games", manEntryGames).then(res => {
+          console.log(authUserInfo);
+          var dataObj = {
+            user: {
+              id: authUserInfo.id
+            },
+            game: manEntryGames
+          }
+          axios.post("/api/save-games", dataObj).then(res => {
             console.log("woot");
           });
         }
@@ -169,9 +176,11 @@ function HomePage(props) {
   const manualData = objValue => {
     console.log(objValue);
     const newObj = {
+      game_id: objValue.id,
       game_name: objValue.name,
       game_img: objValue.img,
       game_system: objValue.system,
+      game_release: objValue.released_date,
       provider: "manual"
     };
     console.log(newObj);
