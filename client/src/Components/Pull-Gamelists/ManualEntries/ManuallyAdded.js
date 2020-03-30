@@ -123,7 +123,7 @@ export default function ManuallyAdded(props) {
         ) : (
           <p>Loading...</p>
         )}
-        <input type="submit" value="Save Game" />
+        <input type="submit" value="Search" />
       </form>
       {apiResults.length > 0 ? (
         <ShowResults
