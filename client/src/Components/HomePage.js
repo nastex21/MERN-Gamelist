@@ -176,7 +176,6 @@ function HomePage(props) {
 
   //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = objValue => {
-    console.log(objValue);
     const newObj = {
       game_id: objValue.id,
       game_name: objValue.name,
@@ -191,6 +190,7 @@ function HomePage(props) {
 
     var checkDups = (obj) => obj.game_id === newObj.game_id;
 
+    //Check for duplicates
     if(!newGames.some(checkDups)){
       newGames.unshift(newObj);
       newEntryGames.unshift(newObj);
@@ -204,7 +204,6 @@ function HomePage(props) {
 
   const handleLogout = () => {
     props.history.push("/login");
-    console.log(props);
   };
 
   // Get the previous value (was passed into hook on last render)
