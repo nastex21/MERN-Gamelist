@@ -18,7 +18,8 @@ function HomePage(props) {
   const [steamInputValue, setValue] = useState(""); // needed a separate value that didn't constantly change the steamId state
   const [steam, setSteam] = useState(0); //has steam been used?
   const [games, setGames] = useState([]); //array of all games manually and automatically added (Only supports steam atm.)
-  const [manEntryGames, setManualGame] = useState([]) //container to hold manually added games
+  const [manEntryGames, setManualGame] = useState([]) //container to hold manually added games added by user from input 
+  const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
 
   //If there's no token then user is a guest otherwise user is a authorized user
@@ -71,7 +72,8 @@ function HomePage(props) {
           if (response.status === 200) {
             console.log(response);
             setSteamId(response.data.steamID);
-            setGames([...response.data.games, ...response.data.steamGames]);
+            setGames([...response.data.steamGames]); //games from Steam pulled from the database
+            setGames2([...response.data.games]); //games pulled from database that were manually added
           } else {
             throw new Error("failed to authenticate user");
           }
@@ -200,7 +202,7 @@ function HomePage(props) {
 
   // Get the previous value (was passed into hook on last render)
   const prevGames = usePrevious(manEntryGames);
-  console.log(steamId);
+  console.log(games);
   return (
     <>
       <NavbarTop guestUser={guestUser} />
@@ -224,6 +226,7 @@ function HomePage(props) {
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
                   games={games}
+                  games2={games2}
                 />
               )}
             />
@@ -252,6 +255,7 @@ function HomePage(props) {
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
                   games={games}
+                  games2={games2}
                 />
               )}
             />

@@ -11,9 +11,9 @@ export default function Dashboard({
   handleChange,
   handleSubmit,
   handleClick,
-  games
+  games, 
+  games2
 }) {
-  console.log(steamId);
   return (
     <div className="dashboard">
       <div className="manualBox">
@@ -36,9 +36,9 @@ export default function Dashboard({
           </div>
         ) : null}
         {steamId ? <input type='button' value="Update Steam Games" /> : null}
-        {games.length === 0 ? null : <p>You have {games.length} games</p>}
+        {games.length === 0 ? null : <p>You have {games.length + games2.length} games</p>}
       </div>
-      {games.length === 0 ? null : <GenerateTable gamelist={games} />}
+      {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2}/>}
       </div>
   );
 }
