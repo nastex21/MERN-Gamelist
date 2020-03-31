@@ -185,14 +185,21 @@ function HomePage(props) {
       game_release: objValue.released_date,
       provider: "manual"
     };
-    console.log(newObj);
-    let newGames = [...games2];
-    let newEntryGames = [...manEntryGames];
-    newGames.unshift(newObj);
-    newEntryGames.unshift(newObj);
-    console.log(newGames);
-    setGames2(newGames);
-    setManualGame(newEntryGames);
+
+    var newGames = [...games2]; //games from database
+    var newEntryGames = [...manEntryGames]; //games recently added by user
+
+    var checkDups = (obj) => obj.game_id === newObj.game_id;
+
+    if(!newGames.some(checkDups)){
+      newGames.unshift(newObj);
+      newEntryGames.unshift(newObj);
+      setGames2(newGames);
+      setManualGame(newEntryGames);
+    } else {
+      window.alert("Game already exists!");
+    }
+
   };
 
   const handleLogout = () => {
