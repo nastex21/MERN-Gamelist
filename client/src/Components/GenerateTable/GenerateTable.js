@@ -15,6 +15,8 @@ function GenerateTable({ gamelist, gameslist2 }) {
           <th>#</th>
           <th></th>
           <th>Name</th>
+          <th>System</th>
+          <th>Release Date</th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +33,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
               </td>
               <td>{items.game_name}</td>
               <td>{items.game_system}</td>
+              <td>{items.game_release}</td>
             </tr>
           ) 
         })}
