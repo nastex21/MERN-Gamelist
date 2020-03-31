@@ -17,7 +17,7 @@ function HomePage(props) {
   const [steamId, setSteamId] = useState(""); //steam ID
   const [steamInputValue, setValue] = useState(""); // needed a separate value that didn't constantly change the steamId state
   const [steam, setSteam] = useState(0); //has steam been used?
-  const [games, setGames] = useState([]); //array of all games manually and automatically added (Only supports steam atm.)
+  const [games, setGames] = useState([]); //array of Steam games
   const [manEntryGames, setManualGame] = useState([]) //container to hold manually added games added by user from input 
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
@@ -186,12 +186,12 @@ function HomePage(props) {
       provider: "manual"
     };
     console.log(newObj);
-    let newGames = [...games];
+    let newGames = [...games2];
     let newEntryGames = [...manEntryGames];
     newGames.unshift(newObj);
     newEntryGames.unshift(newObj);
     console.log(newGames);
-    setGames(newGames);
+    setGames2(newGames);
     setManualGame(newEntryGames);
   };
 
@@ -202,7 +202,7 @@ function HomePage(props) {
 
   // Get the previous value (was passed into hook on last render)
   const prevGames = usePrevious(manEntryGames);
-  console.log(games);
+  
   return (
     <>
       <NavbarTop guestUser={guestUser} />

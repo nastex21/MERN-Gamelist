@@ -16,13 +16,11 @@ function GenerateTable({ gamelist, gameslist2 }) {
           <th></th>
           <th>Name</th>
           <th>System</th>
-          <th>Release Date</th>
+          <th>Release Year</th>
         </tr>
       </thead>
       <tbody>
         {games.map((items, idx) => {
-          console.log("games2list")
-          console.log(items);
           return (
             <tr key={idx}>
               <td>{idx + 1}</td>
@@ -33,7 +31,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
               </td>
               <td>{items.game_name}</td>
               <td>{items.game_system}</td>
-              <td>{items.game_release}</td>
+              <td>{items.game_release !== undefined ? items.game_release.substr(0,4) : null}</td>
             </tr>
           ) 
         })}
