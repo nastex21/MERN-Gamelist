@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
+import Pagination from "react-bootstrap/Pagination";
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
