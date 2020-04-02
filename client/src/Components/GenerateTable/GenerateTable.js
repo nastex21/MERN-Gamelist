@@ -13,16 +13,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
 
   const options = {
     onSizePerPageChange: (sizePerPage, page) => {
-      console.log('Size per page change!!!');
-      console.log('Newest size per page:' + sizePerPage);
-      console.log('Newest page:' + page);
       setItems(sizePerPage);
       setPage(page);
     },
     onPageChange: (page, sizePerPage) => {
-      console.log('Page change!!!');
-      console.log('Newest size per page:' + sizePerPage);
-      console.log('Newest page:' + page);
       setItems(sizePerPage);
       setPage(page);
     }
