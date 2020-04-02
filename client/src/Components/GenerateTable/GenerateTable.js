@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, {
-  selectFilter, textFilter
+  selectFilter,
+  textFilter
 } from "react-bootstrap-table2-filter";
 
 function GenerateTable({ gamelist, gameslist2 }) {
@@ -67,6 +68,11 @@ function GenerateTable({ gamelist, gameslist2 }) {
     }
   };
 
+  const providerFilter = (filterVal, data) => {
+    console.log(filterVal);
+    console.log(data);
+  };
+
   const columns = [
     {
       dataField: "game_num",
@@ -82,7 +88,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
       text: "Name",
       sort: true,
       filter: textFilter({
-        placeholder: 'Search for game'
+        placeholder: "Search for game"
       })
     },
     {
@@ -100,18 +106,17 @@ function GenerateTable({ gamelist, gameslist2 }) {
       dataField: "provider",
       text: "Service",
       sort: true,
-      formatter: providerFormatter => selectOptions[providerFormatter],
+      formatter: providerFormatter,
       filter: selectFilter({
-        options: selectOptions
+        options: selectOptions,
+        providerFilter: (filterVal, columnKey) => providerFilter(filterVal)
       })
     }
-  ];
+  ]
+   
 
   return (
     <div className="table">
-      <button className="btn btn-lg btn-primary">
-        {' filter columns by option "good" and "unknow" '}
-      </button>
       <BootstrapTable
         keyField="id"
         data={games}
