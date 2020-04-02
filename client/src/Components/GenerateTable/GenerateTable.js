@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, {
-  selectFilter
+  selectFilter, textFilter
 } from "react-bootstrap-table2-filter";
 
 function GenerateTable({ gamelist, gameslist2 }) {
@@ -15,8 +15,8 @@ function GenerateTable({ gamelist, gameslist2 }) {
   }, [gamelist, gameslist2]);
 
   const selectOptions = {
-    0: "manual",
-    1: "steam"
+    0: "Manual",
+    1: "Steam"
   };
 
   const options = {
@@ -80,7 +80,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
     {
       dataField: "game_name",
       text: "Name",
-      sort: true
+      sort: true,
+      filter: textFilter({
+        placeholder: 'Search for game'
+      })
     },
     {
       dataField: "game_system",
