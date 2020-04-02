@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import filterFactory, { multiSelectFilter } from 'react-bootstrap-table2-filter';
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
@@ -11,6 +12,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
     setGames([...gameslist2, ...gamelist]);
   }, [gamelist, gameslist2]);
 
+  let qualityFilter;
+
+  const selectOptions = {
+    0: 'good',
+    1: 'Bad',
+    2: 'unknown'
+  };
+
   const options = {
     onSizePerPageChange: (sizePerPage, page) => {
       setItems(sizePerPage);
@@ -19,7 +28,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
     onPageChange: (page, sizePerPage) => {
       setItems(sizePerPage);
       setPage(page);
-    }
+    },
+    filter: multiSelectFilter({
+      options: selectOptions,
+      getFilter: (filter) => {
+        // qualityFilter was assigned once the component has been mounted.
+        qualityFilter = filter;
+      }
+    })
   };
 
   const imageFormatter = (cell, row) => {
@@ -55,7 +71,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
     if (cell == 'steam') {
       return 'Steam'
     } else if (cell == 'manual'){
-      return 'User Added'
+      return 'Added by user'
     }
   }
 
@@ -93,13 +109,19 @@ function GenerateTable({ gamelist, gameslist2 }) {
    }
   ];
 
+  const handleClick = () => {
+    qualityFilter([0, 2]);
+  };
+
   return (
     <div className="table">
+      <button className="btn btn-lg btn-primary" onClick={ handleClick }>{' filter columns by option "good" and "unknow" '}</button>
       <BootstrapTable
         keyField="id"
         data={games}
         columns={columns}
         pagination={paginationFactory(options)}
+        filter={ filterFactory() } 
       />
     </div>
   );
