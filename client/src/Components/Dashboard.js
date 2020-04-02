@@ -3,6 +3,7 @@ import ManuallyAdded from "./Pull-Gamelists/ManualEntries/ManuallyAdded";
 import SteamForm from "./Pull-Gamelists/SteamList/SteamForm";
 import GenerateTable from "./GenerateTable/GenerateTable";
 
+
 export default function Dashboard({
   manualData,
   steam,
