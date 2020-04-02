@@ -51,7 +51,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
     return (c + 1) + (itemsPerPage * (pageNum - 1));
   };
 
-  console.log(games);
+  const providerFormatter = (cell) => {
+    if (cell == 'steam') {
+      return 'Steam'
+    } else if (cell == 'manual'){
+      return 'User Added'
+    }
+  }
+
   const columns = [
     {
       dataField: "game_num",
@@ -69,13 +76,21 @@ function GenerateTable({ gamelist, gameslist2 }) {
     },
     {
       dataField: "game_system",
-      text: "System"
+      text: "System",
+      sort: true
     },
     {
       dataField: "game_release",
       text: "Release Year",
+      sort: true,
       formatter: dateFormatter
-    }
+    },
+    {
+      dataField: "provider",
+      text: "Service",
+      sort: true,
+      formatter: providerFormatter
+   }
   ];
 
   return (
