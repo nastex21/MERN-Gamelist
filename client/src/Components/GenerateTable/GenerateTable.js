@@ -4,9 +4,10 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, {
   selectFilter,
   textFilter,
-  numberFilter, 
+  numberFilter,
   Comparator
 } from "react-bootstrap-table2-filter";
+import select from "react-bootstrap-table2-filter/lib/src/components/select";
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
@@ -17,10 +18,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
     setGames([...gameslist2, ...gamelist]);
   }, [gamelist, gameslist2]);
 
-  const selectOptions = {
-    0: "Manual",
-    1: "Steam"
-  };
+  const selectOptions = [
+    { value: "manual", label: "Added by User" },
+    { value: "steam", label: "Steam" }
+  ];
 
   const options = {
     onSizePerPageChange: (sizePerPage, page) => {
@@ -104,22 +105,22 @@ function GenerateTable({ gamelist, gameslist2 }) {
       sort: true,
       formatter: dateFormatter,
       filter: numberFilter({
-        comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
+        comparators: [Comparator.EQ, Comparator.GT, Comparator.LT]
       })
     },
     {
       dataField: "provider",
       text: "Service",
-      sort: true,
-      formatter: providerFormatter,
+      //sort: true,
+      //formatter: providerFormatter,
+      formatter: cell => selectOptions.find(opt => opt.value === cell).label,
       filter: selectFilter({
-        options: selectOptions,
-        providerFilter: (filterVal, columnKey) => providerFilter(filterVal)
+        options: selectOptions
       })
     }
-  ]
-   
+  ];
 
+  console.log(selectOptions);
   return (
     <div className="table">
       <BootstrapTable
