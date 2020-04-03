@@ -7,16 +7,17 @@ import filterFactory, {
   numberFilter,
   Comparator
 } from "react-bootstrap-table2-filter";
+import { uuid } from 'uuidv4';
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
-  const [systems, setSystem] = useState([]);
+
 
   useEffect(() => {
-    console.log('hi')
-  }, [])
+    console.log("hi");
+  }, []);
 
   useEffect(() => {
     setGames([...gameslist2, ...gamelist]);
@@ -64,31 +65,16 @@ function GenerateTable({ gamelist, gameslist2 }) {
   };
 
   const numFormatter = (a, b, c) => {
+    if (c !== undefined){
     return c + 1 + itemsPerPage * (pageNum - 1);
-  };
-
-  const providerFormatter = cell => {
-    if (cell == "steam") {
-      return "Steam";
-    } else if (cell == "manual") {
-      return "Added by user";
     }
-  };
-
-  const providerFilter = (filterVal, data) => {
-    console.log(filterVal);
-    console.log(data);
   };
 
   const columns = [
     {
-      dataField: "game_num",
-      text: "#",
-      formatter: numFormatter
-    },
-    {
       dataField: "game_img",
-      formatter: imageFormatter
+      formatter: imageFormatter,
+      isDummyField: true
     },
     {
       dataField: "game_name",
@@ -101,7 +87,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
     {
       dataField: "game_system",
       text: "Platform",
-      sort: true
+      sort: true,
+      filter: textFilter({
+        placeholder: "Search by platform"
+      })
     },
     {
       dataField: "game_release",
@@ -115,8 +104,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
     {
       dataField: "provider",
       text: "Service",
-      //sort: true,
-      //formatter: providerFormatter,
+      sort: true,
       formatter: cell => selectOptions.find(opt => opt.value === cell).label,
       filter: selectFilter({
         options: selectOptions
@@ -128,10 +116,11 @@ function GenerateTable({ gamelist, gameslist2 }) {
   return (
     <div className="table">
       <BootstrapTable
-        keyField="id"
+        keyField={uuid()}
         data={games}
         columns={columns}
         pagination={paginationFactory(options)}
+        loading={true} //only loading is true, react-bootstrap-table will render overlay
         filter={filterFactory()}
       />
     </div>

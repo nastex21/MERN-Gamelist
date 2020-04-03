@@ -18,7 +18,6 @@ function HomePage(props) {
   const [games, setGames] = useState([]); //array of Steam games
   const [manEntryGames, setManualGame] = useState([]); //container to hold manually added games added by user from input
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
-  const [platform, setPlatform] = useState([]); //platforms state information is used for table platform category
   const [error, setError] = useState(null);
 
   //If there's no token then user is a guest otherwise user is a authorized user
@@ -82,51 +81,6 @@ function HomePage(props) {
         });
     }
   }, [guestUser]);
-
-  //Guest: if there's a change in the games state, then update the local games storage database
-/*   useEffect(
-    props => {
-      if (localStorage.getItem("stored-gamedata")) {
-        localStorage.setItem("stored-gamedata", JSON.stringify(games));
-      }
-      var steamPlatform;
-      var manualGamesPlatforms;
-      if (games) {
-        let newPlatform = [...games];
-        if (newPlatform > 0) {
-          steamPlatform = newPlatform.push("PC");
-        }
-        
-      }
-
-      if (games2) {
-        let newValues = [];
-
-        const seperateUniqueVals = games2.filter(
-          (thing, index, self) =>
-            index === self.findIndex(t => t.game_system === thing.game_system)
-        );
-
-        seperateUniqueVals.forEach(function(arrayItem) {
-          newValues.push(arrayItem.game_system);
-        }); 
-
-        console.log(newValues);
-      
-/* 
-        console.log(steamPlatform);
-
-        var combinearray = [...steamPlatform, ...manualGamesPlatforms];
-
-        var newArr = new Set(combinearray);
-
-        console.log(newArr); */
-  /*     }
-
-      console.log(steamPlatform);
-    },
-    [games, games2]
-  ); */
  
   //listen for changes if the steamId state is altered
   useEffect(() => {
@@ -241,8 +195,6 @@ function HomePage(props) {
 
   // Get the previous value (was passed into hook on last render)
   const prevGames = usePrevious(manEntryGames);
-
-  console.log(platform);
 
   return (
     <>
