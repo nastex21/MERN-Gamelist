@@ -3,7 +3,6 @@ import ManuallyAdded from "./Pull-Gamelists/ManualEntries/ManuallyAdded";
 import SteamForm from "./Pull-Gamelists/SteamList/SteamForm";
 import GenerateTable from "./GenerateTable/GenerateTable";
 
-
 export default function Dashboard({
   manualData,
   steam,
@@ -12,7 +11,7 @@ export default function Dashboard({
   handleChange,
   handleSubmit,
   handleClick,
-  games, 
+  games,
   games2
 }) {
   return (
@@ -36,10 +35,12 @@ export default function Dashboard({
             </a>
           </div>
         ) : null}
-        {steamId ? <input type='button' value="Update Steam Games" /> : null}
-        {games.length === 0 ? null : <p>You have {games.length + games2.length} games</p>}
+        {steamId ? <input type="button" value="Update Steam Games" /> : null}
+        {games.length === 0 ? null : (
+          <p>You have {games.length + games2.length} games</p>
+        )}
       </div>
-      {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2}/>}
-      </div>
+        {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2}/>} 
+    </div>
   );
 }
