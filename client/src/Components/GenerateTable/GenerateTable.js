@@ -7,12 +7,16 @@ import filterFactory, {
   numberFilter,
   Comparator
 } from "react-bootstrap-table2-filter";
-import select from "react-bootstrap-table2-filter/lib/src/components/select";
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
+  const [systems, setSystem] = useState([]);
+
+  useEffect(() => {
+    console.log('hi')
+  }, [])
 
   useEffect(() => {
     setGames([...gameslist2, ...gamelist]);
@@ -96,7 +100,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
     },
     {
       dataField: "game_system",
-      text: "System",
+      text: "Platform",
       sort: true
     },
     {

@@ -16,8 +16,9 @@ function HomePage(props) {
   const [steamInputValue, setValue] = useState(""); // needed a separate value that didn't constantly change the steamId state
   const [steam, setSteam] = useState(0); //has steam been used?
   const [games, setGames] = useState([]); //array of Steam games
-  const [manEntryGames, setManualGame] = useState([]) //container to hold manually added games added by user from input 
+  const [manEntryGames, setManualGame] = useState([]); //container to hold manually added games added by user from input
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
+  const [platform, setPlatform] = useState([]); //platforms state information is used for table platform category
   const [error, setError] = useState(null);
 
   //If there's no token then user is a guest otherwise user is a authorized user
@@ -83,15 +84,50 @@ function HomePage(props) {
   }, [guestUser]);
 
   //Guest: if there's a change in the games state, then update the local games storage database
-  useEffect(
+/*   useEffect(
     props => {
       if (localStorage.getItem("stored-gamedata")) {
         localStorage.setItem("stored-gamedata", JSON.stringify(games));
       }
-    },
-    [games]
-  );
+      var steamPlatform;
+      var manualGamesPlatforms;
+      if (games) {
+        let newPlatform = [...games];
+        if (newPlatform > 0) {
+          steamPlatform = newPlatform.push("PC");
+        }
+        
+      }
 
+      if (games2) {
+        let newValues = [];
+
+        const seperateUniqueVals = games2.filter(
+          (thing, index, self) =>
+            index === self.findIndex(t => t.game_system === thing.game_system)
+        );
+
+        seperateUniqueVals.forEach(function(arrayItem) {
+          newValues.push(arrayItem.game_system);
+        }); 
+
+        console.log(newValues);
+      
+/* 
+        console.log(steamPlatform);
+
+        var combinearray = [...steamPlatform, ...manualGamesPlatforms];
+
+        var newArr = new Set(combinearray);
+
+        console.log(newArr); */
+  /*     }
+
+      console.log(steamPlatform);
+    },
+    [games, games2]
+  ); */
+ 
   //listen for changes if the steamId state is altered
   useEffect(() => {
     console.log("useEffect");
@@ -136,7 +172,7 @@ function HomePage(props) {
               id: authUserInfo.id
             },
             game: manEntryGames
-          }
+          };
           axios.post("/api/save-games", dataObj).then(res => {
             console.log("woot");
           });
@@ -186,10 +222,10 @@ function HomePage(props) {
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
 
-    var checkDups = (obj) => obj.game_id === newObj.game_id;
+    var checkDups = obj => obj.game_id === newObj.game_id;
 
     //Check for duplicates
-    if(!newGames.some(checkDups)){
+    if (!newGames.some(checkDups)) {
       newGames.unshift(newObj);
       newEntryGames.unshift(newObj);
       setGames2(newGames);
@@ -197,7 +233,6 @@ function HomePage(props) {
     } else {
       window.alert("Game already exists!");
     }
-
   };
 
   const handleLogout = () => {
@@ -206,7 +241,9 @@ function HomePage(props) {
 
   // Get the previous value (was passed into hook on last render)
   const prevGames = usePrevious(manEntryGames);
-  
+
+  console.log(platform);
+
   return (
     <>
       <NavbarTop guestUser={guestUser} />
