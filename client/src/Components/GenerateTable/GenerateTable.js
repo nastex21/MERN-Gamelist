@@ -72,7 +72,16 @@ function GenerateTable({ gamelist, gameslist2 }) {
     }
   };
 
+  const handleClick = () => {
+
+  };
+
   const columns = [
+    {
+      dataField: "game_num",
+      text: "#",
+      formatter: numFormatter
+    },
      {
       dataField: "game_img",
       text: '',
@@ -118,6 +127,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
   console.log(selectOptions);
   return (
     <div className="table">
+      <button className="btn btn-lg btn-primary" onClick={ handleClick }> Clear all filters </button>
       <BootstrapTable
         bootstrap4
         keyField={"game_img"}
