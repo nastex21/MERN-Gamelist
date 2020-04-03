@@ -3,7 +3,9 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, {
   selectFilter,
-  textFilter
+  textFilter,
+  numberFilter, 
+  Comparator
 } from "react-bootstrap-table2-filter";
 
 function GenerateTable({ gamelist, gameslist2 }) {
@@ -100,7 +102,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
       dataField: "game_release",
       text: "Release Year",
       sort: true,
-      formatter: dateFormatter
+      formatter: dateFormatter,
+      filter: numberFilter({
+        comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
+      })
     },
     {
       dataField: "provider",
