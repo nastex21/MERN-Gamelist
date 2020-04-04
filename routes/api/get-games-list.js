@@ -6,7 +6,7 @@ const router = express.Router();
 const User = require("../../models/user-model");
 
 router.post("/steam", (req, res) => {
-  console.log('inside /steam');
+  console.log("inside /steam");
   console.log(req.body);
   var steamID = req.body.steamID;
   if (!steamID) {
@@ -23,7 +23,7 @@ router.post("/steam", (req, res) => {
     console.log("try axios working");
     axios
       .get(httpVar)
-      .then(data => {
+      .then((data) => {
         console.log("its in the then");
         var gameData = data.data.response.games.map((item, key) => ({
           game_num: key + 1,
@@ -31,7 +31,7 @@ router.post("/steam", (req, res) => {
           game_img: item.img_logo_url,
           game_name: item.name,
           game_system: "PC",
-          provider: "steam"
+          provider: "steam",
         }));
         if (savedUser) {
           User.findByIdAndUpdate(
@@ -51,7 +51,7 @@ router.post("/steam", (req, res) => {
           res.send(gameData);
         }
       })
-      .catch(err => res.send(err));
+      .catch((err) => res.send(err));
   } catch (err) {
     console.error("GG", err);
   }
@@ -68,8 +68,8 @@ router.get("/db", (req, res) => {
   var sendHeaders = {
     headers: {
       "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-      "x-rapidapi-key": keys.RAPID_KEY
-    }
+      "x-rapidapi-key": keys.RAPID_KEY,
+    },
   };
 
   if (!system) {
@@ -77,8 +77,8 @@ router.get("/db", (req, res) => {
   } else {
     axios
       .get(urlWithPlatform, sendHeaders)
-      .then(response => res.send(response.data))
-      .catch(error => console.log(error));
+      .then((response) => res.send(response.data))
+      .catch((error) => console.log(error));
   }
 });
 
@@ -87,10 +87,60 @@ router.get("/user-db", (req, res) => {
   const { id, name } = req.query;
   console.log(id);
   console.log(name);
-  User.findById(id, function(err, data) {
+  User.findById(id, function (err, data) {
     console.log("data");
     console.log(data.length);
   });
+});
+
+router.post("/updateSteam", (req, res) => {
+  const { steamId, dbid } = req.body;
+  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${steamId}&include_appinfo=true&format=json`;
+
+  try {
+    console.log("try axios working");
+    axios
+      .get(httpVar)
+      .then((data) => {
+        var gameData = data.data.response.games.map((item, key) => ({
+          game_num: key + 1,
+          game_appid: item.appid,
+          game_img: item.img_logo_url,
+          game_name: item.name,
+          game_system: "PC",
+          provider: "steam",
+        }));
+        if (dbid) {
+          User.findByIdAndUpdate(
+            dbid,
+            { $set: { steamGames: gameData } },
+            { new: true },
+            (err, result) => {
+              console.log("results updated");
+              console.log(result);
+              var resultsLen = result.steamGames.length;
+              var steamLen = gameData.length;
+
+              var errorMsg = {};
+              if (resultsLen === steamLen) {
+                errorMsg.error = "Detected no changes.";
+                res.send(errorMsg);
+              } else {
+                res.send(gameData);
+              }
+
+              if (err) {
+                console.log("err");
+                console.log(err);
+              }
+            }
+          );
+        }
+      })
+      .catch((err) => res.send(err));
+  } catch (err) {
+    console.error("GG", err);
+  }
 });
 
 module.exports = router;

@@ -62,10 +62,10 @@ function HomePage(props) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            withCredentials: true
-          }
+            withCredentials: true,
+          },
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.status);
           if (response.status === 200) {
             console.log(response);
@@ -76,24 +76,24 @@ function HomePage(props) {
             throw new Error("failed to authenticate user");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           setError("Failed to authenticated user");
         });
     }
   }, [guestUser]);
- 
+
   //listen for changes if the steamId state is altered
   useEffect(() => {
     console.log("useEffect");
     console.log(steamId);
     var dataValue = {
       steamID: steamId,
-      creditentials: authUserInfo
+      creditentials: authUserInfo,
     };
     console.log(dataValue);
     if (steamId && dataValue && games.length == 0) {
       console.log("inside steamID function");
-      axios.post("/api/get-games-list/steam", dataValue).then(res => {
+      axios.post("/api/get-games-list/steam", dataValue).then((res) => {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
@@ -106,7 +106,7 @@ function HomePage(props) {
   }, [steamId]);
 
   //for manual addition of Steam ID
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValue(event.target.value);
   };
 
@@ -123,11 +123,11 @@ function HomePage(props) {
           console.log(authUserInfo);
           var dataObj = {
             user: {
-              id: authUserInfo.id
+              id: authUserInfo.id,
             },
-            game: manEntryGames
+            game: manEntryGames,
           };
-          axios.post("/api/save-games", dataObj).then(res => {
+          axios.post("/api/save-games", dataObj).then((res) => {
             console.log("woot");
           });
         }
@@ -136,22 +136,22 @@ function HomePage(props) {
   }, [manEntryGames]);
 
   //for submitting Steam ID
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     var data;
     if (!guestUser) {
       data = {
         steamID: steamInputValue,
-        user: authUserInfo.id
+        user: authUserInfo.id,
       };
     } else {
       data = {
-        steamID: steamInputValue
+        steamID: steamInputValue,
       };
     }
-    axios.post("/api/get-games-list/steam", data).then(res => {
+    axios.post("/api/get-games-list/steam", data).then((res) => {
       console.log(res.data);
-      setGames([...games, ...res.data]);
+      setGames([...res.data]);
       setSteam(1);
       setSteamId(steamInputValue);
     });
@@ -163,20 +163,20 @@ function HomePage(props) {
   };
 
   //data sent from the Pull-Gamelists/ManualEntries component
-  const manualData = objValue => {
+  const manualData = (objValue) => {
     const newObj = {
       game_id: objValue.id,
       game_name: objValue.name,
       game_img: objValue.img,
       game_system: objValue.system,
       game_release: objValue.released_date,
-      provider: "manual"
+      provider: "manual",
     };
 
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
 
-    var checkDups = obj => obj.game_id === newObj.game_id;
+    var checkDups = (obj) => obj.game_id === newObj.game_id;
 
     //Check for duplicates
     if (!newGames.some(checkDups)) {
@@ -196,6 +196,24 @@ function HomePage(props) {
   // Get the previous value (was passed into hook on last render)
   const prevGames = usePrevious(manEntryGames);
 
+  //Update Steam games
+  const updateSteamGames = () => {
+    let dataObj = {};
+    dataObj.steamId = steamId;
+    dataObj.dbid = authUserInfo.id;
+    axios.post("/api/get-games-list/updateSteam", dataObj).then((res) => {
+      console.log(res);
+      if (res.data.error){
+        window.alert(res.data.error); //change later
+        setError(res.data.error);
+      } else {
+        setGames([...res.data]);
+      }
+    });
+  };
+
+
+
   return (
     <>
       <NavbarTop guestUser={guestUser} />
@@ -209,7 +227,7 @@ function HomePage(props) {
             <Route
               exact
               path="/dashboard"
-              render={props => (
+              render={(props) => (
                 <Dashboard
                   manualData={manualData}
                   steam={steam}
@@ -220,25 +238,26 @@ function HomePage(props) {
                   handleClick={handleClick}
                   games={games}
                   games2={games2}
+                  updateSteamGames={updateSteamGames}
                 />
               )}
             />
             <Route
               exact
               path="/logout"
-              render={props => <LogoutPage onClick={handleLogout} />}
+              render={(props) => <LogoutPage onClick={handleLogout} />}
             />
             }
           </>
         ) : (
           <>
             <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/login" render={props => <LoginPage />} />
+            <Route exact path="/login" render={(props) => <LoginPage />} />
             <Route exact path="/" component={FrontPage} />
             <Route
               exact
               path="/dashboard"
-              render={props => (
+              render={(props) => (
                 <Dashboard
                   manualData={manualData}
                   steam={steam}

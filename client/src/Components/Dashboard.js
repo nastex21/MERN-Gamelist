@@ -12,7 +12,8 @@ export default function Dashboard({
   handleSubmit,
   handleClick,
   games,
-  games2
+  games2, 
+  updateSteamGames
 }) {
   return (
     <div className="dashboard">
@@ -35,7 +36,7 @@ export default function Dashboard({
             </a>
           </div>
         ) : null}
-        {steamId ? <input type="button" value="Update Steam Games" /> : null}
+        {steamId ? <input type="button" value="Update Steam Games" onClick={updateSteamGames}/> : null}
         {games.length === 0 ? null : (
           <p>You have {games.length + games2.length} games</p>
         )}
