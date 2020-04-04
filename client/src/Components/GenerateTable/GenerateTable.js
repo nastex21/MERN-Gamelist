@@ -9,11 +9,13 @@ import filterFactory, {
 } from "react-bootstrap-table2-filter";
 import { Button } from "react-bootstrap";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
+//import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 
 let nameFilter;
 let platformFilter;
+let dateFilter;
+let serviceFilter;
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
@@ -113,7 +115,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
       sort: true,
       formatter: dateFormatter,
       filter: numberFilter({
-        comparators: [Comparator.EQ, Comparator.GT, Comparator.LT]
+        comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
+        getFilter: filter => {
+          dateFilter = filter
+        }
       })
     }, 
       {
@@ -122,14 +127,19 @@ function GenerateTable({ gamelist, gameslist2 }) {
       sort: true,
       formatter: cell => selectOptions.find(opt => opt.value === cell).label,
       filter: selectFilter({
-        options: selectOptions
+        options: selectOptions,
+        getFilter: filter => {
+          serviceFilter = filter
+        }
       })
     }  
   ];
 
   const handleClick = () => {
-    nameFilter("");
-    platformFilter("");
+    nameFilter('');
+    platformFilter('');
+    dateFilter('');
+    serviceFilter();
   };
 
 
