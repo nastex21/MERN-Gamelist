@@ -27,7 +27,7 @@ export default function Dashboard({
             submit={handleSubmit}
           />
         ) : null}
-
+        <hr />
         {!steamId ? (
           <div className="steamLogIn">
             <a onClick={handleClick}>
@@ -40,6 +40,7 @@ export default function Dashboard({
           <p>You have {games.length + games2.length} games</p>
         )}
       </div>
+      <hr />
         {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2}/>} 
     </div>
   );

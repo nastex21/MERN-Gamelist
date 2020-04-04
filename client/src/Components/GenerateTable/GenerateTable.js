@@ -7,17 +7,18 @@ import filterFactory, {
   numberFilter,
   Comparator
 } from "react-bootstrap-table2-filter";
-import { uuid } from "uuidv4";
+import { Button } from "react-bootstrap";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+
+let nameFilter;
+let platformFilter;
 
 function GenerateTable({ gamelist, gameslist2 }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
-
-  useEffect(() => {
-    console.log("hi");
-  }, []);
 
   useEffect(() => {
     setGames([...gameslist2, ...gamelist]);
@@ -66,14 +67,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
     }
   };
 
-  const numFormatter = (a, b, c) => {
+  var numFormatter = (a, b, c) => {
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
-    }
-  };
-
-  const handleClick = () => {
-
+    } 
   };
 
   const columns = [
@@ -93,7 +90,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
       text: "Name",
       sort: true,
       filter: textFilter({
-        placeholder: "Search for game"
+        getFilter: filter => {
+          console.log(filter);
+          nameFilter = filter;
+        }
       })
     },  
       {
@@ -101,7 +101,10 @@ function GenerateTable({ gamelist, gameslist2 }) {
       text: "Platform",
       sort: true,
       filter: textFilter({
-        placeholder: "Search by platform"
+        placeholder: "Search by platform",
+        getFilter: filter => {
+          platformFilter = filter
+        }
       })
     }, 
       {
@@ -123,6 +126,12 @@ function GenerateTable({ gamelist, gameslist2 }) {
       })
     }  
   ];
+
+  const handleClick = () => {
+    nameFilter("");
+    platformFilter("");
+  };
+
 
   console.log(selectOptions);
   return (
