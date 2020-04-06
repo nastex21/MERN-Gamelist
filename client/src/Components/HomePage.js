@@ -55,30 +55,50 @@ function HomePage(props) {
   useEffect(() => {
     if (!guestUser) {
       console.log("inside token");
-      // Fetch does not send cookies. So you should add credentials: 'include'
-      axios
-        .get("/auth/login/success", {
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            withCredentials: true,
-          },
-        })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status === 200) {
-            console.log(response);
-            setSteamId(response.data.steamID);
-            setGames([...response.data.steamGames]); //games from Steam pulled from the database
-            setGames2([...response.data.games]); //games pulled from database that were manually added
-          } else {
-            throw new Error("failed to authenticate user");
-          }
-        })
-        .catch((error) => {
-          setError("Failed to authenticated user");
-        });
+      if (authUserInfo) {
+        console.log("if authUserInfo");
+        axios
+          .post("/auth/login/success", authUserInfo)
+          .then((response) => {
+            console.log(response.status);
+            if (response.status === 200) {
+              console.log(response);
+              setSteamId(response.data.steamID);
+              setGames([...response.data.steamGames]); //games from Steam pulled from the database
+              setGames2([...response.data.games]); //games pulled from database that were manually added
+            } else {
+              throw new Error("failed to authenticate user");
+            }
+          })
+          .catch((error) => {
+            setError("Failed to authenticated user");
+          });
+      } else {
+        // Fetch does not send cookies. So you should add credentials: 'include'
+        axios
+          .get("/auth/login/success", {
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              withCredentials: true,
+            },
+          })
+          .then((response) => {
+            console.log(response.status);
+            if (response.status === 200) {
+              console.log(response);
+              setSteamId(response.data.steamID);
+              setGames([...response.data.steamGames]); //games from Steam pulled from the database
+              setGames2([...response.data.games]); //games pulled from database that were manually added
+            } else {
+              throw new Error("failed to authenticate user");
+            }
+          })
+          .catch((error) => {
+            setError("Failed to authenticated user");
+          });
+      }
     }
   }, [guestUser]);
 
@@ -203,7 +223,7 @@ function HomePage(props) {
     dataObj.dbid = authUserInfo.id;
     axios.post("/api/get-games-list/updateSteam", dataObj).then((res) => {
       console.log(res);
-      if (res.data.error){
+      if (res.data.error) {
         window.alert(res.data.error); //change later
         setError(res.data.error);
       } else {
@@ -211,8 +231,6 @@ function HomePage(props) {
       }
     });
   };
-
-
 
   return (
     <>
