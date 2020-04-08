@@ -1,35 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Icon, Table, Label } from "semantic-ui-react";
+import BootstrapTable from "react-bootstrap-table-next";
 
 function ShowResults(props) {
   console.log(props);
 
+const handleOnSelect = (row, isSelect) => {
+    console.log('single select');
+  }
+
+const handleOnSelectAll = (isSelect, rows) => {
+    console.log('selected all');
+  }
+
+  const columns = [
+    {
+      dataField: "name",
+      text: "Name",
+    },
+  ];
+
+  const selectRow = {
+    mode: "checkbox",
+    clickToSelect: true,
+    onSelect: handleOnSelect,
+    onSelectAll: handleOnSelectAll,
+  };
+
+  const saveSelected = () => {
+
+  };
 
   return (
     <div className="resultsTable">
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>#</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {props.results.map((item, idx) => {
-            console.log(item.name);
-            return (
-              <Table.Row key={idx} onClick={() => props.uploadData(item)}>
-                <Table.Cell>
-                  <Label ribbon>{idx + 1}</Label>
-                </Table.Cell>
-                <Table.Cell>{item.name}</Table.Cell>
-              </Table.Row>
-            );
-          })}
-        </Table.Body>
-      </Table>
+      <h3>Add games</h3>
+      <BootstrapTable
+        bootstrap4
+        data={props.results}
+        columns={columns}
+        keyField={"id"}
+        selectRow={selectRow}
+      />
+          <div className="resultsSaveButton">
+            <input onClick={saveSelected} />
+          </div>
     </div>
+
   );
 }
 

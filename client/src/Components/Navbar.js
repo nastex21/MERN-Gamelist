@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Nav, Navbar, NavbarBrand } from 'react-bootstrap'; 
 import Logout from './AuthPages/Logout';
-import { withRouter } from 'react-router';
 
 function NavbarTop(props) {
     console.log(props);

@@ -5,11 +5,12 @@ import filterFactory, {
   selectFilter,
   textFilter,
   numberFilter,
-  Comparator
+  Comparator,
 } from "react-bootstrap-table2-filter";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
-import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
+import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
 
 let nameFilter;
 let platformFilter;
@@ -26,8 +27,58 @@ function GenerateTable({ gamelist, gameslist2 }) {
   }, [gamelist, gameslist2]);
 
   const selectOptions = [
-    { value: "manual", label: "Added by User" },
-    { value: "steam", label: "Steam" }
+    { 
+      value: "manual", 
+      label: "Added by User" 
+    },
+    { 
+      value: "steam", 
+      label: "Steam" 
+    },
+    {
+      value: "physical",
+      label: "Physical Copy",
+    },
+    {
+      value: "steam_manual_entry",
+      label: "Steam",
+    },
+    {
+      value: "gog",
+      label: "Good Old Games (GOG)",
+    },
+    {
+      value: "uplay",
+      label: "Uplay",
+    },
+    {
+      value: "epic",
+      label: "Epic Game Store",
+    },
+    {
+      value: "origin",
+      label: "EA Origin Store",
+    },
+    {
+      value: "game_pass",
+      label: "Xbox Game Pass",
+    },
+    {
+      value: "battle",
+      label: "Battle.net",
+    },
+    {
+      value: "itch",
+      label: "Itchi.io",
+    },
+    {
+      value: "windows_store",
+      label: "Windows Store",
+    },
+    {
+      value: "batheseda",
+      label: "Batheseda",
+    },
   ];
 
   const options = {
@@ -38,7 +89,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
     onPageChange: (page, sizePerPage) => {
       setItems(sizePerPage);
       setPage(page);
-    }
+    },
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
@@ -62,7 +113,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
     }
   };
 
-  const dateFormatter = cell => {
+  const dateFormatter = (cell) => {
     if (cell) {
       return cell.substr(0, 4);
     }
@@ -71,92 +122,161 @@ function GenerateTable({ gamelist, gameslist2 }) {
   var numFormatter = (a, b, c) => {
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
-    } 
+    }
   };
 
   const columns = [
     {
       dataField: "game_num",
       text: "#",
-      formatter: numFormatter
-    },
-     {
-      dataField: "game_img",
-      text: '',
       isDummyField: true,
-      formatter: imageFormatter
-    }, 
+      editable: false,
+      formatter: numFormatter,
+    },
+    {
+      dataField: "game_img",
+      text: "",
+      isDummyField: true,
+      editable: false,
+      formatter: imageFormatter,
+    },
     {
       dataField: "game_name",
       text: "Name",
       sort: true,
+      editable: true,
       filter: textFilter({
-        getFilter: filter => {
+        getFilter: (filter) => {
           console.log(filter);
           nameFilter = filter;
-        }
-      })
-    },  
-      {
+        },
+      }),
+    },
+    {
       dataField: "game_system",
       text: "Platform",
       sort: true,
+      editable: false,
       filter: textFilter({
         placeholder: "Search by platform",
-        getFilter: filter => {
-          platformFilter = filter
-        }
-      })
-    }, 
-      {
+        getFilter: (filter) => {
+          platformFilter = filter;
+        },
+      }),
+    },
+    {
       dataField: "game_release",
       text: "Release Year",
       sort: true,
+      editable: false,
       formatter: dateFormatter,
       filter: numberFilter({
         comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
-        getFilter: filter => {
-          dateFilter = filter
-        }
-      })
-    }, 
-      {
+        getFilter: (filter) => {
+          dateFilter = filter;
+        },
+      }),
+    },
+    {
       dataField: "provider",
       text: "Service",
       sort: true,
-      formatter: cell => selectOptions.find(opt => opt.value === cell).label,
+      editor: {
+        type: Type.SELECT,
+        options: [
+          {
+            value: "physical",
+            label: "Physical Copy",
+          },
+          {
+            value: "steam_manual_entry",
+            label: "Steam",
+          },
+          {
+            value: "gog",
+            label: "Good Old Games (GOG)",
+          },
+          {
+            value: "uplay",
+            label: "Uplay",
+          },
+          {
+            value: "epic",
+            label: "Epic Game Store",
+          },
+          {
+            value: "origin",
+            label: "EA Origin Store",
+          },
+          {
+            value: "game_pass",
+            label: "Xbox Game Pass",
+          },
+          {
+            value: "battle",
+            label: "Battle.net",
+          },
+          {
+            value: "itch",
+            label: "Itchi.io",
+          },
+          {
+            value: "windows_store",
+            label: "Windows Store",
+          },
+          {
+            value: "batheseda",
+            label: "Batheseda",
+          },
+        ],
+      },
+      formatter: (cell) =>
+        selectOptions.find((opt) => opt.value === cell).label,
       filter: selectFilter({
         options: selectOptions,
-        getFilter: filter => {
-          serviceFilter = filter
-        }
-      })
-    }  
+        getFilter: (filter) => {
+          serviceFilter = filter;
+        },
+      }),
+    },
   ];
 
+  const afterSaveCell = (oldValue, newValue, cellData, dataColumn ) => {
+    console.log(oldValue);
+    console.log('--after save cell--');
+    console.log('New Value was apply as');
+    console.log(newValue);
+    console.log(`and the type is ${typeof newValue}`);
+    console.log(cellData);
+    console.log(dataColumn);
+  };
+  
   const handleClick = () => {
-    nameFilter('');
-    platformFilter('');
-    dateFilter('');
+    nameFilter("");
+    platformFilter("");
+    dateFilter("");
     serviceFilter();
   };
-
 
   console.log(selectOptions);
   return (
     <div className="table">
-      <button className="btn btn-lg btn-primary" onClick={ handleClick }> Clear all filters </button>
+      <button className="btn btn-lg btn-primary" onClick={handleClick}>
+        {" "}
+        Clear all filters{" "}
+      </button>
       <BootstrapTable
         bootstrap4
         keyField={"game_img"}
         data={games}
         columns={columns}
         pagination={paginationFactory(options)}
-        loading={true} //only loading is true, react-bootstrap-table will render overlay
         filter={filterFactory()}
         striped
         hover
         condensed
+        cellEdit={cellEditFactory({ mode: "dbclick", blurToSave: true, afterSaveCell })
+      }
       />
     </div>
   );
