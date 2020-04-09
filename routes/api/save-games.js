@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
       }
     } */
   User.findOneAndUpdate(
-    { _id: user.id, "games.game_id": { $nin: [gameID] } },
+    { _id: user.id}, { unique: true },
     {
       $push: {
         games: {
