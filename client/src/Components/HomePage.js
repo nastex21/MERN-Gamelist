@@ -190,7 +190,7 @@ function HomePage(props) {
     var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
     console.log(ids);
 
-    checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id));
+    checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
 
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
