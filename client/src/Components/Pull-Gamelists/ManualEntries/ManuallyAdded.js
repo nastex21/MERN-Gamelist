@@ -95,16 +95,7 @@ export default function ManuallyAdded(props) {
 
   //move data to Home Component to render results
   const addGameFromResults = item => {
-    console.log("click");
-    console.log(item);
-    var gameData = {
-      name: item.name,
-      system: value,
-      img: item.background_image,
-      id: item.id,
-      released_date: item.released
-    };
-    props.uploadData(gameData);
+    props.uploadData(item);
   };
 
   return (
@@ -134,6 +125,7 @@ export default function ManuallyAdded(props) {
           results={apiResults}
           showResults={showResults}
           uploadData={addGameFromResults}
+          platform={value}
         />
       ) : apiResults.length == 0 && showResults == 1 ? (
         <p>Sorry no results</p>

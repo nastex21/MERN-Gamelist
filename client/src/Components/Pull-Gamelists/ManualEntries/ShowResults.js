@@ -3,31 +3,44 @@ import BootstrapTable from "react-bootstrap-table-next";
 
 function ShowResults(props) {
   console.log(props);
+  const [singleSelectData, setSingleData] = useState([]); //data from single selection
 
-const handleOnSelect = (row, isSelect) => {
-    console.log('single select');
-  }
+  const handleOnSelect = (row, isSelect) => {
+    if (isSelect){
+      var gameObj = {
+        game_id: row.id,
+        game_name: row.name,
+        game_img: row.background_image,
+        game_system: props.platform,
+        provider: 'manual'
+      }
+      var gameArr = [];
+      gameArr.push(gameObj);
 
-const handleOnSelectAll = (isSelect, rows) => {
-    console.log('selected all');
-  }
+      setSingleData([...singleSelectData, ...gameArr]);
+    } else if (!isSelect) {
+      var gameArr = [...singleSelectData];
+      gameArr = gameArr.filter(item => item.game_id !== row.id);
+      setSingleData([...gameArr]);
+    }
+  };
 
   const columns = [
     {
       dataField: "name",
       text: "Name",
-    },
-  ];
+    }
+  ]
 
   const selectRow = {
     mode: "checkbox",
     clickToSelect: true,
-    onSelect: handleOnSelect,
-    onSelectAll: handleOnSelectAll,
+    hideSelectAll: true,
+    onSelect: handleOnSelect
   };
 
   const saveSelected = () => {
-
+    props.uploadData(singleSelectData)
   };
 
   return (
@@ -40,11 +53,10 @@ const handleOnSelectAll = (isSelect, rows) => {
         keyField={"id"}
         selectRow={selectRow}
       />
-          <div className="resultsSaveButton">
-            <input onClick={saveSelected} />
-          </div>
+      <div className="resultsSaveButton">
+        <input type="button" value="Save to database" onClick={saveSelected} />
+      </div>
     </div>
-
   );
 }
 

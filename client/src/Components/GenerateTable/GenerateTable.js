@@ -27,13 +27,13 @@ function GenerateTable({ gamelist, gameslist2 }) {
   }, [gamelist, gameslist2]);
 
   const selectOptions = [
-    { 
-      value: "manual", 
-      label: "Added by User" 
+    {
+      value: "manual",
+      label: "Double click to select whether physical/digital copy",
     },
-    { 
-      value: "steam", 
-      label: "Steam" 
+    {
+      value: "steam",
+      label: "Steam",
     },
     {
       value: "physical",
@@ -46,6 +46,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
     {
       value: "gog",
       label: "Good Old Games (GOG)",
+    },
+    {
+      value: "ios",
+      label: "App Store",
+    },
+    {
+      value: "android",
+      label: "Google Play Store",
     },
     {
       value: "uplay",
@@ -241,16 +249,16 @@ function GenerateTable({ gamelist, gameslist2 }) {
     },
   ];
 
-  const afterSaveCell = (oldValue, newValue, cellData, dataColumn ) => {
+  const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
     console.log(oldValue);
-    console.log('--after save cell--');
-    console.log('New Value was apply as');
+    console.log("--after save cell--");
+    console.log("New Value was apply as");
     console.log(newValue);
     console.log(`and the type is ${typeof newValue}`);
     console.log(cellData);
     console.log(dataColumn);
   };
-  
+
   const handleClick = () => {
     nameFilter("");
     platformFilter("");
@@ -258,15 +266,36 @@ function GenerateTable({ gamelist, gameslist2 }) {
     serviceFilter();
   };
 
+  const CaptionElement = () => {
+    return (
+      <div>
+        <h3
+          style={{
+            borderRadius: "0.25em",
+            textAlign: "center",
+            color: "purple",
+            border: "1px solid purple",
+            padding: "0.5em",
+          }}
+        >
+          Game Collection
+        </h3>
+        <>
+          <button className="btn btn-lg btn-primary" onClick={handleClick}>
+            {" "}
+            Clear all filters{" "}
+          </button>
+        </>
+      </div>
+    );
+  };
+
   console.log(selectOptions);
   return (
     <div className="table">
-      <button className="btn btn-lg btn-primary" onClick={handleClick}>
-        {" "}
-        Clear all filters{" "}
-      </button>
       <BootstrapTable
         bootstrap4
+        caption={<CaptionElement />}
         keyField={"game_img"}
         data={games}
         columns={columns}
@@ -275,8 +304,11 @@ function GenerateTable({ gamelist, gameslist2 }) {
         striped
         hover
         condensed
-        cellEdit={cellEditFactory({ mode: "dbclick", blurToSave: true, afterSaveCell })
-      }
+        cellEdit={cellEditFactory({
+          mode: "dbclick",
+          blurToSave: true,
+          afterSaveCell,
+        })}
       />
     </div>
   );

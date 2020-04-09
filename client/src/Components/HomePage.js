@@ -184,29 +184,18 @@ function HomePage(props) {
 
   //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = (objValue) => {
-    const newObj = {
-      game_id: objValue.id,
-      game_name: objValue.name,
-      game_img: objValue.img,
-      game_system: objValue.system,
-      game_release: objValue.released_date,
-      provider: "manual",
-    };
-
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
+    var checkedArr = objValue; //kept the original value clean and used this to filter
+    var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
+    console.log(ids);
 
-    var checkDups = (obj) => obj.game_id === newObj.game_id;
+    checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id));
 
-    //Check for duplicates
-    if (!newGames.some(checkDups)) {
-      newGames.unshift(newObj);
-      newEntryGames.unshift(newObj);
-      setGames2(newGames);
-      setManualGame(newEntryGames);
-    } else {
-      window.alert("Game already exists!");
-    }
+    newGames = [...checkedArr, ...newGames];
+    newEntryGames = [...checkedArr, ...newEntryGames];
+    setGames2(newGames);
+    setManualGame(newEntryGames);
   };
 
   const handleLogout = () => {
