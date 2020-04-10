@@ -7,6 +7,7 @@ import filterFactory, {
   numberFilter,
   Comparator,
 } from "react-bootstrap-table2-filter";
+import axios from 'axios';
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
@@ -17,7 +18,7 @@ let platformFilter;
 let dateFilter;
 let serviceFilter;
 
-function GenerateTable({ gamelist, gameslist2 }) {
+function GenerateTable({ gamelist, gameslist2, userId}) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
@@ -193,6 +194,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
         type: Type.SELECT,
         options: [
           {
+            value: "manual",
+            label: "Double click to select whether physical/digital copy",
+          },
+          {
+            value: "steam",
+            label: "Steam",
+          },
+          {
             value: "physical",
             label: "Physical Copy",
           },
@@ -203,6 +212,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
           {
             value: "gog",
             label: "Good Old Games (GOG)",
+          },
+          {
+            value: "ios",
+            label: "App Store",
+          },
+          {
+            value: "android",
+            label: "Google Play Store",
           },
           {
             value: "uplay",
@@ -235,7 +252,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
           {
             value: "batheseda",
             label: "Batheseda",
-          },
+          }
         ],
       },
       formatter: (cell) =>
@@ -257,6 +274,14 @@ function GenerateTable({ gamelist, gameslist2 }) {
     console.log(`and the type is ${typeof newValue}`);
     console.log(cellData);
     console.log(dataColumn);
+    const dataValue = {
+      flag: 'blurToSave',
+      id: userId,
+      data: cellData
+    }
+    axios.post('/api/save-games', dataValue).then((res) => {
+      console.log(res);
+    })
   };
 
   const handleClick = () => {
@@ -305,7 +330,7 @@ function GenerateTable({ gamelist, gameslist2 }) {
         hover
         condensed
         cellEdit={cellEditFactory({
-          mode: "dbclick",
+          mode: 'click',
           blurToSave: true,
           afterSaveCell,
         })}

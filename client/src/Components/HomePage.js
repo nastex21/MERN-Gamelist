@@ -239,6 +239,7 @@ function HomePage(props) {
                   manualData={manualData}
                   steam={steam}
                   steamId={steamId}
+                  userId={authUserInfo.id}
                   value={steamInputValue}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}

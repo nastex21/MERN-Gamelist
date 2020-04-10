@@ -7,6 +7,7 @@ export default function Dashboard({
   manualData,
   steam,
   steamId,
+  userId,
   value,
   handleChange,
   handleSubmit,
@@ -42,7 +43,7 @@ export default function Dashboard({
         )}
       </div>
       <hr />
-        {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2}/>} 
+        {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2} userId={userId}/>} 
     </div>
   );
 }

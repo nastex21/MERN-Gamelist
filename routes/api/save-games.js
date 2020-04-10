@@ -6,42 +6,38 @@ router.post("/", (req, res) => {
   console.log("WOOOOT");
   console.log(req.body);
   const { user, game } = req.body;
-  const gameID = game[0].game_id;
-  console.log(user.id);
-  console.log(game);
-  console.log(gameID);
-  /*   { 
-    "$push": {
-        "post_IDs": {
-            "$each": [articles],
-            "$position": 0
-         }
-     }
-},
-{ new: true}, */
+  if (user) {
+    const gameID = game[0].game_id;
+  }
+  const { flag, data, id } = req.body;
+  console.log(flag);
+  console.log(data);
+  console.log(id);
 
-  /* "games.id": { $nin: [gameID] } },
-    {
-      $addToSet: {
-        games: game
-      }
-    } */
-  User.findOneAndUpdate(
-    { _id: user.id, "games.game_id": { $nin: [gameID] } },
-    {
-      $push: {
-        games: {
-          $each: game,
-          $position: 0
-        }
-      }
-    },
-    function(err, data) {
-      console.log("data");
+  if (flag == 'blurToSave') {
+    console.log('yes');
+    User.findOne({ _id: id, 'games.game_id': data.game_id }, { 'games': data }, { new: true }, function (err, data) {
       console.log(data);
-      console.log(err);
-    }
-  );
+    });
+  } else {
+    User.findOneAndUpdate(
+      { _id: user.id, "games.game_id": { $nin: [gameID] } },
+      {
+        $push: {
+          games: {
+            $each: game,
+            $position: 0
+          }
+        }
+      },
+      function (err, data) {
+        console.log("data");
+        console.log(data);
+        console.log(err);
+      }
+    );
+  }
+
 });
 
 module.exports = router;
