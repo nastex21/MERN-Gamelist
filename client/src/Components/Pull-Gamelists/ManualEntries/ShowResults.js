@@ -6,18 +6,20 @@ function ShowResults(props) {
   const [singleSelectData, setSingleData] = useState([]); //data from single selection
 
   const handleOnSelect = (row, isSelect) => {
+    console.log(row)
     if (isSelect){
       var gameObj = {
         game_id: row.id,
         game_name: row.name,
         game_img: row.background_image,
         game_system: props.platform,
+        game_release: row.released,
         provider: 'manual'
       }
       var gameArr = [];
       gameArr.push(gameObj);
 
-      setSingleData([...singleSelectData, ...gameArr]);
+      setSingleData([...singleSelectData, ...gameArr]); 
     } else if (!isSelect) {
       var gameArr = [...singleSelectData];
       gameArr = gameArr.filter(item => item.game_id !== row.id);

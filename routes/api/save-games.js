@@ -5,30 +5,40 @@ const User = require("../../models/user-model");
 router.post("/", (req, res) => {
   console.log("WOOOOT");
   console.log(req.body);
-  const { user, game } = req.body;
-  if (user) {
-    const gameID = game[0].game_id;
-  }
-  const { flag, data, id } = req.body;
-  console.log(flag);
-  console.log(data);
-  console.log(id);
 
-  if (flag == 'blurToSave') {
-    console.log('yes');
-    User.findOne({ _id: id, 'games.game_id': data.game_id }, { 'games': data }, { new: true }, function (err, data) {
-      console.log(data);
-    });
-  } else {
+  //variables needed to add games
+  const { user, game } = req.body;
+  console.log(user);
+
+  //variables needed to change values
+  var gameID;
+  const { flag, data, id } = req.body;
+  if (flag) {
+    gameID = data.game_id;
+  }
+
+  //used for changing the provider of the game
+  if (flag == "blurToSave") {
+    console.log("yes");
     User.findOneAndUpdate(
-      { _id: user.id, "games.game_id": { $nin: [gameID] } },
+      { _id: id, "games.game_id": gameID },
+      { $set: { "games.$.provider": data.provider } },
+      { new: true },
+      function (err, data) {
+        console.log(data);
+      }
+    );
+  } else {
+    //used to adding games
+    User.findOneAndUpdate(
+      { _id: user.id, "games.game_id": { $nin: [game.game_id] } },
       {
         $push: {
           games: {
             $each: game,
-            $position: 0
-          }
-        }
+            $position: 0,
+          },
+        },
       },
       function (err, data) {
         console.log("data");
@@ -37,7 +47,6 @@ router.post("/", (req, res) => {
       }
     );
   }
-
 });
 
 module.exports = router;

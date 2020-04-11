@@ -13,9 +13,6 @@ const UserSchema = new Schema({
   steamGames: {
     type: Array
   },
-  manualGames: {
-    type: Array
-  },
   games: {
     type: Array
   },

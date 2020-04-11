@@ -102,7 +102,7 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
-    if (row.provider === "manual") {
+    if (row.provider !== "steam") {
       return (
         <img
           style={{ width: 184, height: 69 }}
