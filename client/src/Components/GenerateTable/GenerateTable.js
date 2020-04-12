@@ -7,7 +7,7 @@ import filterFactory, {
   numberFilter,
   Comparator,
 } from "react-bootstrap-table2-filter";
-import axios from 'axios';
+import axios from "axios";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
@@ -18,10 +18,15 @@ let platformFilter;
 let dateFilter;
 let serviceFilter;
 
-function GenerateTable({ gamelist, gameslist2, userId}) {
+var arr = []
+var num;
+
+function GenerateTable({ gamelist, gameslist2, userId }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
+  const [selected, setSelected] = useState(false);
+  const [unselectable, setUnselected] = useState([]);
 
   useEffect(() => {
     setGames([...gameslist2, ...gamelist]);
@@ -96,6 +101,7 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
       setPage(page);
     },
     onPageChange: (page, sizePerPage) => {
+      console.log(page);
       setItems(sizePerPage);
       setPage(page);
     },
@@ -128,8 +134,21 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
     }
   };
 
+
+
   var numFormatter = (a, b, c) => {
     if (c !== undefined) {
+
+      console.log(b);
+      arr = [];
+      if(b.provider === 'steam'){
+        console.log('steam');
+        num =  c + 1 + itemsPerPage * (pageNum - 1);
+        console.log(num);
+        console.log(unselectable);
+        arr = [...arr, num]
+      }
+      console.log(arr);
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
   };
@@ -198,10 +217,6 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
             label: "Double click to select whether physical/digital copy",
           },
           {
-            value: "steam",
-            label: "Steam",
-          },
-          {
             value: "physical",
             label: "Physical Copy",
           },
@@ -252,7 +267,7 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
           {
             value: "batheseda",
             label: "Batheseda",
-          }
+          },
         ],
       },
       formatter: (cell) =>
@@ -275,13 +290,13 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
     console.log(cellData);
     console.log(dataColumn);
     const dataValue = {
-      flag: 'blurToSave',
+      flag: "blurToSave",
       id: userId,
-      data: cellData
-    }
-    axios.post('/api/save-games', dataValue).then((res) => {
+      data: cellData,
+    };
+    axios.post("/api/save-games", dataValue).then((res) => {
       console.log(res);
-    })
+    });
   };
 
   const handleClick = () => {
@@ -289,6 +304,24 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
     platformFilter("");
     dateFilter("");
     serviceFilter();
+  };
+
+  const handleOnSelect = (row, isSelect) => {
+    if (isSelect) {
+      setSelected(true);
+    } else {
+      setSelected(false);
+    } 
+  };
+
+
+  const selectRow = {
+    mode: "checkbox",
+    clickToSelect: true,
+    clickToEdit: true,
+    onSelect: handleOnSelect,
+    unselectable: unselectable,
+    bgColor: "#00BFFF",
   };
 
   const CaptionElement = () => {
@@ -315,9 +348,18 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
     );
   };
 
-  console.log(selectOptions);
+  const DeleteButton = () => {
+    return (
+      <div className="deleteButton">
+        <input type="button" value="Delete" />
+      </div>
+    )
+  }
+
+  console.log(unselectable);
   return (
     <div className="table">
+      {selected ? <DeleteButton /> : null}
       <BootstrapTable
         bootstrap4
         caption={<CaptionElement />}
@@ -329,8 +371,9 @@ function GenerateTable({ gamelist, gameslist2, userId}) {
         striped
         hover
         condensed
+        selectRow={selectRow}
         cellEdit={cellEditFactory({
-          mode: 'click',
+          mode: "click",
           blurToSave: true,
           afterSaveCell,
         })}
