@@ -18,7 +18,7 @@ let platformFilter;
 let dateFilter;
 let serviceFilter;
 
-var arr = []
+var arr = [];
 var num;
 
 function GenerateTable({ gamelist, gameslist2, userId }) {
@@ -108,6 +108,10 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
+    if (row.provider == 'steam'){
+      arr = [...arr, row.game_img];
+      setUnselected([...arr]);
+    }
     if (row.provider !== "steam") {
       return (
         <img
@@ -134,23 +138,80 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     }
   };
 
-
-
   var numFormatter = (a, b, c) => {
     if (c !== undefined) {
-
-      console.log(b);
-      arr = [];
-      if(b.provider === 'steam'){
-        console.log('steam');
-        num =  c + 1 + itemsPerPage * (pageNum - 1);
-        console.log(num);
-        console.log(unselectable);
-        arr = [...arr, num]
-      }
-      console.log(arr);
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
+  };
+
+  const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
+    console.log(oldValue);
+    console.log("--after save cell--");
+    console.log("New Value was apply as");
+    console.log(newValue);
+    console.log(`and the type is ${typeof newValue}`);
+    console.log(cellData);
+    console.log(dataColumn);
+    const dataValue = {
+      flag: "blurToSave",
+      id: userId,
+      data: cellData,
+    };
+    axios.post("/api/save-games", dataValue).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const handleClick = () => {
+    nameFilter("");
+    platformFilter("");
+    dateFilter("");
+    serviceFilter();
+  };
+
+  const handleOnSelect = (row, isSelect, c) => {
+    console.log(c);
+    if (isSelect) {
+      setSelected(true);
+    } else {
+      setSelected(false);
+    }
+  };
+
+  const CaptionElement = () => {
+    return (
+      <div>
+        <h3
+          style={{
+            borderRadius: "0.25em",
+            textAlign: "center",
+            color: "purple",
+            border: "1px solid purple",
+            padding: "0.5em",
+          }}
+        >
+          Game Collection
+        </h3>
+        <>
+          <button className="btn btn-lg btn-primary" onClick={handleClick}>
+            {" "}
+            Clear all filters{" "}
+          </button>
+        </>
+      </div>
+    );
+  };
+
+  const nonEdit = (a, b, c) => {
+    return [7, 8, 9];
+  };
+
+  const DeleteButton = () => {
+    return (
+      <div className="deleteButton">
+        <input type="button" value="Delete" />
+      </div>
+    );
   };
 
   const columns = [
@@ -281,79 +342,18 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     },
   ];
 
-  const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
-    console.log(oldValue);
-    console.log("--after save cell--");
-    console.log("New Value was apply as");
-    console.log(newValue);
-    console.log(`and the type is ${typeof newValue}`);
-    console.log(cellData);
-    console.log(dataColumn);
-    const dataValue = {
-      flag: "blurToSave",
-      id: userId,
-      data: cellData,
-    };
-    axios.post("/api/save-games", dataValue).then((res) => {
-      console.log(res);
-    });
-  };
-
-  const handleClick = () => {
-    nameFilter("");
-    platformFilter("");
-    dateFilter("");
-    serviceFilter();
-  };
-
-  const handleOnSelect = (row, isSelect) => {
-    if (isSelect) {
-      setSelected(true);
-    } else {
-      setSelected(false);
-    } 
-  };
-
-
   const selectRow = {
     mode: "checkbox",
-    clickToSelect: true,
-    clickToEdit: true,
-    onSelect: handleOnSelect,
-    unselectable: unselectable,
+    //clickToSelect: true,
+    /* clickToEdit: true,
+    onSelect: handleOnSelect, */
+    nonSelectable: unselectable,
+    nonSelectableStyle: { backgroundColor: 'gray' },
     bgColor: "#00BFFF",
   };
 
-  const CaptionElement = () => {
-    return (
-      <div>
-        <h3
-          style={{
-            borderRadius: "0.25em",
-            textAlign: "center",
-            color: "purple",
-            border: "1px solid purple",
-            padding: "0.5em",
-          }}
-        >
-          Game Collection
-        </h3>
-        <>
-          <button className="btn btn-lg btn-primary" onClick={handleClick}>
-            {" "}
-            Clear all filters{" "}
-          </button>
-        </>
-      </div>
-    );
-  };
-
-  const DeleteButton = () => {
-    return (
-      <div className="deleteButton">
-        <input type="button" value="Delete" />
-      </div>
-    )
+  const nonEditRows = () => {
+    return unselectable
   }
 
   console.log(unselectable);
@@ -363,7 +363,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       <BootstrapTable
         bootstrap4
         caption={<CaptionElement />}
-        keyField={"game_img"}
+        keyField={'game_img'}
         data={games}
         columns={columns}
         pagination={paginationFactory(options)}
@@ -373,10 +373,11 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
         condensed
         selectRow={selectRow}
         cellEdit={cellEditFactory({
-          mode: "click",
+          mode: "dbclick",
           blurToSave: true,
-          afterSaveCell,
-        })}
+          nonEditableRows: nonEditRows,
+          afterSaveCell
+        })} 
       />
     </div>
   );
