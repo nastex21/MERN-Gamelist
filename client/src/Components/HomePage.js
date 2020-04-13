@@ -102,29 +102,6 @@ function HomePage(props) {
     }
   }, [guestUser]);
 
-  //listen for changes if the steamId state is altered
-/*   useEffect(() => {
-    console.log("useEffect");
-    console.log(steamId);
-    var dataValue = {
-      steamID: steamId,
-      creditentials: authUserInfo,
-    };
-    console.log(dataValue);
-    if (steamId && dataValue && games.length == 0) {
-      console.log("inside steamID function");
-      axios.post("/api/get-games-list/steam", dataValue).then((res) => {
-        console.log(res);
-        if (res.data.name === "Error") {
-          return null;
-        } else {
-          setGames([...games, ...res.data]);
-          setSteam(1);
-        }
-      });
-    }
-  }, [steamId]); */
-
   //for manual addition of Steam ID
   const handleChange = (event) => {
     setValue(event.target.value);
