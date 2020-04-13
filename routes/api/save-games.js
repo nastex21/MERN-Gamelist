@@ -20,12 +20,15 @@ router.post("/", (req, res) => {
   //used for changing the provider of the game
   if (flag == "blurToSave") {
     console.log("yes");
+    console.log(data);
     User.findOneAndUpdate(
       { _id: id, "games.game_id": gameID },
-      { $set: { "games.$.provider": data.provider } },
-      { new: true },
+      {'games.$': data},
       function (err, data) {
-        console.log(data);
+        if (err){
+          console.log(err)
+        }
+        //console.log(data);
       }
     );
   } else {

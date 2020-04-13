@@ -7,13 +7,8 @@ const User = require("../../models/user-model");
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
   console.log('/login/success');
-  console.log(req.session);
-  console.log(req.body);
    User.findById(req.session.user.id, function (err, user) {
-    console.log(user);
     var steamNum = user.steamId;
-    console.log("user.id");
-    console.log(user.id);
     if (!steamNum) {
       req.session.user.steamID
     }
@@ -30,16 +25,9 @@ router.get("/login/success", (req, res) => {
 });
 
 router.post('/login/success', (req, res) => {
-  console.log('post login/success');
-  console.log(req.body);
   const { id } = req.body;
-  console.log('id');
-  console.log(id);
   User.findById(id, function (err, user) {
-    console.log(user);
     var steamNum = user.steamId;
-    console.log("user.id");
-    console.log(user.id);
     if (!steamNum) {
       req.session.user.steamID
     }
