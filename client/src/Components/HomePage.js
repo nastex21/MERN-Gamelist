@@ -161,6 +161,7 @@ function HomePage(props) {
 
   //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = (objValue) => {
+    console.log('manualData');
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
     var checkedArr = objValue; //kept the original value clean and used this to filter
@@ -171,6 +172,7 @@ function HomePage(props) {
 
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
+    
     setGames2(newGames);
     setManualGame(newEntryGames);
   };
