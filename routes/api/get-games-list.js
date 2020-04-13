@@ -4,6 +4,7 @@ const axios = require("axios");
 const unirest = require("unirest");
 const router = express.Router();
 const User = require("../../models/user-model");
+var gameData;
 
 router.post("/steam", (req, res) => {
   console.log("inside /steam");
@@ -102,7 +103,7 @@ router.post("/updateSteam", (req, res) => {
     axios
       .get(httpVar)
       .then((data) => {
-        var gameData = data.data.response.games.map((item, key) => ({
+        gameData = data.data.response.games.map((item, key) => ({
           game_num: key + 1,
           game_appid: item.appid,
           game_img: item.img_logo_url,
@@ -110,24 +111,15 @@ router.post("/updateSteam", (req, res) => {
           game_system: "PC",
           provider: "steam",
         }));
+
+        console.log(gameData.length);
         if (dbid) {
           User.findByIdAndUpdate(
             dbid,
             { $set: { steamGames: gameData } },
             { new: true },
             (err, result) => {
-              console.log("results updated");
-              console.log(result);
-              var resultsLen = result.steamGames.length;
-              var steamLen = gameData.length;
-
-              var errorMsg = {};
-              if (resultsLen === steamLen) {
-                errorMsg.error = "Detected no changes.";
-                res.send(errorMsg);
-              } else {
                 res.send(gameData);
-              }
 
               if (err) {
                 console.log("err");

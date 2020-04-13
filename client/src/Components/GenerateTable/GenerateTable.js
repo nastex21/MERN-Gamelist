@@ -108,10 +108,14 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
-    if (row.provider == 'steam'){
+
+    if (row.provider === 'steam') {
       arr = [...arr, row.game_img];
-      setUnselected([...arr]);
+      setTimeout(() => {
+        setUnselected([...arr])
+      }, [100])
     }
+
     if (row.provider !== "steam") {
       return (
         <img
@@ -142,7 +146,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
-  };
+  }
 
   const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
     console.log(oldValue);
@@ -200,10 +204,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
         </>
       </div>
     );
-  };
-
-  const nonEdit = (a, b, c) => {
-    return [7, 8, 9];
   };
 
   const DeleteButton = () => {
@@ -348,7 +348,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     /* clickToEdit: true,
     onSelect: handleOnSelect, */
     nonSelectable: unselectable,
-    nonSelectableStyle: { backgroundColor: 'gray' },
+    nonSelectableStyle: (row, rowIndex) => { return { backgroundColor: 'gray' }},
     bgColor: "#00BFFF",
   };
 
@@ -356,7 +356,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     return unselectable
   }
 
-  console.log(unselectable);
   return (
     <div className="table">
       {selected ? <DeleteButton /> : null}
@@ -376,8 +375,9 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
           mode: "dbclick",
           blurToSave: true,
           nonEditableRows: nonEditRows,
+          beforeSaveCell: (oldValue, newValue, row, column) => { console.log(oldValue) },
           afterSaveCell
-        })} 
+        })}
       />
     </div>
   );
