@@ -19,7 +19,6 @@ let dateFilter;
 let serviceFilter;
 
 var arr = [];
-var num;
 
 function GenerateTable({ gamelist, gameslist2, userId }) {
   const [games, setGames] = useState([]);
@@ -344,9 +343,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
 
   const selectRow = {
     mode: "checkbox",
-    //clickToSelect: true,
-    /* clickToEdit: true,
-    onSelect: handleOnSelect, */
     nonSelectable: unselectable,
     nonSelectableStyle: (row, rowIndex) => { return { backgroundColor: 'gray' }},
     bgColor: "#00BFFF",
@@ -355,6 +351,8 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   const nonEditRows = () => {
     return unselectable
   }
+
+  console.log(games);
 
   return (
     <div className="table">

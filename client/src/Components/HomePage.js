@@ -200,6 +200,9 @@ function HomePage(props) {
     });
   };
 
+  console.log(games2);
+  console.log(manEntryGames);
+
   return (
     <>
       <NavbarTop guestUser={guestUser} />

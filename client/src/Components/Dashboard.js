@@ -15,7 +15,13 @@ export default function Dashboard({
   games,
   games2, 
   updateSteamGames
-}) {
+})
+
+{
+  console.log('Dashboard');
+  console.log('games, games2');
+  console.log(games);
+  console.log(games2);
   return (
     <div className="dashboard">
       <div className="manualBox">
@@ -43,7 +49,7 @@ export default function Dashboard({
         )}
       </div>
       <hr />
-        {games.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2} userId={userId}/>} 
+        {games.length === 0 && games2.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2} userId={userId}/>} 
     </div>
   );
 }
