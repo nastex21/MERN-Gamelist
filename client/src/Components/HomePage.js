@@ -40,8 +40,6 @@ function HomePage(props) {
     }
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
-    console.log("decoded");
-    console.log(decoded);
     if (guestUser && token) {
       setGuestUser(false);
       setAuthUserInfo(decoded);
@@ -162,6 +160,7 @@ function HomePage(props) {
   //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = (objValue) => {
     console.log('manualData');
+    console.log(objValue);
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
     var checkedArr = objValue; //kept the original value clean and used this to filter
