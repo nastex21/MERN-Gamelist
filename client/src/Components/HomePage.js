@@ -25,18 +25,19 @@ function HomePage(props) {
     var savedGames;
     //if localstorage item doesn't exist, then set item else populatet the games state else
     // if local storage games db is bigger in length then update games
-    if (!localStorage.getItem("stored-gamedata")) {
-      localStorage.setItem("stored-gamedata", true); //local storage to act as a database
+    if (!localStorage.getItem("guest")) {
+      localStorage.setItem("guest", true); 
+      localStorage.setItem('stored-gamedata', []); //local storage to act as a database
       savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       console.log(savedGames);
     } else if (savedGames !== undefined && savedGames.length > games.length) {
-      setGames(...savedGames);
+      setGames([...savedGames]);
     }
   } else {
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
-    if (localStorage.getItem("stored-gamedata")) {
-      localStorage.removeItem("stored-gamedata");
+    if (localStorage.getItem("guest")) {
+      localStorage.removeItem("guest");
     }
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
@@ -122,6 +123,9 @@ function HomePage(props) {
             },
             game: manEntryGames,
           };
+          if(guestUser){
+            localStorage.setItem("guest", [...dataObj.game]);
+          }
           axios.post("/api/save-games", dataObj).then((res) => {
             console.log("woot");
           });
@@ -171,7 +175,8 @@ function HomePage(props) {
 
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
-    
+
+    localStorage.setItem('stored-gamedata',JSON.stringify([...newGames]));
     setGames2(newGames);
     setManualGame(newEntryGames);
   };
