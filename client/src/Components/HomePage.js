@@ -29,10 +29,7 @@ function HomePage(props) {
     // if local storage games db is bigger in length then update games
     if (!localStorage.getItem("guest")) {
       localStorage.setItem("guest", true);
-      localStorage.setItem('stored-gamedata', []); //local storage to act as a database
-      console.log(savedGames);
-      setGames2([...savedGames]);
-      console.log(savedGames);
+      localStorage.setItem('stored-gamedata', JSON.stringify([])); //local storage to act as a database
     }
   } else {
     // get token and use token info in the authUserInfo state
