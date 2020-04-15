@@ -9,6 +9,8 @@ import RegisterPage from "./AuthPages/Register";
 import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
 
+var savedGames;
+
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
   const [authUserInfo, setAuthUserInfo] = useState(""); //registered and logged in user information
@@ -22,16 +24,15 @@ function HomePage(props) {
 
   //If there's no token then user is a guest otherwise user is a authorized user
   if (!localStorage.jwtToken) {
-    var savedGames;
+    savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
     //if localstorage item doesn't exist, then set item else populatet the games state else
     // if local storage games db is bigger in length then update games
     if (!localStorage.getItem("guest")) {
-      localStorage.setItem("guest", true); 
+      localStorage.setItem("guest", true);
       localStorage.setItem('stored-gamedata', []); //local storage to act as a database
-      savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       console.log(savedGames);
-    } else if (savedGames !== undefined && savedGames.length > games.length) {
-      setGames([...savedGames]);
+      setGames2([...savedGames]);
+      console.log(savedGames);
     }
   } else {
     // get token and use token info in the authUserInfo state
@@ -49,6 +50,12 @@ function HomePage(props) {
       setSteamId(decoded.steamID);
     }
   }
+
+  useEffect(() => {
+    if (savedGames.length > 0) {
+      setGames2([...savedGames]);
+    }
+  }, []);
 
   //Authenticated user: fetch Steam ID if Steam ID  exists
   useEffect(() => {
@@ -123,7 +130,7 @@ function HomePage(props) {
             },
             game: manEntryGames,
           };
-          if(guestUser){
+          if (guestUser) {
             localStorage.setItem("guest", [...dataObj.game]);
           }
           axios.post("/api/save-games", dataObj).then((res) => {
@@ -176,7 +183,7 @@ function HomePage(props) {
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
 
-    localStorage.setItem('stored-gamedata',JSON.stringify([...newGames]));
+    localStorage.setItem('stored-gamedata', JSON.stringify([...newGames]));
     setGames2(newGames);
     setManualGame(newEntryGames);
   };
@@ -244,29 +251,29 @@ function HomePage(props) {
             }
           </>
         ) : (
-          <>
-            <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/login" render={(props) => <LoginPage />} />
-            <Route exact path="/" component={FrontPage} />
-            <Route
-              exact
-              path="/dashboard"
-              render={(props) => (
-                <Dashboard
-                  manualData={manualData}
-                  steam={steam}
-                  steamId={steamId}
-                  value={steamInputValue}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  handleClick={handleClick}
-                  games={games}
-                  games2={games2}
-                />
-              )}
-            />
-          </>
-        )}
+            <>
+              <Route exact path="/register" component={RegisterPage} />
+              <Route exact path="/login" render={(props) => <LoginPage />} />
+              <Route exact path="/" component={FrontPage} />
+              <Route
+                exact
+                path="/dashboard"
+                render={(props) => (
+                  <Dashboard
+                    manualData={manualData}
+                    steam={steam}
+                    steamId={steamId}
+                    value={steamInputValue}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    handleClick={handleClick}
+                    games={games}
+                    games2={games2}
+                  />
+                )}
+              />
+            </>
+          )}
       </Switch>
     </>
   );
