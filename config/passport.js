@@ -35,8 +35,10 @@ module.exports = passport => {
       async (req, identifier, profile, done) => {
         console.log('profile id');
         console.log(profile.id);
-        req.session.user.steamID = profile.id;
-        done(null, profile.id);
+          req.session.user.steamID = profile.id;
+
+  
+        return done(null, profile.id);
       }
     )
   )

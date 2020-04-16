@@ -49,7 +49,7 @@ function HomePage(props) {
   }
 
   useEffect(() => {
-    if (savedGames.length > 0) {
+    if (savedGames) {
       setGames2([...savedGames]);
     }
   }, []);
@@ -157,6 +157,10 @@ function HomePage(props) {
       setGames([...res.data]);
       setSteam(1);
       setSteamId(steamInputValue);
+
+      if (guestUser){
+        localStorage.setItem('stored-gamedata', JSON.stringify([...savedGames, ...res.data]));
+      }
     });
   };
 
