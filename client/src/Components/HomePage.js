@@ -238,7 +238,6 @@ function HomePage(props) {
           };
           console.log(dataObj);
           axios.post("/api/save-games", dataObj).then((res) => {
-            console.log(res.data.games);
             setGames2([...res.data.games])
           });
         }
