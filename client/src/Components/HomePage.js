@@ -23,7 +23,7 @@ function HomePage(props) {
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
 
-  //If there's no token then user is a guest otherwise user is a authorized user
+  //If there's no token then the user is a guest otherwise user has been authorized
   if (!localStorage.jwtToken) {
     savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
     //if localstorage item doesn't exist, then set item else populatet the games state else
@@ -33,23 +33,28 @@ function HomePage(props) {
       localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
     }
   } else {
+    /* 
+   
+    
+    if (decoded.steamID && steamId == "") {
+      setSteamId(decoded.steamID);
+    } */
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
     localStorage.removeItem("guest");
     localStorage.removeItem("stored-gamedata");
+
     const token = localStorage.jwtToken;
-    const decoded = jwt_decode(token);
+    const decoded = jwt_decode(token); //contains the user database ID and username
 
-    console.log(decoded);
-
-    console.log(decoded);
+    //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
     if (guestUser && token) {
+      console.log("token");
       setGuestUser(false);
       setAuthUserInfo(decoded);
     }
-    if (decoded.steamID && steamId == "") {
-      setSteamId(decoded.steamID);
-    }
+
+    console.log(decoded);
   }
 
   useEffect(() => {
@@ -57,6 +62,7 @@ function HomePage(props) {
       setGames2([...savedGames]);
     }
 
+    //event listener when user clicks on Steam login button
     window.addEventListener("message", (event) => {
       if (event.origin !== "http://localhost:5555") return;
 
@@ -82,6 +88,28 @@ function HomePage(props) {
       });
     });
   }, []);
+
+  //Auth: get games when successfully logged in.
+  useEffect(() => {
+    if (!guestUser && games.length === 0 && games2.length === 0) {
+      axios
+        .post("/auth/login/success", authUserInfo)
+        .then((response) => {
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(response);
+            setSteamId(response.data.steamID);
+            setGames([...response.data.steamGames]); //games from Steam pulled from the database
+            setGames2([...response.data.games]); //games pulled from database that were manually added
+          } else {
+            throw new Error("failed to authenticate user");
+          }
+        })
+        .catch((error) => {
+          setError("Failed to authenticated user");
+        });
+    }
+  }, [authUserInfo]);
 
   //Authenticated user: fetch Steam ID if Steam ID  exists
   /*   useEffect(() => {
@@ -139,34 +167,6 @@ function HomePage(props) {
     setValue(event.target.value);
   };
 
-  //upload manual entry games to database
-  useEffect(() => {
-    if (!guestUser) {
-      if (prevGames) {
-        console.log("prevGames");
-        console.log(prevGames);
-        console.log(games.length);
-        console.log(prevGames.length);
-        if (manEntryGames.length !== prevGames.length) {
-          console.log("inside games.length if section");
-          console.log(authUserInfo);
-          var dataObj = {
-            user: {
-              id: authUserInfo.id,
-            },
-            game: manEntryGames,
-          };
-          if (guestUser) {
-            localStorage.setItem("guest", [...dataObj.game]);
-          }
-          axios.post("/api/save-games", dataObj).then((res) => {
-            console.log("woot");
-          });
-        }
-      }
-    }
-  }, [manEntryGames]);
-
   //for submitting Steam ID
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -214,16 +214,34 @@ function HomePage(props) {
     var newEntryGames = [...manEntryGames]; //games recently added by user
     var checkedArr = objValue; //kept the original value clean and used this to filter
     var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
-    console.log(ids);
 
     checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
 
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
 
-    localStorage.setItem("stored-gamedata", JSON.stringify([...newGames]));
-    setGames2(newGames);
-    setManualGame(newEntryGames);
+    if (guestUser) {
+      localStorage.setItem("stored-gamedata", JSON.stringify([...newGames]));
+      setGames2(newGames);
+      setManualGame(newEntryGames);
+/*       if (guestUser) {
+        localStorage.setItem("guest", [...dataObj.game]);
+      } */
+    }
+
+    if (!guestUser) {
+          var dataObj = {
+            user: {
+              id: authUserInfo.id,
+            },
+            game: newEntryGames,
+          };
+          console.log(dataObj);
+          axios.post("/api/save-games", dataObj).then((res) => {
+            console.log(res.data.games);
+            setGames2([...res.data.games])
+          });
+        }
   };
 
   const handleLogout = () => {
@@ -248,6 +266,8 @@ function HomePage(props) {
       }
     });
   };
+
+  console.log(games2);
 
   return (
     <>

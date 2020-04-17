@@ -43,10 +43,13 @@ router.post("/", (req, res) => {
           },
         },
       },
+      {new: true},
       function (err, data) {
-        console.log("data");
-        console.log(data);
-        console.log(err);
+        res.send(data);
+
+        if(err){
+          res.send(err);
+        }
       }
     );
   }
