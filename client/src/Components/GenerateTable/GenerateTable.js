@@ -352,8 +352,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     return unselectable
   }
 
-  console.log(games);
-
   return (
     <div className="table">
       {selected ? <DeleteButton /> : null}

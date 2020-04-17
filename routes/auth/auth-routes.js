@@ -69,10 +69,6 @@ router.get(
       jwtToken: token,
       clientUrl: 'http://localhost:5556',
     });
-
-
-   /*  res.set('x-token', token);
-    res.redirect(CLIENT_HOME_PAGE_URL); */
   });
 
 

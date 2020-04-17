@@ -39,13 +39,8 @@ function HomePage(props) {
     localStorage.removeItem("stored-gamedata");
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
-    var cookieSteam;
-    var decodedCookie;
 
-    if (cookieSteam) {
-      cookieSteam = Cookies.get("steam-token");
-      decodedCookie = jwt_decode(cookieSteam);
-    }
+    console.log(decoded);
 
     console.log(decoded);
     if (guestUser && token) {
@@ -55,10 +50,6 @@ function HomePage(props) {
     if (decoded.steamID && steamId == "") {
       setSteamId(decoded.steamID);
     }
-    if (cookieSteam && decodedCookie && steamId === "") {
-      console.log(decodedCookie.user);
-      setSteamId(decodedCookie.user);
-    }
   }
 
   useEffect(() => {
@@ -67,30 +58,28 @@ function HomePage(props) {
     }
 
     window.addEventListener("message", (event) => {
-      console.log("before eventListener");
-      console.log(event);
       if (event.origin !== "http://localhost:5555") return;
 
-      console.log("pass eventListener");
       const { token, ok } = event.data;
 
-      /*     var cookieSteam;
-      var decodedCookie
-  
-      
-    if (cookieSteam){
-      cookieSteam = Cookies.get("steam-token")
-      decodedCookie = jwt_decode(cookieSteam);
-    } */
-
-      console.log(jwt_decode(token));
-
       const decodedToken = jwt_decode(token);
-      setSteamId(decodedToken.user);
-      /*   if (ok) {
-        localStorage.setItem('steamToken', token);
-        console.log(token);
-      } */
+
+      var dataValue = {
+        steamID: decodedToken.user,
+        creditentials: authUserInfo,
+      };
+      console.log(dataValue);
+
+      axios.post("/api/get-games-list/steam", dataValue).then((res) => {
+        console.log(res);
+        if (res.data.name === "Error") {
+          return null;
+        } else {
+          setSteamId(decodedToken.user);
+          setGames([...games, ...res.data]);
+          setSteam(1);
+        }
+      });
     });
   }, []);
 
@@ -125,7 +114,7 @@ function HomePage(props) {
  */
 
   //listen for changes if the steamId state is altered
-  useEffect(() => {
+  /*   useEffect(() => {
     var dataValue = {
       steamID: steamId,
       creditentials: authUserInfo,
@@ -143,7 +132,7 @@ function HomePage(props) {
         }
       });
     }
-  }, [steamId]);
+  }, [steamId]); */
 
   //for manual addition of Steam ID
   const handleChange = (event) => {

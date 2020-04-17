@@ -10,12 +10,11 @@ router.post("/steam", (req, res) => {
   console.log("inside /steam");
   console.log(req.body);
   var steamID = req.body.steamID;
-  var savedUser;
+  var savedUser = req.body.creditentials.id;
   console.log(req.session);
   if (!steamID) {
     steamID = req.session.passport.user;
-    //savedUser = req.body.creditentials.id;
-  }
+  } 
 
   console.log(steamID);
   console.log(savedUser);
