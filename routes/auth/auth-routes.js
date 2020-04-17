@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const CLIENT_HOME_PAGE_URL = "http://localhost:5556/dashboard";
 const User = require("../../models/user-model");
+const keys = require("../../config/keys");
+const jwt = require('jsonwebtoken');
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
@@ -51,7 +53,27 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
-  router.get(/^\/steam(\/return)?$/,
-  passport.authenticate('steam', { failureRedirect: '/', successRedirect: CLIENT_HOME_PAGE_URL })); 
+router.get("/steam", passport.authenticate("steam", { session: false }));
+
+router.get(
+  "/steam/return",
+  passport.authenticate("steam", { session: false }),
+  (req, res) => {
+    console.log('req, res');
+    console.log(req.user);
+    const token = jwt.sign({ user: req.user }, keys.SECRET, {
+      expiresIn: "2h",
+    });
+
+    res.render("authenticated", {
+      jwtToken: token,
+      clientUrl: 'http://localhost:5556',
+    });
+
+
+   /*  res.set('x-token', token);
+    res.redirect(CLIENT_HOME_PAGE_URL); */
+  });
+
 
 module.exports = router;

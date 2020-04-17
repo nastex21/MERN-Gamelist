@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
+const path = require("path");
 const users = require("./routes/api/users");
 const authRoutes = require("./routes/auth/auth-routes");
 const gamelistRoutes = require('./routes/api/get-games-list');
@@ -57,6 +58,9 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // deserialize cookie from the browser
 app.use(passport.session());
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "/views"));
 
 // set up routes
 app.use("/auth", authRoutes);

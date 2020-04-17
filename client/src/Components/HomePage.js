@@ -3,6 +3,7 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NavbarTop from "./Navbar";
+import Cookies from "js-cookie";
 import FrontPage from "./FrontPageSplash";
 import Dashboard from "./Dashboard";
 import RegisterPage from "./AuthPages/Register";
@@ -29,16 +30,24 @@ function HomePage(props) {
     // if local storage games db is bigger in length then update games
     if (!localStorage.getItem("guest")) {
       localStorage.setItem("guest", true);
-      localStorage.setItem('stored-gamedata', JSON.stringify([])); //local storage to act as a database
+      localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
     }
   } else {
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
-    if (localStorage.getItem("guest")) {
-      localStorage.removeItem("guest");
-    }
+    localStorage.removeItem("guest");
+    localStorage.removeItem("stored-gamedata");
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token);
+    var cookieSteam;
+    var decodedCookie;
+
+    if (cookieSteam) {
+      cookieSteam = Cookies.get("steam-token");
+      decodedCookie = jwt_decode(cookieSteam);
+    }
+
+    console.log(decoded);
     if (guestUser && token) {
       setGuestUser(false);
       setAuthUserInfo(decoded);
@@ -46,64 +55,95 @@ function HomePage(props) {
     if (decoded.steamID && steamId == "") {
       setSteamId(decoded.steamID);
     }
+    if (cookieSteam && decodedCookie && steamId === "") {
+      console.log(decodedCookie.user);
+      setSteamId(decodedCookie.user);
+    }
   }
 
   useEffect(() => {
     if (savedGames) {
       setGames2([...savedGames]);
     }
+
+    window.addEventListener("message", (event) => {
+      console.log("before eventListener");
+      console.log(event);
+      if (event.origin !== "http://localhost:5555") return;
+
+      console.log("pass eventListener");
+      const { token, ok } = event.data;
+
+      /*     var cookieSteam;
+      var decodedCookie
+  
+      
+    if (cookieSteam){
+      cookieSteam = Cookies.get("steam-token")
+      decodedCookie = jwt_decode(cookieSteam);
+    } */
+
+      console.log(jwt_decode(token));
+
+      const decodedToken = jwt_decode(token);
+      setSteamId(decodedToken.user);
+      /*   if (ok) {
+        localStorage.setItem('steamToken', token);
+        console.log(token);
+      } */
+    });
   }, []);
 
   //Authenticated user: fetch Steam ID if Steam ID  exists
-  useEffect(() => {
-    if (!guestUser) {
-      console.log("inside token");
-      if (authUserInfo) {
-        console.log("if authUserInfo");
-        axios
-          .post("/auth/login/success", authUserInfo)
-          .then((response) => {
-            console.log(response.status);
-            if (response.status === 200) {
-              console.log(response);
-              setSteamId(response.data.steamID);
-              setGames([...response.data.steamGames]); //games from Steam pulled from the database
-              setGames2([...response.data.games]); //games pulled from database that were manually added
-            } else {
-              throw new Error("failed to authenticate user");
-            }
-          })
-          .catch((error) => {
-            setError("Failed to authenticated user");
-          });
-      } else {
-        // Fetch does not send cookies. So you should add credentials: 'include'
-        axios
-          .get("/auth/login/success", {
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              withCredentials: true,
-            },
-          })
-          .then((response) => {
-            console.log(response.status);
-            if (response.status === 200) {
-              console.log(response);
-              setSteamId(response.data.steamID);
-              setGames([...response.data.steamGames]); //games from Steam pulled from the database
-              setGames2([...response.data.games]); //games pulled from database that were manually added
-            } else {
-              throw new Error("failed to authenticate user");
-            }
-          })
-          .catch((error) => {
-            setError("Failed to authenticated user");
-          });
-      }
+  /*   useEffect(() => {
+    if (guestUser) {
+      axios
+        .get("/auth/login/success", {
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            withCredentials: true,
+          },
+        })
+        .then((response) => {
+          console.log(response.status);
+          if (response.status === 200) {
+            console.log(response);
+            setSteamId(response.data.steamID);
+            setGames([...response.data.steamGames]); //games from Steam pulled from the database
+            setGames2([...response.data.games]); //games pulled from database that were manually added
+          } else {
+            throw new Error("failed to authenticate user");
+          }
+        })
+        .catch((error) => {
+          setError("Failed to authenticated user");
+        });
     }
   }, [guestUser]);
+ */
+
+  //listen for changes if the steamId state is altered
+  useEffect(() => {
+    var dataValue = {
+      steamID: steamId,
+      creditentials: authUserInfo,
+    };
+    console.log(dataValue);
+    if (steamId && dataValue && games.length == 0) {
+      console.log("inside steamID function");
+      axios.post("/api/get-games-list/steam", dataValue).then((res) => {
+        console.log(res);
+        if (res.data.name === "Error") {
+          return null;
+        } else {
+          setGames([...games, ...res.data]);
+          setSteam(1);
+        }
+      });
+    }
+  }, [steamId]);
 
   //for manual addition of Steam ID
   const handleChange = (event) => {
@@ -158,20 +198,28 @@ function HomePage(props) {
       setSteam(1);
       setSteamId(steamInputValue);
 
-      if (guestUser){
-        localStorage.setItem('stored-gamedata', JSON.stringify([...savedGames, ...res.data]));
+      if (guestUser) {
+        localStorage.setItem(
+          "stored-gamedata",
+          JSON.stringify([...savedGames, ...res.data])
+        );
       }
     });
   };
 
   //for logging in with Steam
   const handleClick = () => {
-    window.open("http://localhost:5555/auth/steam", "_self");
+    const popupWindow = window.open(
+      "http://localhost:5555/auth/steam",
+      "_blank",
+      "width=800, height=600"
+    );
+    if (window.focus) popupWindow.focus();
   };
 
   //data sent from the Pull-Gamelists/ManualEntries component
   const manualData = (objValue) => {
-    console.log('manualData');
+    console.log("manualData");
     console.log(objValue);
     var newGames = [...games2]; //games from database
     var newEntryGames = [...manEntryGames]; //games recently added by user
@@ -184,7 +232,7 @@ function HomePage(props) {
     newGames = [...checkedArr, ...newGames];
     newEntryGames = [...checkedArr, ...newEntryGames];
 
-    localStorage.setItem('stored-gamedata', JSON.stringify([...newGames]));
+    localStorage.setItem("stored-gamedata", JSON.stringify([...newGames]));
     setGames2(newGames);
     setManualGame(newEntryGames);
   };
@@ -211,9 +259,6 @@ function HomePage(props) {
       }
     });
   };
-
-  console.log(games2);
-  console.log(manEntryGames);
 
   return (
     <>
@@ -252,29 +297,29 @@ function HomePage(props) {
             }
           </>
         ) : (
-            <>
-              <Route exact path="/register" component={RegisterPage} />
-              <Route exact path="/login" render={(props) => <LoginPage />} />
-              <Route exact path="/" component={FrontPage} />
-              <Route
-                exact
-                path="/dashboard"
-                render={(props) => (
-                  <Dashboard
-                    manualData={manualData}
-                    steam={steam}
-                    steamId={steamId}
-                    value={steamInputValue}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    handleClick={handleClick}
-                    games={games}
-                    games2={games2}
-                  />
-                )}
-              />
-            </>
-          )}
+          <>
+            <Route exact path="/register" component={RegisterPage} />
+            <Route exact path="/login" render={(props) => <LoginPage />} />
+            <Route exact path="/" component={FrontPage} />
+            <Route
+              exact
+              path="/dashboard"
+              render={(props) => (
+                <Dashboard
+                  manualData={manualData}
+                  steam={steam}
+                  steamId={steamId}
+                  value={steamInputValue}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  handleClick={handleClick}
+                  games={games}
+                  games2={games2}
+                />
+              )}
+            />
+          </>
+        )}
       </Switch>
     </>
   );

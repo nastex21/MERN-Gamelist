@@ -10,37 +10,35 @@ const SteamStrategy = require("passport-steam");
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.SECRET;
 
-module.exports = passport => {
+module.exports = (passport) => {
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
       User.findById(jwt_payload.id)
-        .then(user => {
+        .then((user) => {
           if (user) {
             return done(null, user);
           }
           return done(null, false);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     })
   );
-  
+
   passport.use(
     new SteamStrategy(
       {
         returnURL: "http://localhost:5555/auth/steam/return",
         realm: "http://localhost:5555/",
         apiKey: keys.STEAM_KEY,
-        passReqToCallback: true
+        passReqToCallback: true,
       },
       async (req, identifier, profile, done) => {
-        console.log('profile id');
+        console.log("profile id");
         console.log(profile.id);
-          req.session.user.steamID = profile.id;
+        req.session.user.steamID = profile.id;
 
-  
         return done(null, profile.id);
       }
     )
-  )
+  );
 };
-
