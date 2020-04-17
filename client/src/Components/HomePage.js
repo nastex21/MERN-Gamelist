@@ -80,9 +80,14 @@ function HomePage(props) {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
+        } else if (res.data.steamGames){
+          setSteamId(dataValue.steamID);
+          setGames([...res.data.steamGames]);
+          setSteam(1);
         } else {
+          console.log(res);
           setSteamId(decodedToken.user);
-          setGames([...games, ...res.data]);
+          setGames([...res.data]);
           setSteam(1);
         }
       });
@@ -181,11 +186,16 @@ function HomePage(props) {
         steamID: steamInputValue,
       };
     }
+
+    console.log(data);
     axios.post("/api/get-games-list/steam", data).then((res) => {
       console.log(res.data);
-      setGames([...res.data]);
-      setSteam(1);
-      setSteamId(steamInputValue);
+      if (res.data.steamGames) {
+        setGames([...res.data.steamGames]);
+        setGames2([...res.data.games]);
+        setSteam(1);
+        setSteamId(steamInputValue);
+      } 
 
       if (guestUser) {
         localStorage.setItem(
@@ -224,23 +234,23 @@ function HomePage(props) {
       localStorage.setItem("stored-gamedata", JSON.stringify([...newGames]));
       setGames2(newGames);
       setManualGame(newEntryGames);
-/*       if (guestUser) {
+      /*       if (guestUser) {
         localStorage.setItem("guest", [...dataObj.game]);
       } */
     }
 
     if (!guestUser) {
-          var dataObj = {
-            user: {
-              id: authUserInfo.id,
-            },
-            game: newEntryGames,
-          };
-          console.log(dataObj);
-          axios.post("/api/save-games", dataObj).then((res) => {
-            setGames2([...res.data.games])
-          });
-        }
+      var dataObj = {
+        user: {
+          id: authUserInfo.id,
+        },
+        game: newEntryGames,
+      };
+      console.log(dataObj);
+      axios.post("/api/save-games", dataObj).then((res) => {
+        setGames2([...res.data.games]);
+      });
+    }
   };
 
   const handleLogout = () => {

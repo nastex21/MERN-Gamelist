@@ -9,12 +9,26 @@ var gameData;
 router.post("/steam", (req, res) => {
   console.log("inside /steam");
   console.log(req.body);
+
   var steamID = req.body.steamID;
-  var savedUser = req.body.creditentials.id;
-  console.log(req.session);
+  var savedUser; //database user ID
+
+  //Auth: req.session.user.id works for user who signed in through the passport and hasn't registered their steam ID yet.
+  //Auth: works for both sign in through passport and manually input your steam ID
+  if (req.session.user.id) {
+    savedUser = req.session.user.id;
+  }
+
+  /*   var steamID = req.body.steamID;
+  var savedUser = req.body.user;
+  if (req.body.creditentials !== ''){
+    savedUser = req.body.creditentials.id
+  }
+
   if (!steamID) {
     steamID = req.session.passport.user;
-  } 
+  }  */
+  console.log(req.session);
 
   console.log(steamID);
   console.log(savedUser);
@@ -42,8 +56,8 @@ router.post("/steam", (req, res) => {
             (err, result) => {
               res.send(result);
 
-              if (err){ 
-               res.send(err);
+              if (err) {
+                res.send(err);
               }
             }
           );
@@ -118,7 +132,7 @@ router.post("/updateSteam", (req, res) => {
             { $set: { steamGames: gameData } },
             { new: true },
             (err, result) => {
-                res.send(gameData);
+              res.send(gameData);
 
               if (err) {
                 console.log("err");
