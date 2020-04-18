@@ -23,7 +23,6 @@ function HomePage(props) {
   const [steamInputValue, setValue] = useState(""); // needed a separate value that didn't constantly change the steamId state
   const [steam, setSteam] = useState(0); //has steam been used?
   const [games, setGames] = useState([]); //array of Steam games
-  const [manEntryGames, setManualGame] = useState([]); //container to hold manually added games added by user from input
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
 
@@ -196,35 +195,35 @@ function HomePage(props) {
     console.log("manualData");
     console.log(objValue);
     const token = localStorage.jwtToken;
-    /*     if (token) {
-      var newGames = [...games2]; //games from database
-      var newEntryGames = [...manEntryGames]; //games recently added by user
-      var checkedArr = objValue; //kept the original value clean and used this to filter
-      var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
+    if (token) {
+      var manualGames = [...games2]; //clean games array from database
 
-      checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
+      var ids = new Set(manualGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
 
-      newGames = [...checkedArr, ...newGames];
-      newEntryGames = [...checkedArr, ...newEntryGames];
+      var checkForDupes = objValue.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
+
+      manualGames = [...checkForDupes];
+
       var dataObj = {
         user: {
           id: authUserInfo.id,
         },
-        game: newEntryGames,
+        game: manualGames,
       };
+
       console.log(dataObj);
-      axios.post("/api/save-games", dataObj).then((res) => {
+
+     axios.post("/api/save-games", dataObj).then((res) => {
+       console.log(res);
         setGames2([...res.data.games]);
-      });
-    } */
+      });  
+    } 
 
     if (guestUser || !token) {
       console.log(games2);
       var manualGames = [...savedManualGames]; //clean array of manually added games that are/were saved
 
       var ids = new Set(manualGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
-
-      console.log(ids);
 
       var checkForDupes = objValue.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
 
@@ -245,8 +244,6 @@ function HomePage(props) {
     props.history.push("/login");
   };
 
-  // Get the previous value (was passed into hook on last render)
-  const prevGames = usePrevious(manEntryGames);
 
   //Update Steam games
   const updateSteamGames = () => {
@@ -329,21 +326,6 @@ function HomePage(props) {
       </Switch>
     </>
   );
-}
-
-// Hook
-function usePrevious(value) {
-  // The ref object is a generic container whose current property is mutable ...
-  // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef();
-
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = value;
-  }, [value]); // Only re-run if value changes
-
-  // Return previous value (happens before update in useEffect above)
-  return ref.current;
 }
 
 export default withRouter(HomePage);
