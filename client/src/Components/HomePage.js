@@ -3,15 +3,18 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NavbarTop from "./Navbar";
-import Cookies from "js-cookie";
 import FrontPage from "./FrontPageSplash";
 import Dashboard from "./Dashboard";
 import RegisterPage from "./AuthPages/Register";
 import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
-import { decode } from "jsonwebtoken";
+import { ListDescription } from "semantic-ui-react";
 
-var savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
+var savedSteamGames = JSON.parse(localStorage.getItem("stored-steamgamedata"));
+var savedManualGames = JSON.parse(
+  localStorage.getItem("stored-manualgamedata")
+);
+const token = localStorage.jwtToken;
 
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
@@ -26,39 +29,44 @@ function HomePage(props) {
 
   //If there's no token then the user is a guest otherwise user has been authorized
   if (!localStorage.jwtToken) {
-    savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
+    savedSteamGames = JSON.parse(localStorage.getItem("stored-steamgamedata"));
+    savedManualGames = JSON.parse(
+      localStorage.getItem("stored-manualgamedata")
+    );
     //if localstorage item doesn't exist, then set item else populatet the games state else
     // if local storage games db is bigger in length then update games
     if (!localStorage.getItem("guest")) {
       localStorage.setItem("guest", true);
-      localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
-      savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
-    } else {
-      if (!savedGames) {
-        localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
-        savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
-      }
+      localStorage.setItem("stored-steamgamedata", JSON.stringify([])); //local storage to act as a database for Steam games
+      localStorage.setItem("stored-manualgamedata", JSON.stringify([])); //local storage to act as a database for manually entry games
+      savedSteamGames = JSON.parse(
+        localStorage.getItem("stored-steamgamedata")
+      );
+      savedManualGames = JSON.parse(
+        localStorage.getItem("stored-manualgamedata")
+      );
     }
-  } else {
+  }
+
+  if (token) {
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
     localStorage.removeItem("guest");
-    localStorage.removeItem("stored-gamedata");
+    localStorage.removeItem("stored-steamgamedata");
+    localStorage.removeItem("stored-manualgamedata");
 
     const token = localStorage.jwtToken;
     const decoded = jwt_decode(token); //contains the user database ID and username
 
     //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
-    if (guestUser && token) {
-      console.log("token");
-      setGuestUser(false);
-      setAuthUserInfo(decoded);
-    }
+    setGuestUser(false);
+    setAuthUserInfo(decoded);
   }
 
   useEffect(() => {
-    if (savedGames) {
-      setGames2([...savedGames]);
+    if (savedSteamGames) {
+      setGames([...savedSteamGames]);
+      setGames2([...savedManualGames]);
     }
 
     //event listener when user clicks on Steam login button
@@ -74,8 +82,8 @@ function HomePage(props) {
       console.log(decodedToken);
       var dataValue = {
         steamID: decodedToken.user,
-        creditentials: authUserInfo
-      }
+        creditentials: authUserInfo,
+      };
 
       if (!jwtoken) {
         dataValue.user = "guest";
@@ -91,8 +99,8 @@ function HomePage(props) {
           console.log(res);
           if (!jwtoken) {
             localStorage.setItem(
-              "stored-gamedata",
-              JSON.stringify([...res.data, ...savedGames])
+              "stored-steamgamedata",
+              JSON.stringify([...res.data, ...savedSteamGames])
             );
             setSteamId(decodedToken.user);
             setGames([...res.data]);
@@ -162,12 +170,12 @@ function HomePage(props) {
 
       if (guestUser) {
         console.log("guestUser");
-        console.log(savedGames);
+        console.log(savedSteamGames);
         localStorage.setItem(
-          "stored-gamedata",
-          JSON.stringify([...savedGames, ...res.data])
+          "stored-steamgamedata",
+          JSON.stringify([...savedSteamGames, ...res.data])
         );
-        setGames([...savedGames, ...res.data]);
+        setGames([...savedSteamGames, ...res.data]);
       }
     });
   };
@@ -186,26 +194,17 @@ function HomePage(props) {
   const manualData = (objValue) => {
     console.log("manualData");
     console.log(objValue);
-    var newGames = [...games2]; //games from database
-    var newEntryGames = [...manEntryGames]; //games recently added by user
-    var checkedArr = objValue; //kept the original value clean and used this to filter
-    var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
+    const token = localStorage.jwtToken;
+    /*     if (token) {
+      var newGames = [...games2]; //games from database
+      var newEntryGames = [...manEntryGames]; //games recently added by user
+      var checkedArr = objValue; //kept the original value clean and used this to filter
+      var ids = new Set(newGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
 
-    checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
+      checkedArr = checkedArr.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
 
-    newGames = [...checkedArr, ...newGames];
-    newEntryGames = [...checkedArr, ...newEntryGames];
-
-    if (guestUser) {
-      localStorage.setItem(
-        "stored-gamedata",
-        JSON.stringify([...newGames, ...savedGames])
-      );
-      setGames2(newGames);
-      setManualGame(newEntryGames);
-    }
-
-    if (!guestUser) {
+      newGames = [...checkedArr, ...newGames];
+      newEntryGames = [...checkedArr, ...newEntryGames];
       var dataObj = {
         user: {
           id: authUserInfo.id,
@@ -216,6 +215,28 @@ function HomePage(props) {
       axios.post("/api/save-games", dataObj).then((res) => {
         setGames2([...res.data.games]);
       });
+    } */
+
+    if (guestUser || !token) {
+      console.log(games2);
+      var manualGames = [...savedManualGames]; //clean array of manually added games that are/were saved
+
+      var ids = new Set(manualGames.map(({ game_id }) => game_id)); //get the game_ids from the newGames list
+
+      console.log(ids);
+
+      var checkForDupes = objValue.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
+
+      console.log(checkForDupes);
+
+      manualGames = [...checkForDupes, ...manualGames];
+
+      localStorage.setItem(
+        "stored-manualgamedata",
+        JSON.stringify([...manualGames])
+      );
+
+      setGames2([...manualGames]);
     }
   };
 

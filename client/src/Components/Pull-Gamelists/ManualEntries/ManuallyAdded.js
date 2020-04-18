@@ -90,7 +90,6 @@ export default function ManuallyAdded(props) {
         setShowResults(1);
       })
       .catch(error => console.log(error));
-    //props.uploadData(obj)
   };
 
   //move data to Home Component to render results
