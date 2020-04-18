@@ -100,19 +100,17 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       setPage(page);
     },
     onPageChange: (page, sizePerPage) => {
-      console.log(page);
       setItems(sizePerPage);
       setPage(page);
     },
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
-
-    if (row.provider === 'steam') {
+    if (row.provider === "steam") {
       arr = [...arr, row.game_img];
       setTimeout(() => {
-        setUnselected([...arr])
-      }, [100])
+        setUnselected([...arr]);
+      }, [100]);
     }
 
     if (row.provider !== "steam") {
@@ -145,24 +143,30 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
-  }
+  };
 
   const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
-    console.log(oldValue);
-    console.log("--after save cell--");
-    console.log("New Value was apply as");
-    console.log(newValue);
-    console.log(`and the type is ${typeof newValue}`);
-    console.log(cellData);
-    console.log(dataColumn);
     const dataValue = {
       flag: "blurToSave",
       id: userId,
       data: cellData,
     };
-    axios.post("/api/save-games", dataValue).then((res) => {
-      console.log(res);
-    });
+
+    const token = localStorage.jwtToken;
+    if (token) {
+      axios.post("/api/save-games", dataValue).then((res) => {
+        console.log(res);
+      });
+    } else {
+      var savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
+      var cleanArr = savedGames;
+      cleanArr.forEach((element, index) => {
+        if (element.game_id === cellData.game_id) {
+          cleanArr[index] = cellData;
+        }
+      });
+      localStorage.setItem("stored-gamedata", JSON.stringify(cleanArr));
+    }
   };
 
   const handleClick = () => {
@@ -170,15 +174,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     platformFilter("");
     dateFilter("");
     serviceFilter();
-  };
-
-  const handleOnSelect = (row, isSelect, c) => {
-    console.log(c);
-    if (isSelect) {
-      setSelected(true);
-    } else {
-      setSelected(false);
-    }
   };
 
   const CaptionElement = () => {
@@ -235,7 +230,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       editable: true,
       filter: textFilter({
         getFilter: (filter) => {
-          console.log(filter);
           nameFilter = filter;
         },
       }),
@@ -344,13 +338,15 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   const selectRow = {
     mode: "checkbox",
     nonSelectable: unselectable,
-    nonSelectableStyle: (row, rowIndex) => { return { backgroundColor: 'gray' }},
+    nonSelectableStyle: (row, rowIndex) => {
+      return { backgroundColor: "gray" };
+    },
     bgColor: "#00BFFF",
   };
 
   const nonEditRows = () => {
-    return unselectable
-  }
+    return unselectable;
+  };
 
   return (
     <div className="table">
@@ -358,7 +354,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       <BootstrapTable
         bootstrap4
         caption={<CaptionElement />}
-        keyField={'game_img'}
+        keyField={"game_img"}
         data={games}
         columns={columns}
         pagination={paginationFactory(options)}
@@ -371,8 +367,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
           mode: "dbclick",
           blurToSave: true,
           nonEditableRows: nonEditRows,
-          beforeSaveCell: (oldValue, newValue, row, column) => { console.log(oldValue) },
-          afterSaveCell
+          afterSaveCell,
         })}
       />
     </div>
