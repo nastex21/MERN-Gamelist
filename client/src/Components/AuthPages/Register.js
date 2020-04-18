@@ -11,6 +11,9 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [redirectPage, setRedirect] = useState(false);
 
+  localStorage.removeItem("guest");
+  localStorage.removeItem("stored-gamedata");
+
   const onChange = e => {
     var targetName = e.target.id;
     switch (targetName) {

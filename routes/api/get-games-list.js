@@ -16,12 +16,12 @@ router.post("/steam", (req, res) => {
 
   //Auth: req.session.user.id works for user who signed in through the passport and hasn't registered their steam ID yet.
   //Auth: works for both sign in through passport and manually input your steam ID
-   if (req.body.user == 'guest') {
+  if (req.body.user == 'guest') {
     savedUser = req.body.user;
-  } else {
+  } else if (req.session.user) {
     savedUser = req.session.user.id;
-  }
-
+  } 
+ 
   console.log(steamID);
   console.log(savedUser);
 

@@ -9,6 +9,7 @@ import Dashboard from "./Dashboard";
 import RegisterPage from "./AuthPages/Register";
 import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
+import { decode } from "jsonwebtoken";
 
 var savedGames;
 
@@ -62,29 +63,43 @@ function HomePage(props) {
     window.addEventListener("message", (event) => {
       if (event.origin !== "http://localhost:5555") return;
 
+      const jwtoken = localStorage.jwtToken;
+
       const { token, ok } = event.data;
 
       const decodedToken = jwt_decode(token);
 
+      console.log(decodedToken);
       var dataValue = {
         steamID: decodedToken.user,
-        creditentials: authUserInfo,
-      };
+        creditentials: authUserInfo
+      }
+
+      if (!jwtoken) {
+        dataValue.user = "guest";
+      }
+
       console.log(dataValue);
 
       axios.post("/api/get-games-list/steam", dataValue).then((res) => {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
-        } else if (res.data.steamGames) {
-          setSteamId(dataValue.steamID);
-          setGames([...res.data.steamGames]);
-          setSteam(1);
         } else {
           console.log(res);
-          setSteamId(decodedToken.user);
-          setGames([...res.data]);
-          setSteam(1);
+          if (!jwtoken) {
+            localStorage.setItem(
+              "stored-gamedata",
+              JSON.stringify([...res.data, ...savedGames])
+            );
+            setSteamId(decodedToken.user);
+            setGames([...res.data]);
+            setSteam(1);
+          } else {
+            setSteamId(dataValue.steamID);
+            setGames([...res.data.steamGames]);
+            setSteam(1);
+          }
         }
       });
     });
@@ -180,12 +195,12 @@ function HomePage(props) {
     newEntryGames = [...checkedArr, ...newEntryGames];
 
     if (guestUser) {
-      localStorage.setItem("stored-gamedata", JSON.stringify([...newGames]));
+      localStorage.setItem(
+        "stored-gamedata",
+        JSON.stringify([...newGames, ...savedGames])
+      );
       setGames2(newGames);
       setManualGame(newEntryGames);
-      /*       if (guestUser) {
-        localStorage.setItem("guest", [...dataObj.game]);
-      } */
     }
 
     if (!guestUser) {
