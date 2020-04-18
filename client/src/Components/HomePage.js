@@ -31,14 +31,12 @@ function HomePage(props) {
     if (!localStorage.getItem("guest")) {
       localStorage.setItem("guest", true);
       localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
+    } else {
+      if (!savedGames) {
+        localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
+      }
     }
   } else {
-    /* 
-   
-    
-    if (decoded.steamID && steamId == "") {
-      setSteamId(decoded.steamID);
-    } */
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
     localStorage.removeItem("guest");
@@ -53,8 +51,6 @@ function HomePage(props) {
       setGuestUser(false);
       setAuthUserInfo(decoded);
     }
-
-    console.log(decoded);
   }
 
   useEffect(() => {
@@ -80,7 +76,7 @@ function HomePage(props) {
         console.log(res);
         if (res.data.name === "Error") {
           return null;
-        } else if (res.data.steamGames){
+        } else if (res.data.steamGames) {
           setSteamId(dataValue.steamID);
           setGames([...res.data.steamGames]);
           setSteam(1);
@@ -116,57 +112,6 @@ function HomePage(props) {
     }
   }, [authUserInfo]);
 
-  //Authenticated user: fetch Steam ID if Steam ID  exists
-  /*   useEffect(() => {
-    if (guestUser) {
-      axios
-        .get("/auth/login/success", {
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            withCredentials: true,
-          },
-        })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status === 200) {
-            console.log(response);
-            setSteamId(response.data.steamID);
-            setGames([...response.data.steamGames]); //games from Steam pulled from the database
-            setGames2([...response.data.games]); //games pulled from database that were manually added
-          } else {
-            throw new Error("failed to authenticate user");
-          }
-        })
-        .catch((error) => {
-          setError("Failed to authenticated user");
-        });
-    }
-  }, [guestUser]);
- */
-
-  //listen for changes if the steamId state is altered
-  /*   useEffect(() => {
-    var dataValue = {
-      steamID: steamId,
-      creditentials: authUserInfo,
-    };
-    console.log(dataValue);
-    if (steamId && dataValue && games.length == 0) {
-      console.log("inside steamID function");
-      axios.post("/api/get-games-list/steam", dataValue).then((res) => {
-        console.log(res);
-        if (res.data.name === "Error") {
-          return null;
-        } else {
-          setGames([...games, ...res.data]);
-          setSteam(1);
-        }
-      });
-    }
-  }, [steamId]); */
-
   //for manual addition of Steam ID
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -183,6 +128,7 @@ function HomePage(props) {
       };
     } else {
       data = {
+        user: "guest",
         steamID: steamInputValue,
       };
     }
@@ -195,13 +141,16 @@ function HomePage(props) {
         setGames2([...res.data.games]);
         setSteam(1);
         setSteamId(steamInputValue);
-      } 
+      }
 
       if (guestUser) {
+        console.log("guestUser");
+        console.log(savedGames);
         localStorage.setItem(
           "stored-gamedata",
           JSON.stringify([...savedGames, ...res.data])
         );
+        setGames([...savedGames, ...res.data]);
       }
     });
   };
