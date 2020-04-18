@@ -11,7 +11,7 @@ import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
 import { decode } from "jsonwebtoken";
 
-var savedGames;
+var savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
 
 function HomePage(props) {
   const [guestUser, setGuestUser] = useState(true); //set whether user is in Guest mode
@@ -32,9 +32,11 @@ function HomePage(props) {
     if (!localStorage.getItem("guest")) {
       localStorage.setItem("guest", true);
       localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
+      savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
     } else {
       if (!savedGames) {
         localStorage.setItem("stored-gamedata", JSON.stringify([])); //local storage to act as a database
+        savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
       }
     }
   } else {
