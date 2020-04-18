@@ -158,14 +158,14 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
         console.log(res);
       });
     } else {
-      var savedGames = JSON.parse(localStorage.getItem("stored-gamedata"));
-      var cleanArr = savedGames;
+      var savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
+      var cleanArr = savedManualGames;
       cleanArr.forEach((element, index) => {
         if (element.game_id === cellData.game_id) {
           cleanArr[index] = cellData;
         }
       });
-      localStorage.setItem("stored-gamedata", JSON.stringify(cleanArr));
+      localStorage.setItem("stored-manualgamedata", JSON.stringify(cleanArr));
     }
   };
 

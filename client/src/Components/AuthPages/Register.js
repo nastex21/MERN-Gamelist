@@ -12,7 +12,8 @@ export default function Register() {
   const [redirectPage, setRedirect] = useState(false);
 
   localStorage.removeItem("guest");
-  localStorage.removeItem("stored-gamedata");
+  localStorage.removeItem("stored-steamgamedata");
+  localStorage.removeItem("stored-manualgamedata");
 
   const onChange = e => {
     var targetName = e.target.id;

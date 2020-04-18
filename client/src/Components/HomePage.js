@@ -46,9 +46,7 @@ function HomePage(props) {
         localStorage.getItem("stored-manualgamedata")
       );
     }
-  }
-
-  if (token) {
+  } else {
     // get token and use token info in the authUserInfo state
     //delete localStorage data if user went from guest to registered
     localStorage.removeItem("guest");
@@ -59,8 +57,11 @@ function HomePage(props) {
     const decoded = jwt_decode(token); //contains the user database ID and username
 
     //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
-    setGuestUser(false);
-    setAuthUserInfo(decoded);
+    if (guestUser && token) {
+      console.log("token");
+      setGuestUser(false);
+      setAuthUserInfo(decoded);
+    }
   }
 
   useEffect(() => {
