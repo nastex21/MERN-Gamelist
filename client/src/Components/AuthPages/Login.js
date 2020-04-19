@@ -9,7 +9,6 @@ import "../css/Forms.css";
 export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
   const [redirectPage, setRedirect] = useState(false);
 
   localStorage.removeItem("guest");
@@ -30,11 +29,6 @@ export default function LoginPage() {
     }
   };
 
-  const userData = {
-    name: name,
-    password: password
-  };
-
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -46,7 +40,6 @@ export default function LoginPage() {
     axios
       .post("/api/users/login", userData)
       .then(res => {
-        console.log(res.data);
         // Save to localStorage
         // Set token to localStorage
         const { token, user } = res.data;
@@ -57,7 +50,6 @@ export default function LoginPage() {
         // Decode token to get user data
         const decoded = jwt_decode(token);
         // Set current user
-        console.log(decoded);
         const userObj = {
           id: decoded.id,
           name: decoded.name,

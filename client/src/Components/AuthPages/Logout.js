@@ -7,7 +7,6 @@ export default function Logout() {
  axios.post('/api/users/logout', { } , { withCredentials: true }).then(res => console.log("hi")).catch(err => console.log(err));
 
   localStorage.removeItem('jwtToken');
-  console.log("running Logout");
 
   return (
     <>

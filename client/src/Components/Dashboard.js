@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ManuallyAdded from "./Pull-Gamelists/ManualEntries/ManuallyAdded";
 import SteamForm from "./Pull-Gamelists/SteamList/SteamForm";
 import GenerateTable from "./GenerateTable/GenerateTable";
 
 export default function Dashboard({
   manualData,
-  steam,
   steamId,
   userId,
   value,
@@ -18,10 +17,6 @@ export default function Dashboard({
 })
 
 {
-  console.log('Dashboard');
-  console.log('games, games2');
-  console.log(games);
-  console.log(games2);
   return (
     <div className="dashboard">
       <div className="manualBox">

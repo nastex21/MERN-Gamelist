@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
 function ShowResults(props) {
-  console.log(props);
   const [singleSelectData, setSingleData] = useState([]); //data from single selection
 
   const handleOnSelect = (row, isSelect) => {
-    console.log(row)
     if (isSelect){
       var gameObj = {
         game_id: row.id,

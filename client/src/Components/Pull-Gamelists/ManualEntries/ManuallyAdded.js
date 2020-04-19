@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown, SearchCategory } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import ShowResults from "./ShowResults";
 import axios from "axios";
 
@@ -7,7 +7,6 @@ export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
   const [systemID, setSystemID] = useState("");
-  const [items, setItems] = useState("");
   const [showResults, setShowResults] = useState(0);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
@@ -23,7 +22,6 @@ export default function ManuallyAdded(props) {
 
     if (localStorage.getItem("stored-plats")) {
       savedPlatforms = JSON.parse(localStorage.getItem("stored-plats"));
-      console.log(savedPlatforms);
       setOptions([...savedPlatforms]);
     }
 
@@ -37,8 +35,6 @@ export default function ManuallyAdded(props) {
           // If request is good...
           var data = response.data;
           localStorage.setItem("stored-plats", JSON.stringify(data));
-          console.log(data);
-          console.log("setLoaded");
           setLoaded(true);
           setOptions([...data]);
         })
@@ -83,7 +79,6 @@ export default function ManuallyAdded(props) {
     axios
       .get("/api/get-games-list/db", obj)
       .then(response => {
-        console.log(response.data);
         setNextPage(response.data.next);
         setPreviousPage(response.data.previous);
         setResults([...response.data.results]);
