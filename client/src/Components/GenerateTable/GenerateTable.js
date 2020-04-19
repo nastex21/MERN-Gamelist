@@ -201,7 +201,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
           </div>
           {selected ? (
             <div className="tableButtons float-right">
-              <button className="btn btn-lg btn-primary" onClick={handleClick}>
+              <button className="btn btn-lg btn-primary" onClick={deleteGames}>
                 Delete Game(s)
               </button>
             </div>
@@ -210,6 +210,10 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       </div>
     );
   };
+
+  const deleteGames = () => {
+
+  }
 
   const handleOnSelect = (row, isSelect, c) => {
     console.log(row);
@@ -222,14 +226,6 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     } else {
       setSelected(false);
     }
-  };
-
-  const DeleteButton = () => {
-    return (
-      <div className="deleteButton">
-        <input type="button" value="Delete" />
-      </div>
-    );
   };
 
   const columns = [
