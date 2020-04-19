@@ -22,7 +22,7 @@ var savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"))
 
 var arr = [];
 
-function GenerateTable({ gamelist, gameslist2, userId }) {
+function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
@@ -223,6 +223,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
       var newArr = [...savedManualGames];
       var newArr2 = newArr.filter(f => !selectedItems.includes(f.game_id));
       localStorage.setItem("stored-manualgamedata", JSON.stringify(newArr2));
+      deletedGamesRender(savedManualGames);
     }
   }
 

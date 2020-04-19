@@ -225,6 +225,14 @@ function HomePage(props) {
 
   console.log(games2);
 
+  const deletedGamesRender = (data) => {
+      if (!token){
+        console.log('inside deletedGamesRender');
+        savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
+        setGames2([...savedManualGames]);
+      }
+  }
+
   return (
     <>
       <NavbarTop guestUser={guestUser} />
@@ -280,6 +288,7 @@ function HomePage(props) {
                   handleClick={handleClick}
                   games={games}
                   games2={games2}
+                  deletedGamesRender={deletedGamesRender}
                 />
               )}
             />
