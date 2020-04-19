@@ -6,7 +6,6 @@ import axios from "axios";
 export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
-  const [systemID, setSystemID] = useState("");
   const [showResults, setShowResults] = useState(0);
   const [previousPage, setPreviousPage] = useState("");
   const [nextPage, setNextPage] = useState("");
@@ -31,21 +30,21 @@ export default function ManuallyAdded(props) {
       var getData = "/api/get-platforms-list";
       axios
         .get(getData)
-        .then(response => {
+        .then((response) => {
           // If request is good...
           var data = response.data;
           localStorage.setItem("stored-plats", JSON.stringify(data));
           setLoaded(true);
           setOptions([...data]);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("error 3 " + error);
         });
     }
   }, []);
-  
+
   // Game Text Input: onChange to set value of input text
-  const updateName = e => {
+  const updateName = (e) => {
     setValueText(e.target.value);
   };
 
@@ -60,35 +59,57 @@ export default function ManuallyAdded(props) {
     setSearchQuery({ searchQuery });
 
   //submit and search the database
-  const submitValues = e => {
+  const submitValues = (e) => {
     e.preventDefault();
-    const submitValue = value;
-    const newIdObj = options.filter(item =>
-      item.value == submitValue ? item : null
-    );
-    const newId = newIdObj[0].key;
-    setSystemID(newId);
-    var obj = {
-      params: {
-        id: newId,
-        system: value,
-        name: valueText
-      }
-    };
 
-    axios
-      .get("/api/get-games-list/db", obj)
-      .then(response => {
-        setNextPage(response.data.next);
-        setPreviousPage(response.data.previous);
-        setResults([...response.data.results]);
-        setShowResults(1);
-      })
-      .catch(error => console.log(error));
+    if (value) {
+      //user gave both a name title and platform
+      const submitValue = value;
+
+      const newIdObj = options.filter((item) =>
+        item.value == submitValue ? item : null
+      );
+
+      const newId = newIdObj[0].key; //specific id of the platform
+      console.log(newId);
+      var obj = {
+        params: {
+          id: newId,
+          system: value,
+          name: valueText,
+        },
+      };
+
+      axios
+        .get("/api/get-games-list/db", obj)
+        .then((response) => {
+          setNextPage(response.data.next);
+          setPreviousPage(response.data.previous);
+          setResults([...response.data.results]);
+          setShowResults(1);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      //if user doesn't give a platform and is only doing a general search of game title
+
+      var obj = {
+        params: {
+          name: valueText
+        }
+      }
+      axios.get('/api/get-games-list/db', obj).then((response) => {
+        console.log(response);
+          setNextPage(response.data.next);
+          setPreviousPage(response.data.previous);
+          setResults([...response.data.results]);
+          setShowResults(1);
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   //move data to Home Component to render results
-  const addGameFromResults = item => {
+  const addGameFromResults = (item) => {
     props.uploadData(item);
   };
 
