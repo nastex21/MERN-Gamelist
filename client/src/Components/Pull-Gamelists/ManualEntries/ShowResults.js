@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 function ShowResults(props) {
   const [singleSelectData, setSingleData] = useState([]); //data from single selection
@@ -28,7 +29,7 @@ function ShowResults(props) {
   const columns = [
     {
       dataField: "name",
-      text: "Name",
+      text: "Name"
     }
   ]
 
@@ -43,6 +44,7 @@ function ShowResults(props) {
     props.uploadData(singleSelectData)
   };
 
+  console.log(props.results);
   return (
     <div className="resultsTable">
       <h3>Add games</h3>
@@ -51,7 +53,7 @@ function ShowResults(props) {
         data={props.results}
         columns={columns}
         keyField={"id"}
-        selectRow={selectRow}
+        selectRow={selectRow} 
       />
       <div className="resultsSaveButton">
         <input type="button" value="Save to database" onClick={saveSelected} />

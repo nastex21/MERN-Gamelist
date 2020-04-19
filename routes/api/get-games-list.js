@@ -73,20 +73,11 @@ router.get("/db", (req, res) => {
     },
   };
 
-  if (!system) {
-    console.log("empty");
-    var url = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=10&search=${name}&page=1`;
-    axios
-      .get(url, sendHeaders)
-      .then((response) => res.send(response.data))
-      .catch((error) => console.log(error));
-  } else {
-    var urlWithPlatform = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=10&search=${name}&platforms=${id}&page=1`;
-    axios
-      .get(urlWithPlatform, sendHeaders)
-      .then((response) => res.send(response.data))
-      .catch((error) => console.log(error));
-  }
+  var urlWithPlatform = `https://rawg-video-games-database.p.rapidapi.com/games?page_size=10&search=${name}&platforms=${id}&page=1`;
+  axios
+    .get(urlWithPlatform, sendHeaders)
+    .then((response) => res.send(response.data))
+    .catch((error) => console.log(error));
 });
 
 router.get("/user-db", (req, res) => {

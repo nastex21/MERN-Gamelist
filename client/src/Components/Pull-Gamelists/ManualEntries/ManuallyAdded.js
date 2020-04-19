@@ -90,21 +90,7 @@ export default function ManuallyAdded(props) {
         })
         .catch((error) => console.log(error));
     } else {
-      //if user doesn't give a platform and is only doing a general search of game title
-
-      var obj = {
-        params: {
-          name: valueText
-        }
-      }
-      axios.get('/api/get-games-list/db', obj).then((response) => {
-        console.log(response);
-          setNextPage(response.data.next);
-          setPreviousPage(response.data.previous);
-          setResults([...response.data.results]);
-          setShowResults(1);
-        })
-        .catch((error) => console.log(error));
+      window.alert("Please select a system")
     }
   };
 
