@@ -25,6 +25,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
   const [selected, setSelected] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [unselectable, setUnselected] = useState([]);
 
   useEffect(() => {
@@ -158,7 +159,9 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
         console.log(res);
       });
     } else {
-      var savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
+      var savedManualGames = JSON.parse(
+        localStorage.getItem("stored-manualgamedata")
+      );
       var cleanArr = savedManualGames;
       cleanArr.forEach((element, index) => {
         if (element.game_id === cellData.game_id) {
@@ -178,7 +181,7 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
 
   const CaptionElement = () => {
     return (
-      <div>
+      <div className="headerItems">
         <h3
           style={{
             borderRadius: "0.25em",
@@ -190,14 +193,35 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
         >
           Game Collection
         </h3>
-        <>
-          <button className="btn btn-lg btn-primary" onClick={handleClick}>
-            {" "}
-            Clear all filters{" "}
-          </button>
-        </>
+        <div className="buttonsHeader">
+          <div className="tableButtons float-left">
+            <button className="btn btn-lg btn-primary" onClick={handleClick}>
+              Clear all filters
+            </button>
+          </div>
+          {selected ? (
+            <div className="tableButtons float-right">
+              <button className="btn btn-lg btn-primary" onClick={handleClick}>
+                Delete Game(s)
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
     );
+  };
+
+  const handleOnSelect = (row, isSelect, c) => {
+    console.log(row);
+    console.log(c);
+    if (isSelect) {
+      let newArr = [...selectedItems];
+      newArr = [...newArr, c];
+      setSelected(true);
+      setSelectedItems([...newArr]);
+    } else {
+      setSelected(false);
+    }
   };
 
   const DeleteButton = () => {
@@ -337,6 +361,8 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
 
   const selectRow = {
     mode: "checkbox",
+    hideSelectAll: true,
+    onSelect: handleOnSelect,
     nonSelectable: unselectable,
     nonSelectableStyle: (row, rowIndex) => {
       return { backgroundColor: "gray" };
@@ -348,9 +374,11 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
     return unselectable;
   };
 
+  console.log(selected);
+  console.log(selectedItems);
+
   return (
     <div className="table">
-      {selected ? <DeleteButton /> : null}
       <BootstrapTable
         bootstrap4
         caption={<CaptionElement />}
