@@ -224,6 +224,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
       var newArr2 = newArr.filter(f => !selectedItems.includes(f.game_id));
       localStorage.setItem("stored-manualgamedata", JSON.stringify(newArr2));
       deletedGamesRender(savedManualGames);
+      setSelectedItems([]);
     }
   }
 
