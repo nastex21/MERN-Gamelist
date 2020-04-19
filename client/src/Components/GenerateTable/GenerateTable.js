@@ -17,6 +17,8 @@ let nameFilter;
 let platformFilter;
 let dateFilter;
 let serviceFilter;
+var token = localStorage.jwtToken;
+var savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
 
 var arr = [];
 
@@ -216,7 +218,12 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   };
 
   const deleteGames = () => {
-
+    if (!token){
+      console.log(savedManualGames);
+      var newArr = [...savedManualGames];
+      var newArr2 = newArr.filter(f => !selectedItems.includes(f.game_id));
+      localStorage.setItem("stored-manualgamedata", JSON.stringify(newArr2));
+    }
   }
 
   const handleOnSelect = (row, isSelect, c) => {
