@@ -199,13 +199,17 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
               Clear all filters
             </button>
           </div>
-          {selected ? (
+          {selectedItems.length === 1 ? (
             <div className="tableButtons float-right">
               <button className="btn btn-lg btn-primary" onClick={deleteGames}>
-                Delete Game(s)
+                Delete Game
               </button>
             </div>
-          ) : null}
+          ) : selectedItems.length > 1 ? <div className="tableButtons float-right">
+          <button className="btn btn-lg btn-primary" onClick={deleteGames}>
+            Delete Games
+          </button>
+        </div> : null}
         </div>
       </div>
     );
@@ -218,14 +222,15 @@ function GenerateTable({ gamelist, gameslist2, userId }) {
   const handleOnSelect = (row, isSelect, c) => {
     console.log(row);
     console.log(c);
+    var newArr = [...selectedItems];
     if (isSelect) {
-      let newArr = [...selectedItems];
-      newArr = [...newArr, c];
+      newArr = [...newArr, row.game_id];
       setSelected(true);
-      setSelectedItems([...newArr]);
     } else {
+      newArr = newArr.filter(item => item !== row.game_id)
       setSelected(false);
     }
+    setSelectedItems([...newArr]);
   };
 
   const columns = [
