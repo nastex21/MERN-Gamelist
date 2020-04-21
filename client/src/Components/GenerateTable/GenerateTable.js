@@ -17,8 +17,10 @@ let nameFilter;
 let platformFilter;
 let dateFilter;
 let serviceFilter;
-var token = localStorage.jwtToken;
-var savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
+const token = localStorage.getItem("jwtToken");
+var savedManualGames = JSON.parse(
+  localStorage.getItem("stored-manualgamedata")
+);
 
 var arr = [];
 
@@ -26,11 +28,15 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
+  const [rows, setRows] = useState();
   const [selected, setSelected] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [unselectable, setUnselected] = useState([]);
 
   useEffect(() => {
+    console.log('useeffect')
+    setSelected(false);
+    setSelectedItems([]);
     setGames([...gameslist2, ...gamelist]);
   }, [gamelist, gameslist2]);
 
@@ -109,10 +115,15 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
+    console.log('imageFormatter');
+    console.log(selected);
+    console.log(selectedItems);
     if (row.provider === "steam") {
       arr = [...arr, row.game_img];
       setTimeout(() => {
         setUnselected([...arr]);
+        setSelected(false);
+        setSelectedItems([]);
       }, [100]);
     }
 
@@ -137,25 +148,33 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const dateFormatter = (cell) => {
+    console.log('dateFormatter');
+    console.log(selected);
+    console.log(selectedItems);
     if (cell) {
       return cell.substr(0, 4);
     }
   };
 
   var numFormatter = (a, b, c) => {
+    console.log('numFormatter');
+    console.log(selected);
+    console.log(selectedItems);
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
   };
 
   const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
+    console.log('afterSavecell');
+    console.log(selected);
+    console.log(selectedItems);
     const dataValue = {
       flag: "blurToSave",
       id: userId,
       data: cellData,
     };
 
-    const token = localStorage.jwtToken;
     if (token) {
       axios.post("/api/save-games", dataValue).then((res) => {
         console.log(res);
@@ -175,6 +194,9 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const handleClick = () => {
+    console.log('handleClick');
+    console.log(selected);
+    console.log(selectedItems);
     nameFilter("");
     platformFilter("");
     dateFilter("");
@@ -182,6 +204,9 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const CaptionElement = () => {
+    console.log('CaptionElement');
+    console.log(selected);
+    console.log(selectedItems);
     return (
       <div className="headerItems">
         <h3
@@ -207,39 +232,66 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
                 Delete Game
               </button>
             </div>
-          ) : selectedItems.length > 1 ? <div className="tableButtons float-right">
-          <button className="btn btn-lg btn-primary" onClick={deleteGames}>
-            Delete Games
-          </button>
-        </div> : null}
+          ) : selectedItems.length > 1 ? (
+            <div className="tableButtons float-right">
+              <button className="btn btn-lg btn-primary" onClick={deleteGames}>
+                Delete Games
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     );
   };
 
   const deleteGames = () => {
-    if (!token){
+    console.log('deletedGames');
+    console.log(selected);
+    console.log(selectedItems);
+    setSelectedItems([]);
+    setSelected(false);
+
+    if (!token) {
       console.log(savedManualGames);
       var newArr = [...savedManualGames];
-      var newArr2 = newArr.filter(f => !selectedItems.includes(f.game_id));
+      var newArr2 = newArr.filter((f) => !selectedItems.includes(f.game_id));
       localStorage.setItem("stored-manualgamedata", JSON.stringify(newArr2));
-      deletedGamesRender(savedManualGames);
+      savedManualGames = JSON.parse(
+        localStorage.getItem("stored-manualgamedata")
+      );
+
       setSelectedItems([]);
+      setSelected(false);
+
+      deletedGamesRender(savedManualGames);
     }
-  }
+  };
 
   const handleOnSelect = (row, isSelect, c) => {
+    console.log('handleOnSelect');
+    console.log(selected);
+    console.log(selectedItems);
     console.log(row);
     console.log(c);
     var newArr = [...selectedItems];
+
+   /*  if (selectedItems.length == 0){
+      return false
+    }  */
     if (isSelect) {
       newArr = [...newArr, row.game_id];
+      console.log(newArr);
+      setRows(row);
+      setSelectedItems([...newArr]);
       setSelected(true);
     } else {
-      newArr = newArr.filter(item => item !== row.game_id)
+      newArr = newArr.filter((item) => item !== row.game_id);
+      console.log(newArr);
+      setRows(row);
+      setSelectedItems([...newArr]);
       setSelected(false);
     }
-    setSelectedItems([...newArr]);
+    
   };
 
   const columns = [
@@ -381,6 +433,9 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const nonEditRows = () => {
+    console.log('nonEditRows');
+    console.log(selected);
+    console.log(selectedItems);
     return unselectable;
   };
 

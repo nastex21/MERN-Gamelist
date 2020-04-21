@@ -12,7 +12,7 @@ import LogoutPage from "./AuthPages/Logout";
 
 var savedSteamGames;
 var savedManualGames;
-var token = localStorage.jwtToken;
+var token = localStorage.getItem("jwtToken");
 
 function getItems() {
   savedSteamGames = JSON.parse(localStorage.getItem("stored-steamgamedata"));
@@ -28,28 +28,36 @@ function HomePage(props) {
   const [games, setGames] = useState([]); //array of Steam games
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
+  const [flag, setFlag] = useState(false);
 
-  //If there's no token then the user is a guest otherwise user has been authorized
-  if (!localStorage.jwtToken) {
-    getItems();
-    //if localstorage item doesn't exist, then set item else populatet the games state else
-    // if local storage games db is bigger in length then update games
-    if (!localStorage.getItem("guest")) {
-      setStorage('initial');
+    //If there's no token then the user is a guest otherwise user has been authorized
+   if (token == null && guestUser && !flag)  {
+      console.log("null");
       getItems();
-    }
-  } else {
-    //delete localStorage data if user went from guest to registered
-    removeStorage();
+      //if localstorage item doesn't exist, then set item else populatet the games state else
+      // if local storage games db is bigger in length then update games
+      if (!localStorage.getItem("guest")) {
+        setStorage("initial");
+        setFlag(true);
+        getItems();
+      }
+    } else if (token && guestUser && !flag) {
+      console.log(token);
+      console.log("else");
+      //delete localStorage data if user went from guest to registered
+      removeStorage();
 
-    const decoded = jwt_decode(token); //contains the user database ID and username
+      const decoded = jwt_decode(token); //contains the user database ID and username
 
-    //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
-    if (guestUser && token) {
-      setGuestUser(false);
-      setAuthUserInfo(decoded);
-    }
-  }
+      //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
+      if (guestUser && authUserInfo == "") {
+        console.log("guestUser and token");
+        setGuestUser(false);
+        setAuthUserInfo(decoded);
+        setFlag(true);
+      }
+    }  
+
 
   useEffect(() => {
     if (savedSteamGames) {
@@ -63,7 +71,7 @@ function HomePage(props) {
 
       const jwtoken = localStorage.jwtToken;
 
-      const { token, ok } = event.data;
+      var { token, ok } = event.data;
 
       const decodedToken = jwt_decode(token);
 
@@ -81,7 +89,7 @@ function HomePage(props) {
           return null;
         } else {
           if (!jwtoken) {
-            setStorage('steam', [...res.data, ...savedSteamGames]);
+            setStorage("steam", [...res.data, ...savedSteamGames]);
             setSteamId(decodedToken.user);
             setGames([...res.data]);
             setSteam(1);
@@ -97,6 +105,8 @@ function HomePage(props) {
 
   //Auth: get games when successfully logged in.
   useEffect(() => {
+    console.log('guestUser');
+    console.log(guestUser);
     if (!guestUser && games.length === 0 && games2.length === 0) {
       axios
         .post("/auth/login/success", authUserInfo)
@@ -149,7 +159,7 @@ function HomePage(props) {
       }
 
       if (guestUser) {
-        setStorage('steam', [...savedSteamGames, ...res.data]);
+        setStorage("steam", [...savedSteamGames, ...res.data]);
         setGames([...savedSteamGames, ...res.data]);
       }
     });
@@ -196,8 +206,8 @@ function HomePage(props) {
       var checkForDupes = objValue.filter(({ game_id }) => !ids.has(game_id)); //check for dupes
 
       manualGames = [...checkForDupes, ...manualGames];
-      
-      setStorage('manual', [...manualGames]);
+
+      setStorage("manual", [...manualGames]);
 
       setGames2([...manualGames]);
     }
@@ -226,12 +236,14 @@ function HomePage(props) {
   console.log(games2);
 
   const deletedGamesRender = (data) => {
-      if (!token){
-        console.log('inside deletedGamesRender');
-        savedManualGames = JSON.parse(localStorage.getItem("stored-manualgamedata"));
-        setGames2([...savedManualGames]);
-      }
-  }
+    if (!token) {
+      console.log("inside deletedGamesRender");
+      savedManualGames = JSON.parse(
+        localStorage.getItem("stored-manualgamedata")
+      );
+      setGames2([...savedManualGames]);
+    }
+  };
 
   return (
     <>
