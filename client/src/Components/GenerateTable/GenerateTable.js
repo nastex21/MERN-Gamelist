@@ -248,8 +248,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
     console.log('deletedGames');
     console.log(selected);
     console.log(selectedItems);
-    setSelectedItems([]);
-    setSelected(false);
 
     if (!token) {
       console.log(savedManualGames);
@@ -264,6 +262,13 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
       setSelected(false);
 
       deletedGamesRender(savedManualGames);
+    } else {
+      var newArr = [...gameslist2];
+      var newArr2 = newArr.filter((f) => !selectedItems.includes(f.game_id));
+      console.log(newArr2);
+      axios.post('/api/delete-games', selectedItems).then((res) => {
+        console.log(res);
+      });
     }
   };
 

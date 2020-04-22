@@ -12,6 +12,7 @@ const authRoutes = require("./routes/auth/auth-routes");
 const gamelistRoutes = require('./routes/api/get-games-list');
 const platformslistRoutes = require ('./routes/api/get-platforms-list');
 const saveGames = require('./routes/api/save-games');
+const deleteGames = require('./routes/api/delete-games');
 const passport = require("passport");
 const app = express();
 
@@ -68,6 +69,7 @@ app.use('/api/get-games-list', gamelistRoutes);
 app.use('/api/get-platforms-list', platformslistRoutes);
 app.use('/api/save-games', saveGames);
 app.use("/api/users", users);
+app.use('/api/delete-games', deleteGames);
 
 const PORT = process.env.PORT || 5555;
 
