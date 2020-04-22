@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "./Forms/LoginForm";
 import setAuthToken from "../../utils/setAuthToken";
@@ -6,14 +6,18 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import "../css/Forms.css";
 import Alert from "react-bootstrap/Alert";
+import { UserContext } from "../../UserContext";
 
 export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [redirectPage, setRedirect] = useState(false);
-  const [registrationSuccess, setSuccess] = useState(false);
+  const [registrationSuccess, setRegisterSuccess] = useState(false);
   const [loginFail, setFail] = useState(false);
   const [show, setShow] = useState(true);
+  const {success, setSuccess } = useContext(UserContext);
+
+  console.log(registrationSuccess);
 
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { setStorage, removeStorage } from "../utils/localStorage";
+import { UserContext } from "../UserContext";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import NavbarTop from "./Navbar";
@@ -26,31 +27,33 @@ function HomePage(props) {
   const [steam, setSteam] = useState(0); //has steam been used?
   const [games, setGames] = useState([]); //array of Steam games
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
+  const [success, setSuccess] = useState(null);
+  const [fail, setFail] = useState(false);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
+  const value = useMemo(() => ({ success, setSuccess }), [success, setSuccess ]);
 
-    //If there's no token then the user is a guest otherwise user has been authorized
-   if (token == null && guestUser)  {
+  //If there's no token then the user is a guest otherwise user has been authorized
+  if (token == null && guestUser) {
+    getItems();
+    //if localstorage item doesn't exist, then set item else populatet the games state else
+    // if local storage games db is bigger in length then update games
+    if (!localStorage.getItem("guest")) {
+      setStorage("initial");
       getItems();
-      //if localstorage item doesn't exist, then set item else populatet the games state else
-      // if local storage games db is bigger in length then update games
-      if (!localStorage.getItem("guest")) {
-        setStorage("initial");
-        getItems();
-      }
-    } else if (token && guestUser) {
-      //delete localStorage data if user went from guest to registered
-      removeStorage();
+    }
+  } else if (token && guestUser) {
+    //delete localStorage data if user went from guest to registered
+    removeStorage();
 
-      const decoded = jwt_decode(token); //contains the user database ID and username
+    const decoded = jwt_decode(token); //contains the user database ID and username
 
-      //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
-      if (guestUser && authUserInfo == "") {
-        setGuestUser(false);
-        setAuthUserInfo(decoded);
-      }
-    }  
-
+    //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
+    if (guestUser && authUserInfo == "") {
+      setGuestUser(false);
+      setAuthUserInfo(decoded);
+    }
+  }
 
   useEffect(() => {
     if (savedSteamGames) {
@@ -224,8 +227,6 @@ function HomePage(props) {
     });
   };
 
-  console.log(games2);
-
   const deletedGamesRender = (data) => {
     if (!token) {
       console.log("inside deletedGamesRender");
@@ -238,6 +239,9 @@ function HomePage(props) {
       setGames2([...data]);
     }
   };
+
+
+  console.log(value);
 
   return (
     <>
@@ -278,8 +282,18 @@ function HomePage(props) {
           </>
         ) : (
           <>
-            <Route exact path="/register" component={RegisterPage} />
-            <Route exact path="/login" render={(props) => <LoginPage />} />
+            <UserContext.Provider value={value}>
+              <Route
+                exact
+                path="/register"
+                component={RegisterPage}
+                />
+              <Route
+                exact
+                path="/login"
+                component={LoginPage}
+              />
+            </UserContext.Provider>
             <Route exact path="/" component={FrontPage} />
             <Route
               exact

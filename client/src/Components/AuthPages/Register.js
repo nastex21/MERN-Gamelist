@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import { UserContext } from '../../UserContext';
 import RegisterForm from "./Forms/RegisterForm";
 import "../css/Forms.css";
 import axios from "axios";
@@ -12,7 +13,8 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [redirectPage, setRedirect] = useState(false);
   const [registrationFail, setFail] = useState(false);
-  const [registrationSuccess, setSuccess] = useState(false);
+  const [registrationSuccess, setRegisterSuccess] = useState(false);
+  const {success, setSuccess } = useContext(UserContext);
   const [show, setShow] = useState(true);
 
   localStorage.removeItem("guest");
@@ -36,6 +38,11 @@ export default function Register() {
     }
   };
 
+  const updateSuccessMsg = () => {
+    setRedirect(true);
+    setSuccess(true);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -48,18 +55,11 @@ export default function Register() {
 
     axios
       .post("/api/users/register", newUser)
-      .then((res) => setRedirect(true)) // re-direct to login on successful register
+      .then((res) => updateSuccessMsg())
       .catch((err) => setErrors(err), setShow(true), setFail(true));
   };
 
-  const successMsg = () => {
-    return (
-      <div class="alert alert-success" role="alert">
-        Sucessfully registered! Please log in.
-      </div>
-    );
-  };
-
+ 
   const failMsg = () => {
     if (registrationSuccess) {
       setSuccess(false);
