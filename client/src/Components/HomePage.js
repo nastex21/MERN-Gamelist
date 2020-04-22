@@ -27,11 +27,11 @@ function HomePage(props) {
   const [steam, setSteam] = useState(0); //has steam been used?
   const [games, setGames] = useState([]); //array of Steam games
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
-  const [success, setSuccess] = useState(null);
+  const [registerSuccess, setRegisterSuccess] = useState(null);
   const [fail, setFail] = useState(false);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("jwtToken");
-  const value = useMemo(() => ({ success, setSuccess }), [success, setSuccess ]);
+  const value = useMemo(() => ({ registerSuccess, setRegisterSuccess }), [registerSuccess, setRegisterSuccess ]);
 
   //If there's no token then the user is a guest otherwise user has been authorized
   if (token == null && guestUser) {

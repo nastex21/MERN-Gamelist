@@ -12,12 +12,9 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [redirectPage, setRedirect] = useState(false);
-  const [registrationSuccess, setRegisterSuccess] = useState(false);
   const [loginFail, setFail] = useState(false);
   const [show, setShow] = useState(true);
-  const {success, setSuccess } = useContext(UserContext);
-
-  console.log(registrationSuccess);
+  const {registerSuccess, setRegisterSuccess } = useContext(UserContext);
 
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");
@@ -76,8 +73,8 @@ export default function LoginPage() {
 
 
   const failMsg = () => {
-    if (registrationSuccess) {
-      setSuccess(false);
+    if (registerSuccess) {
+      setRegisterSuccess(false);
     }
     if (show) {
       return (
@@ -95,7 +92,7 @@ export default function LoginPage() {
         <Redirect to="/dashboard" />
       ) : (
         <div className="loginPage">
-          {registrationSuccess ? successMsg() : null}
+          {registerSuccess ? successMsg() : null}
           {loginFail ? failMsg() : null}
           <LoginForm
             handleSubmit={handleSubmit}

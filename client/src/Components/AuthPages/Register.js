@@ -13,8 +13,7 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [redirectPage, setRedirect] = useState(false);
   const [registrationFail, setFail] = useState(false);
-  const [registrationSuccess, setRegisterSuccess] = useState(false);
-  const {success, setSuccess } = useContext(UserContext);
+  const {registerSuccess, setRegisterSuccess } = useContext(UserContext);
   const [show, setShow] = useState(true);
 
   localStorage.removeItem("guest");
@@ -40,7 +39,7 @@ export default function Register() {
 
   const updateSuccessMsg = () => {
     setRedirect(true);
-    setSuccess(true);
+    setRegisterSuccess(true);
   }
 
   const handleSubmit = (event) => {
@@ -61,8 +60,8 @@ export default function Register() {
 
  
   const failMsg = () => {
-    if (registrationSuccess) {
-      setSuccess(false);
+    if (registerSuccess) {
+      setRegisterSuccess(false);
     }
     if (show) {
       return (
