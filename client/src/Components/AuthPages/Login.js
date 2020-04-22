@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import LoginForm from "./Forms/LoginForm";
 import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
-import axios from 'axios';
+import axios from "axios";
 import "../css/Forms.css";
-import Alert from 'react-bootstrap/Alert';
+import Alert from "react-bootstrap/Alert";
 
 export default function LoginPage() {
   const [name, setName] = useState("");
@@ -19,7 +19,7 @@ export default function LoginPage() {
   localStorage.removeItem("stored-steamgamedata");
   localStorage.removeItem("stored-manualgamedata");
 
-  const onChange = e => {
+  const onChange = (e) => {
     var targetName = e.target.id;
     switch (targetName) {
       case "name":
@@ -33,63 +33,63 @@ export default function LoginPage() {
     }
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     var userData = {
       name: name,
-      password: password
-    }
+      password: password,
+    };
 
     axios
       .post("/api/users/login", userData)
-      .then(res => {
+      .then((res) => {
         // Save to localStorage
         // Set token to localStorage
         const { token, user } = res.data;
         localStorage.setItem("jwtToken", token);
-        localStorage.removeItem('guest');
+        localStorage.removeItem("guest");
         // Set token to Auth header
         setAuthToken(token);
-        setFail(false);
         // Decode token to get user data
         const decoded = jwt_decode(token);
 
         setRedirect(true);
       })
-      .catch(err => {
+      .catch((err) => {
+        setShow(true);
         setFail(true);
-      })
-  }
+      });
+  };
 
   const successMsg = () => {
     return (
       <div class="alert alert-success" role="alert">
         Sucessfully registered! Please log in.
       </div>
-    )
-  }
+    );
+  };
+
 
   const failMsg = () => {
+    if (registrationSuccess) {
+      setSuccess(false);
+    }
     if (show) {
       return (
         <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-          <p>
-            Change this and that and try again. Duis mollis, est non commodo
-            luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            Cras mattis consectetur purus sit amet fermentum.
-      </p>
+          <Alert.Heading>There's an error logging in!</Alert.Heading>
+          <p>Please check your username and/or password</p>
         </Alert>
-      )
+      );
     }
-  }
+  };
 
-return (
-  <>
-    {redirectPage ? (
-      <Redirect to="/dashboard" />
-    ) : (
+  return (
+    <>
+      {redirectPage ? (
+        <Redirect to="/dashboard" />
+      ) : (
         <div className="loginPage">
           {registrationSuccess ? successMsg() : null}
           {loginFail ? failMsg() : null}
@@ -101,6 +101,6 @@ return (
           />
         </div>
       )}
-  </>
-);
+    </>
+  );
 }
