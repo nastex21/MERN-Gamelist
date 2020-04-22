@@ -7,6 +7,7 @@ router.post("/", (req, res) => {
   User.findByIdAndUpdate(
     req.session.user.id,
     { $pull: { games: { game_id: { $in: gameIdArr } } } },
+    {new: true},
     function (err, data) {
       res.send(data);
       if (err) {

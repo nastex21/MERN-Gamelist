@@ -233,6 +233,9 @@ function HomePage(props) {
         localStorage.getItem("stored-manualgamedata")
       );
       setGames2([...savedManualGames]);
+    } else {
+      console.log(data);
+      setGames2([...data]);
     }
   };
 
@@ -262,6 +265,7 @@ function HomePage(props) {
                   games={games}
                   games2={games2}
                   updateSteamGames={updateSteamGames}
+                  deletedGamesRender={deletedGamesRender}
                 />
               )}
             />
