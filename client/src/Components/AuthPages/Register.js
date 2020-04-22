@@ -38,8 +38,16 @@ export default function Register() {
   };
 
   const updateSuccessMsg = () => {
+    console.log('success');
     setRedirect(true);
     setRegisterSuccess(true);
+  }
+
+  const updateFailMsg = (err) => {
+    console.log('failed');
+    setErrors(err); 
+    setShow(true); 
+    setFail(true);
   }
 
   const handleSubmit = (event) => {
@@ -55,8 +63,9 @@ export default function Register() {
     axios
       .post("/api/users/register", newUser)
       .then((res) => updateSuccessMsg())
-      .catch((err) => setErrors(err), setShow(true), setFail(true));
-  };
+      .catch(err => err ? updateFailMsg(err) : null)
+  }
+;
 
  
   const failMsg = () => {
