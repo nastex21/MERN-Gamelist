@@ -49,12 +49,7 @@ export default function LoginPage() {
         setAuthToken(token);
         // Decode token to get user data
         const decoded = jwt_decode(token);
-        // Set current user
-        const userObj = {
-          id: decoded.id,
-          name: decoded.name,
-          games: decoded.games
-        }
+
         setRedirect(true);
       })
       .catch(err =>

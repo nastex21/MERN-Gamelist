@@ -12,7 +12,6 @@ import LogoutPage from "./AuthPages/Logout";
 
 var savedSteamGames;
 var savedManualGames;
-var token = localStorage.getItem("jwtToken");
 
 function getItems() {
   savedSteamGames = JSON.parse(localStorage.getItem("stored-steamgamedata"));
@@ -28,20 +27,20 @@ function HomePage(props) {
   const [games, setGames] = useState([]); //array of Steam games
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [error, setError] = useState(null);
-  const [flag, setFlag] = useState(false);
+  const token = localStorage.getItem('jwtToken');
+  console.log(token);
 
     //If there's no token then the user is a guest otherwise user has been authorized
-   if (token == null && guestUser && !flag)  {
+   if (token == null && guestUser)  {
       console.log("null");
       getItems();
       //if localstorage item doesn't exist, then set item else populatet the games state else
       // if local storage games db is bigger in length then update games
       if (!localStorage.getItem("guest")) {
         setStorage("initial");
-        setFlag(true);
         getItems();
       }
-    } else if (token && guestUser && !flag) {
+    } else if (token && guestUser) {
       console.log(token);
       console.log("else");
       //delete localStorage data if user went from guest to registered
@@ -54,7 +53,6 @@ function HomePage(props) {
         console.log("guestUser and token");
         setGuestUser(false);
         setAuthUserInfo(decoded);
-        setFlag(true);
       }
     }  
 
