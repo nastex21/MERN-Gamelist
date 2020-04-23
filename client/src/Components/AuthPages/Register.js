@@ -87,7 +87,7 @@ export default function Register() {
           <Alert.Heading>
             There's a problem creating your account!
           </Alert.Heading>
-          <p>Username was already taken.</p>
+          <p>Username has already been taken.</p>
         </Alert>
       );
     }
