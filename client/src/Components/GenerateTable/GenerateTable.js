@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Container, Row, Col } from "react-bootstrap";
 import paginationFactory from "react-bootstrap-table2-paginator";
@@ -26,17 +26,35 @@ var savedManualGames = JSON.parse(
 
 var arr = [];
 
-function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
+// Hook
+const usePrevious = (value) => {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef();
+
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
+};
+
+function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender,successAddMsg }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
-  const [rows, setRows] = useState();
   const [selected, setSelected] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [unselectable, setUnselected] = useState([]);
+  const [successMsg, setSuccesMsg] = useState(successAddMsg);
+
+  // Get the previous value (was passed into hook on last render)
+  const prevCountGames = usePrevious(games);
 
   useEffect(() => {
-    console.log("useeffect");
+    ("useeffect");
     setSelected(false);
     setSelectedItems([]);
     setGames([...gameslist2, ...gamelist]);
@@ -117,9 +135,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
-    console.log("imageFormatter");
-    console.log(selected);
-    console.log(selectedItems);
     if (row.provider === "steam") {
       arr = [...arr, row.game_img];
       setTimeout(() => {
@@ -150,27 +165,18 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const dateFormatter = (cell) => {
-    console.log("dateFormatter");
-    console.log(selected);
-    console.log(selectedItems);
     if (cell) {
       return cell.substr(0, 4);
     }
   };
 
   var numFormatter = (a, b, c) => {
-    console.log("numFormatter");
-    console.log(selected);
-    console.log(selectedItems);
     if (c !== undefined) {
       return c + 1 + itemsPerPage * (pageNum - 1);
     }
   };
 
   const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
-    console.log("afterSavecell");
-    console.log(selected);
-    console.log(selectedItems);
     const dataValue = {
       flag: "blurToSave",
       id: userId,
@@ -179,7 +185,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
 
     if (token) {
       axios.post("/api/save-games", dataValue).then((res) => {
-        console.log(res);
+        return null;
       });
     } else {
       var savedManualGames = JSON.parse(
@@ -203,9 +209,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const CaptionElement = () => {
-    console.log("CaptionElement");
-    console.log(selected);
-    console.log(selectedItems);
     return (
       <div className="headerItems">
         <h3
@@ -219,7 +222,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
         >
           Game Collection
         </h3>
-        <div className="buttonsHeader" style={{'width': '100%'}}>
+        <div className="buttonsHeader" style={{ width: "100%" }}>
           <Container fluid>
             <Row>
               <Col>
@@ -231,9 +234,13 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
                 </button>
               </Col>
               <Col xs={6}>
-              {<Alert variant="success">
-                <p style={{'text-align': 'center'}}>Games were successfully added.</p>
-                </Alert>}
+                {successMsg == true ? (
+                  <Alert variant="success">
+                    <p style={{ "text-align": "center" }}>
+                      Games were successfully added.
+                    </p>
+                  </Alert>
+                ) : null}
               </Col>
               <Col>
                 {selectedItems.length === 1 ? (
@@ -250,7 +257,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
                   >
                     Delete Games
                   </button>
-                ) : null }
+                ) : null}
               </Col>
             </Row>
           </Container>
@@ -260,12 +267,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const deleteGames = () => {
-    console.log("deletedGames");
-    console.log(selected);
-    console.log(selectedItems);
-
     if (!token) {
-      console.log(savedManualGames);
       var newArr = [...savedManualGames];
       var newArr2 = newArr.filter((f) => !selectedItems.includes(f.game_id));
       localStorage.setItem("stored-manualgamedata", JSON.stringify(newArr2));
@@ -279,7 +281,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
       deletedGamesRender(savedManualGames);
     } else {
       axios.post("/api/delete-games", selectedItems).then((res) => {
-        console.log(res);
         setSelectedItems([]);
         setSelected(false);
         deletedGamesRender(res.data.games);
@@ -288,26 +289,14 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const handleOnSelect = (row, isSelect, c) => {
-    console.log("handleOnSelect");
-    console.log(selected);
-    console.log(selectedItems);
-    console.log(row);
-    console.log(c);
     var newArr = [...selectedItems];
 
-    /*  if (selectedItems.length == 0){
-      return false
-    }  */
     if (isSelect) {
       newArr = [...newArr, row.game_id];
-      console.log(newArr);
-      setRows(row);
       setSelectedItems([...newArr]);
       setSelected(true);
     } else {
       newArr = newArr.filter((item) => item !== row.game_id);
-      console.log(newArr);
-      setRows(row);
       setSelectedItems([...newArr]);
       setSelected(false);
     }

@@ -14,7 +14,8 @@ export default function Dashboard({
   games,
   games2, 
   updateSteamGames,
-  deletedGamesRender
+  deletedGamesRender,
+  successAddMsg
 })
 
 {
@@ -45,7 +46,7 @@ export default function Dashboard({
         )}
       </div>
       <hr />
-        {games.length === 0 && games2.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2} userId={userId} deletedGamesRender={deletedGamesRender}/>} 
+        {games.length === 0 && games2.length === 0 ? null : <GenerateTable gamelist={games} gameslist2={games2} userId={userId} deletedGamesRender={deletedGamesRender} successAddMsg={successAddMsg}/>} 
     </div>
   );
 }

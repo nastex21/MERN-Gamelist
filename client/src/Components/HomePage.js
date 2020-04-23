@@ -30,6 +30,7 @@ function HomePage(props) {
   const [registerSuccess, setRegisterSuccess] = useState(null);
   const [fail, setFail] = useState(false);
   const [error, setError] = useState(null);
+  const [successAddMsg, setSuccessAddMsg] = useState(false);
   const token = localStorage.getItem("jwtToken");
   const value = useMemo(() => ({ registerSuccess, setRegisterSuccess }), [registerSuccess, setRegisterSuccess ]);
 
@@ -189,6 +190,7 @@ function HomePage(props) {
 
       axios.post("/api/save-games", dataObj).then((res) => {
         setGames2([...res.data.games]);
+        setSuccessAddMsg(true);
       });
     }
 
@@ -270,6 +272,7 @@ function HomePage(props) {
                   games2={games2}
                   updateSteamGames={updateSteamGames}
                   deletedGamesRender={deletedGamesRender}
+                  successAddMsg={successAddMsg}
                 />
               )}
             />
