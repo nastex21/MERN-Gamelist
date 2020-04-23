@@ -18,7 +18,9 @@ export default function Dashboard({
   successAddMsg
 })
 
+
 {
+  console.log(successAddMsg);
   return (
     <div className="dashboard">
       <div className="manualBox">

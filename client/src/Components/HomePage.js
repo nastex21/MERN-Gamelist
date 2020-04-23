@@ -57,6 +57,14 @@ function HomePage(props) {
   }
 
   useEffect(() => {
+    if(successAddMsg){
+    setTimeout(() => {
+      setSuccessAddMsg(false);
+    }, 3000);
+  }
+  }, [successAddMsg]);
+
+  useEffect(() => {
     if (savedSteamGames) {
       setGames([...savedSteamGames]);
       setGames2([...savedManualGames]);
@@ -190,7 +198,17 @@ function HomePage(props) {
 
       axios.post("/api/save-games", dataObj).then((res) => {
         setGames2([...res.data.games]);
-        setSuccessAddMsg(true);
+        if (manualGames.length == 1){
+          var msgObj = {
+            singleGame: "Game was successfully added."
+          }
+          setSuccessAddMsg(msgObj);
+        } else {
+        var msgObj = {
+          pluralGames: "Games were successfully added."
+        }
+        setSuccessAddMsg(msgObj);
+        }
       });
     }
 

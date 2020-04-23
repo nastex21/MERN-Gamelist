@@ -41,14 +41,13 @@ const usePrevious = (value) => {
   return ref.current;
 };
 
-function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender,successAddMsg }) {
+function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, successAddMsg }) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
   const [selected, setSelected] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [unselectable, setUnselected] = useState([]);
-  const [successMsg, setSuccesMsg] = useState(successAddMsg);
 
   // Get the previous value (was passed into hook on last render)
   const prevCountGames = usePrevious(games);
@@ -234,13 +233,19 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender,succes
                 </button>
               </Col>
               <Col xs={6}>
-                {successMsg == true ? (
-                  <Alert variant="success">
-                    <p style={{ "text-align": "center" }}>
-                      Games were successfully added.
+                { successAddMsg.singleGame ? 
+                  <Alert variant="success" className={successAddMsg ? 'fadeIn' : 'fadeOut'}>
+                    <p style={{ "textAlign": "center" }}>
+                      {successAddMsg.singleGame}
                     </p>
                   </Alert>
-                ) : null}
+                 : successAddMsg.pluralGames ?
+                  <Alert variant="success" className={successAddMsg ? 'fadeIn' : 'fadeOut'}>
+                    <p style={{ "textAlign": "center" }}>
+                      {successAddMsg.pluralGames}
+                    </p>
+                  </Alert> : null
+                }
               </Col>
               <Col>
                 {selectedItems.length === 1 ? (
