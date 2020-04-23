@@ -54,6 +54,8 @@ function HomePage(props) {
     //if guestUser == true (meaning the user's status is set to 'guest') and there's a token (only an auth user can have a token) then make guestUser state false
     if (guestUser && authUserInfo == "") {
       setGuestUser(false);
+      setGames([]);
+      setGames2([]);
       setAuthUserInfo(decoded);
     }
   }
@@ -260,6 +262,8 @@ function HomePage(props) {
   };
 
   const handleLogout = () => {
+    setGames([]);
+    setGames2([]);
     props.history.push("/login");
   };
 
