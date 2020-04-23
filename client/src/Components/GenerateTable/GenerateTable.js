@@ -233,18 +233,12 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
                 </button>
               </Col>
               <Col xs={6}>
-                { successAddMsg.singleGame ? 
+                { successAddMsg ? successAddMsg.singleGame || successAddMsg.pluralGames || successAddMsg.noGames ? 
                   <Alert variant="success" className={successAddMsg ? 'fadeIn' : 'fadeOut'}>
                     <p style={{ "textAlign": "center" }}>
-                      {successAddMsg.singleGame}
+                      {successAddMsg.singleGame || successAddMsg.pluralGames || successAddMsg.noGames }
                     </p>
-                  </Alert>
-                 : successAddMsg.pluralGames ?
-                  <Alert variant="success" className={successAddMsg ? 'fadeIn' : 'fadeOut'}>
-                    <p style={{ "textAlign": "center" }}>
-                      {successAddMsg.pluralGames}
-                    </p>
-                  </Alert> : null
+                  </Alert> : null : null
                 }
               </Col>
               <Col>

@@ -28,11 +28,13 @@ function HomePage(props) {
   const [games, setGames] = useState([]); //array of Steam games
   const [games2, setGames2] = useState([]); //manually added games that were saved and pulled from database
   const [registerSuccess, setRegisterSuccess] = useState(null);
-  const [fail, setFail] = useState(false);
   const [error, setError] = useState(null);
   const [successAddMsg, setSuccessAddMsg] = useState(false);
   const token = localStorage.getItem("jwtToken");
-  const value = useMemo(() => ({ registerSuccess, setRegisterSuccess }), [registerSuccess, setRegisterSuccess ]);
+  const value = useMemo(() => ({ registerSuccess, setRegisterSuccess }), [
+    registerSuccess,
+    setRegisterSuccess,
+  ]);
 
   //If there's no token then the user is a guest otherwise user has been authorized
   if (token == null && guestUser) {
@@ -57,11 +59,11 @@ function HomePage(props) {
   }
 
   useEffect(() => {
-    if(successAddMsg){
-    setTimeout(() => {
-      setSuccessAddMsg(false);
-    }, 3000);
-  }
+    if (successAddMsg) {
+      setTimeout(() => {
+        setSuccessAddMsg(false);
+      }, 3000);
+    }
   }, [successAddMsg]);
 
   useEffect(() => {
@@ -198,16 +200,24 @@ function HomePage(props) {
 
       axios.post("/api/save-games", dataObj).then((res) => {
         setGames2([...res.data.games]);
-        if (manualGames.length == 1){
+        if (manualGames.length == 1) {
           var msgObj = {
-            singleGame: "Game was successfully added."
-          }
+            singleGame: "Game was successfully added.",
+          };
+          setSuccessAddMsg(msgObj);
+        } else if (manualGames.length > 1) {
+          var msgObj = {
+            pluralGames: "Games were successfully added.",
+          };
           setSuccessAddMsg(msgObj);
         } else {
-        var msgObj = {
-          pluralGames: "Games were successfully added."
-        }
-        setSuccessAddMsg(msgObj);
+          if (manualGames.length == 0) {
+            var msgObj = {
+              noGames:
+                "No games were added. Most likely they already exist in your database."
+            };
+            setSuccessAddMsg(msgObj);
+          }
         }
       });
     }
@@ -224,6 +234,28 @@ function HomePage(props) {
       setStorage("manual", [...manualGames]);
 
       setGames2([...manualGames]);
+
+      if (checkForDupes.length == 1) {
+        var msgObj = {
+          singleGame: "Game was successfully added."
+        };
+        setSuccessAddMsg(msgObj);
+      }
+
+      if (checkForDupes.length > 1) {
+        var msgObj = {
+          pluralGames: "Games were successfully added."
+        };
+        setSuccessAddMsg(msgObj);
+      }
+
+      if (checkForDupes == 0) {
+        var msgObj = {
+          noGames:
+            "No games were added. Most likely they were already in your database."
+        };
+        setSuccessAddMsg(msgObj);
+      }
     }
   };
 
@@ -259,7 +291,6 @@ function HomePage(props) {
       setGames2([...data]);
     }
   };
-
 
   console.log(value);
 
@@ -304,16 +335,8 @@ function HomePage(props) {
         ) : (
           <>
             <UserContext.Provider value={value}>
-              <Route
-                exact
-                path="/register"
-                component={RegisterPage}
-                />
-              <Route
-                exact
-                path="/login"
-                component={LoginPage}
-              />
+              <Route exact path="/register" component={RegisterPage} />
+              <Route exact path="/login" component={LoginPage} />
             </UserContext.Provider>
             <Route exact path="/" component={FrontPage} />
             <Route
@@ -331,6 +354,7 @@ function HomePage(props) {
                   games={games}
                   games2={games2}
                   deletedGamesRender={deletedGamesRender}
+                  successAddMsg={successAddMsg}
                 />
               )}
             />
