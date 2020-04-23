@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "./Forms/LoginForm";
 import setAuthToken from "../../utils/setAuthToken";

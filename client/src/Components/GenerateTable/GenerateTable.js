@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import { Container, Row, Col } from "react-bootstrap";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import filterFactory, {
   selectFilter,
@@ -8,6 +9,7 @@ import filterFactory, {
   Comparator,
 } from "react-bootstrap-table2-filter";
 import axios from "axios";
+import Alert from "react-bootstrap/Alert";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
@@ -34,7 +36,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   const [unselectable, setUnselected] = useState([]);
 
   useEffect(() => {
-    console.log('useeffect')
+    console.log("useeffect");
     setSelected(false);
     setSelectedItems([]);
     setGames([...gameslist2, ...gamelist]);
@@ -115,7 +117,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const imageFormatter = (cell, row, rowIndex) => {
-    console.log('imageFormatter');
+    console.log("imageFormatter");
     console.log(selected);
     console.log(selectedItems);
     if (row.provider === "steam") {
@@ -148,7 +150,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const dateFormatter = (cell) => {
-    console.log('dateFormatter');
+    console.log("dateFormatter");
     console.log(selected);
     console.log(selectedItems);
     if (cell) {
@@ -157,7 +159,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   var numFormatter = (a, b, c) => {
-    console.log('numFormatter');
+    console.log("numFormatter");
     console.log(selected);
     console.log(selectedItems);
     if (c !== undefined) {
@@ -166,7 +168,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const afterSaveCell = (oldValue, newValue, cellData, dataColumn) => {
-    console.log('afterSavecell');
+    console.log("afterSavecell");
     console.log(selected);
     console.log(selectedItems);
     const dataValue = {
@@ -194,9 +196,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const handleClick = () => {
-    console.log('handleClick');
-    console.log(selected);
-    console.log(selectedItems);
     nameFilter("");
     platformFilter("");
     dateFilter("");
@@ -204,7 +203,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const CaptionElement = () => {
-    console.log('CaptionElement');
+    console.log("CaptionElement");
     console.log(selected);
     console.log(selectedItems);
     return (
@@ -220,32 +219,48 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
         >
           Game Collection
         </h3>
-        <div className="buttonsHeader">
-          <div className="tableButtons float-left">
-            <button className="btn btn-lg btn-primary" onClick={handleClick}>
-              Clear all filters
-            </button>
-          </div>
-          {selectedItems.length === 1 ? (
-            <div className="tableButtons float-right">
-              <button className="btn btn-lg btn-primary" onClick={deleteGames}>
-                Delete Game
-              </button>
-            </div>
-          ) : selectedItems.length > 1 ? (
-            <div className="tableButtons float-right">
-              <button className="btn btn-lg btn-primary" onClick={deleteGames}>
-                Delete Games
-              </button>
-            </div>
-          ) : null}
+        <div className="buttonsHeader" style={{'width': '100%'}}>
+          <Container fluid>
+            <Row>
+              <Col>
+                <button
+                  className="btn btn-lg btn-primary"
+                  onClick={handleClick}
+                >
+                  Clear all filters
+                </button>
+              </Col>
+              <Col xs={6}>
+              {<Alert variant="success">
+                <p style={{'text-align': 'center'}}>Games were successfully added.</p>
+                </Alert>}
+              </Col>
+              <Col>
+                {selectedItems.length === 1 ? (
+                  <button
+                    className="btn btn-lg btn-primary float-right"
+                    onClick={deleteGames}
+                  >
+                    Delete Game
+                  </button>
+                ) : selectedItems.length > 1 ? (
+                  <button
+                    className="btn btn-lg btn-primary float-right"
+                    onClick={deleteGames}
+                  >
+                    Delete Games
+                  </button>
+                ) : null }
+              </Col>
+            </Row>
+          </Container>
         </div>
       </div>
     );
   };
 
   const deleteGames = () => {
-    console.log('deletedGames');
+    console.log("deletedGames");
     console.log(selected);
     console.log(selectedItems);
 
@@ -263,7 +278,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
 
       deletedGamesRender(savedManualGames);
     } else {
-      axios.post('/api/delete-games', selectedItems).then((res) => {
+      axios.post("/api/delete-games", selectedItems).then((res) => {
         console.log(res);
         setSelectedItems([]);
         setSelected(false);
@@ -273,14 +288,14 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const handleOnSelect = (row, isSelect, c) => {
-    console.log('handleOnSelect');
+    console.log("handleOnSelect");
     console.log(selected);
     console.log(selectedItems);
     console.log(row);
     console.log(c);
     var newArr = [...selectedItems];
 
-   /*  if (selectedItems.length == 0){
+    /*  if (selectedItems.length == 0){
       return false
     }  */
     if (isSelect) {
@@ -296,7 +311,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
       setSelectedItems([...newArr]);
       setSelected(false);
     }
-    
   };
 
   const columns = [
@@ -438,14 +452,8 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender }) {
   };
 
   const nonEditRows = () => {
-    console.log('nonEditRows');
-    console.log(selected);
-    console.log(selectedItems);
     return unselectable;
   };
-
-  console.log(selected);
-  console.log(selectedItems);
 
   return (
     <div className="table">
