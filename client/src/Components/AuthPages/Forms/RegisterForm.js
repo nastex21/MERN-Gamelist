@@ -11,16 +11,14 @@ const UseFocus = () => {
   return [htmlElRef, setFocus]
 }
 
-const isBoolean = (param) => typeof (param) === "boolean"
-
 export default function RegisterForm({ handleSubmit, onChange, password, password2, name }) {
-  const [input1Val, setInput1Val] = useState("")
   const [input1Ref, setInput1Focus] = UseFocus()
-
-  const [input2Val, setInput2Val] = useState("")
   const [input2Ref, setInput2Focus] = UseFocus()
+  const [input3Ref, setInput3Focus] = UseFocus()
 
-  const [completeBtnRef, setCompleteFocus] = UseFocus()
+
+
+  const [completeBtnRef] = UseFocus()
 
   useMountEffect(setInput1Focus)
   return (
@@ -29,19 +27,14 @@ export default function RegisterForm({ handleSubmit, onChange, password, passwor
         <h3>Register</h3>
 
         <div className="form-group">
-          <label>Username or Email address</label>
+          <label>Username</label>
           <input
             className="form-control"
-            onChange={(e)=>{
-              const val = e.target.value 
-              setInput1Val(val)
-              if (val.length===1) setInput2Focus()
-            }}
-            value={input1Val}
+            onChange={onChange}
+            value={name}
             id="name"
             type="text"
             ref={input1Ref}
-            placeholder="Enter username or email"
           />
         </div>
 
@@ -50,15 +43,10 @@ export default function RegisterForm({ handleSubmit, onChange, password, passwor
           <input
             type="password"
             className="form-control"
-            onChange={(e)=>{
-              const val = e.target.value
-              setInput2Val(val)
-              if (val.length===2) setCompleteFocus()
-            }}
+            onChange={onChange}
             ref={input2Ref}
-            value={input2Val}
+            value={password}
             id="password"
-            placeholder="Enter password"
           />
         </div>
 
@@ -69,8 +57,8 @@ export default function RegisterForm({ handleSubmit, onChange, password, passwor
             className="form-control"
             onChange={onChange}
             value={password2}
+            ref={input3Ref}
             id="password2"
-            placeholder="Re-Enter password"
           />
         </div>
 
