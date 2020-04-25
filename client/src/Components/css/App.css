@@ -234,12 +234,19 @@ iframe {
   text-transform: uppercase;
 }
 
-.txt2 {
+.txt2, .txt25 {
   font-family: 'Raleway';
-  font-weight: '400';
   font-size: 13px;
-  color: #999999;
   line-height: 1.4;
+}
+
+.txt2 {  
+  font-weight: '400';
+  color: #999999;
+}
+
+.txt25 {
+  font-weight: '700'
 }
 
 .txt3 {

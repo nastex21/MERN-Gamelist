@@ -85,16 +85,21 @@ export default function RegisterForm({
               <span class="focus-input100"></span>
             </div>
 
-            <div className="form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="exampleCheck1"
-                onClick={showHide}
-              />
-              <label className="form-check-label" htmlFor="exampleCheck1">
-                Show Password
-              </label>
+            <div className="flex-sb-m w-full p-b-48">
+              <div className="contact100-form-checkbox">
+                <input
+                  type="checkbox"
+                  className="input-checkbox100"
+                  id="exampleCheck1"
+                  onClick={showHide}
+                />
+                <label className="label-checkbox100" htmlFor="exampleCheck1">
+                  Show Password
+                </label>
+              </div>
+              <span className="txt2 text-right">
+                Already registered? <a className="txt25" href="/login">Log in</a>
+              </span>
             </div>
 
             {/* <input
@@ -104,13 +109,15 @@ export default function RegisterForm({
               ref={completeBtnRef}
             /> */}
             <div className="container-login100-form-btn">
-              <button className="login100-form-btn" ref={completeBtnRef} type="submit" value="Submit">
+              <button
+                className="login100-form-btn"
+                ref={completeBtnRef}
+                type="submit"
+                value="Submit"
+              >
                 Submit
               </button>
             </div>
-            <p className="forgot-password text-right">
-              Already registered? <a href="/login">Log in</a>
-            </p>
           </form>
         </div>
       </div>
