@@ -32,6 +32,7 @@ export default function RegisterForm({
   };
 
   useMountEffect(setInput1Focus);
+  
   return (
     <div className="formsGroup">
       <form noValidate onSubmit={handleSubmit}>
@@ -92,7 +93,7 @@ export default function RegisterForm({
           ref={completeBtnRef}
         />
         <p className="forgot-password text-right">
-          Already registered <a href="/login">sign in?</a>
+          Already registered? <a href="/login">Log in</a>
         </p>
       </form>
     </div>
