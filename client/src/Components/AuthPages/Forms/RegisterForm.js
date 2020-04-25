@@ -5,22 +5,33 @@ const useMountEffect = (fun) => useEffect(fun, []);
 
 // Gneral Focus Hook
 const UseFocus = () => {
-  const htmlElRef = useRef(null)
-  const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
+  const htmlElRef = useRef(null);
+  const setFocus = () => {
+    htmlElRef.current && htmlElRef.current.focus();
+  };
 
-  return [htmlElRef, setFocus]
-}
+  return [htmlElRef, setFocus];
+};
 
-export default function RegisterForm({ handleSubmit, onChange, password, password2, name }) {
-  const [input1Ref, setInput1Focus] = UseFocus()
-  const [input2Ref, setInput2Focus] = UseFocus()
-  const [input3Ref, setInput3Focus] = UseFocus()
+export default function RegisterForm({
+  handleSubmit,
+  onChange,
+  password,
+  password2,
+  name,
+}) {
+  const [type, setType] = useState("password");
+  const [input1Ref, setInput1Focus] = UseFocus();
+  const [input2Ref, setInput2Focus] = UseFocus();
+  const [input3Ref, setInput3Focus] = UseFocus();
+  const [completeBtnRef] = UseFocus();
 
+  const showHide = (e) => {
+    e.stopPropagation();
+    type === "input" ? setType("password") : setType("input");
+  };
 
-
-  const [completeBtnRef] = UseFocus()
-
-  useMountEffect(setInput1Focus)
+  useMountEffect(setInput1Focus);
   return (
     <div className="formsGroup">
       <form noValidate onSubmit={handleSubmit}>
@@ -41,7 +52,7 @@ export default function RegisterForm({ handleSubmit, onChange, password, passwor
         <div className="form-group">
           <label>Password</label>
           <input
-            type="password"
+            type={type}
             className="form-control"
             onChange={onChange}
             ref={input2Ref}
@@ -53,13 +64,25 @@ export default function RegisterForm({ handleSubmit, onChange, password, passwor
         <div className="form-group">
           <label>Re-Enter Password</label>
           <input
-            type="password"
+            type={type}
             className="form-control"
             onChange={onChange}
             value={password2}
             ref={input3Ref}
             id="password2"
           />
+        </div>
+
+        <div className="form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="exampleCheck1"
+            onClick={showHide}
+          />
+          <label className="form-check-label" htmlFor="exampleCheck1">
+            Show Password
+          </label>
         </div>
 
         <input

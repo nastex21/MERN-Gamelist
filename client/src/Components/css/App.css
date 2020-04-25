@@ -49,7 +49,7 @@
  }
  
 
-  .form-group > label, form > h3 {
+  .form-group > label, form > h3, .form-check-label, .forgot-password {
      color: white;
   }
 
