@@ -32,70 +32,88 @@ export default function RegisterForm({
   };
 
   useMountEffect(setInput1Focus);
-  
+
   return (
     <div className="formsGroup">
-      <form noValidate onSubmit={handleSubmit}>
-        <h3>Register</h3>
+      <div className="container-login100">
+        <div className="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+          <form
+            className="login100-form validate-form flex-sb flex-w"
+            noValidate
+            onSubmit={handleSubmit}
+          >
+            <span className="login100-form-title p-b-32">Register</span>
+            <span className="txt1 p-b-11">Username</span>
+            <div className="wrap-input100 m-b-36">
+              <input
+                className="input100"
+                onChange={onChange}
+                value={name}
+                id="name"
+                type="text"
+                ref={input1Ref}
+                name="username"
+              />
+              <span class="focus-input100"></span>
+            </div>
 
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            className="form-control"
-            onChange={onChange}
-            value={name}
-            id="name"
-            type="text"
-            ref={input1Ref}
-          />
+            <span className="txt1 p-b-11">Password</span>
+            <div className="wrap-input100 m-b-12">
+              <input
+                type={type}
+                className="input100"
+                onChange={onChange}
+                ref={input2Ref}
+                value={password}
+                id="password"
+                name="pass"
+              />
+              <span class="focus-input100"></span>
+            </div>
+
+            <span className="txt1 p-b-11">Re-Enter Password</span>
+            <div className="wrap-input100 m-b-12">
+              <input
+                type={type}
+                className="input100"
+                onChange={onChange}
+                value={password2}
+                ref={input3Ref}
+                id="password2"
+                name="pass"
+              />
+              <span class="focus-input100"></span>
+            </div>
+
+            <div className="form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="exampleCheck1"
+                onClick={showHide}
+              />
+              <label className="form-check-label" htmlFor="exampleCheck1">
+                Show Password
+              </label>
+            </div>
+
+            {/* <input
+              type="submit"
+              className="btn btn-primary btn-block"
+              value="Submit"
+              ref={completeBtnRef}
+            /> */}
+            <div className="container-login100-form-btn">
+              <button className="login100-form-btn" ref={completeBtnRef} type="submit" value="Submit">
+                Submit
+              </button>
+            </div>
+            <p className="forgot-password text-right">
+              Already registered? <a href="/login">Log in</a>
+            </p>
+          </form>
         </div>
-
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type={type}
-            className="form-control"
-            onChange={onChange}
-            ref={input2Ref}
-            value={password}
-            id="password"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Re-Enter Password</label>
-          <input
-            type={type}
-            className="form-control"
-            onChange={onChange}
-            value={password2}
-            ref={input3Ref}
-            id="password2"
-          />
-        </div>
-
-        <div className="form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-            onClick={showHide}
-          />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Show Password
-          </label>
-        </div>
-
-        <input
-          type="submit"
-          className="btn btn-primary btn-block"
-          value="Submit"
-          ref={completeBtnRef}
-        />
-        <p className="forgot-password text-right">
-          Already registered? <a href="/login">Log in</a>
-        </p>
-      </form>
+      </div>
     </div>
   );
 }
