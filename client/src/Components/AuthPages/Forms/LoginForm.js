@@ -51,8 +51,13 @@ export default function LoginForm({ handleSubmit, onChange, password, name }) {
 
             <span className="txt1 p-b-11">Password</span>
             <div className="wrap-input100 m-b-12">
-              <span class="btn-show-pass">
-                <i class="fa fa-eye"></i>
+              <span className="btn-show-pass">
+                <i
+                  className={
+                    type === "password" ? "fa fa-eye" : "fa fa-eye-slash"
+                  }
+                  onClick={showHide}
+                ></i>
               </span>
               <input
                 type={type}
@@ -65,38 +70,10 @@ export default function LoginForm({ handleSubmit, onChange, password, name }) {
               />
               <span className="focus-input100"></span>
             </div>
-
-            <div className="flex-sb-m w-full p-b-48">
-              {/* <input
-                type="checkbox"
-                className="form-check-input"
-                id="exampleCheck1"
-                onClick={showHide}
-              />
-              <label className="form-check-label" htmlFor="exampleCheck1">
-                Show Password
-              </label>
-               */}
-              <div className="contact100-form-checkbox">
-                <input
-                  className="input-checkbox100"
-                  id="ckb1"
-                  type="checkbox"
-                  name="remember-me"
-                />
-                <label className="label-checkbox100" for="ckb1">
-                  Remember me
-                </label>
-              </div>
-            </div>
-
-            {/* <input
-              type="submit"
-              className="btn btn-primary btn-block"
-              ref={completeBtnRef}
-            /> */}
             <div className="container-login100-form-btn">
-              <button className="login100-form-btn">Login</button>
+              <button className="login100-form-btn" ref={completeBtnRef}>
+                Login
+              </button>
             </div>
           </form>
         </div>
