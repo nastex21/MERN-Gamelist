@@ -17,21 +17,22 @@ function NavbarTop(props) {
     console.log(props.guestUser);
     return (
         <>
-            <Navbar bg="dark" variant="dark" fixed="sticky">
+            <Navbar collapseOnSelect expand="lg"  bg="dark" variant="dark" fixed="sticky">
                 <NavbarBrand href="/">Video Game Catalog</NavbarBrand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                     {props.guestUser ? 
                     <>
                     <Nav.Link href="register" onClick={e => clickHandler}>Register</Nav.Link>
-                    <Navbar.Text >/</Navbar.Text>
                     <Nav.Link href="login" onClick={e => clickHandler}>Log In</Nav.Link>
-                    <Navbar.Text >/</Navbar.Text>
                     <Nav.Link href="dashboard">Continue as Guest</Nav.Link>
                     </>
                     : 
                     <Nav.Link href="/" onClick={e=> logoutHandler(e)}>Log Out</Nav.Link>
                     }
                 </Nav>
+                </Navbar.Collapse>
             </Navbar>
         </>
     )

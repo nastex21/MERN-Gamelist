@@ -591,3 +591,13 @@ iframe {
     padding-right: 15px;
   }
 }
+
+@media screen and (max-width: 480px) 
+{
+    .navbar-brand {
+      font-size: 5vw !important;
+    }
+     .navbar-nav > a {
+      font-size: 3vw !important;
+    }
+}
