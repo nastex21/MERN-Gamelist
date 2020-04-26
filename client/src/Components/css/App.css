@@ -265,6 +265,7 @@ iframe {
   font-weight: '400';
   width: 100%;
   margin: 0 auto;
+  height: 80%;
 }
 
 .container-login100 {
@@ -594,10 +595,25 @@ iframe {
 
 @media screen and (max-width: 480px) 
 {
+    .loginForm {
+      max-width: 300px;
+      height: auto;
+    }
+
+    .registerForm {
+      max-width: 400px;
+      height: 200px;
+    }
     .navbar-brand {
       font-size: 5vw !important;
     }
      .navbar-nav > a {
       font-size: 3vw !important;
     }
+}
+
+@media screen and (min-width: 600px){
+  .registerForm {
+    height: 300px;
+  }
 }
