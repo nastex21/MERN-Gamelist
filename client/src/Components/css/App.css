@@ -575,6 +575,10 @@ iframe {
   opacity: 1;
 }
 
+input {
+  text-align: left;
+}
+
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
@@ -585,8 +589,15 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  .input100 {
+    height: 5vh;
+    padding-left: 5px;
+  }
+
 }
 
+/* Desktop */
 @media only screen and (min-width: 768px) {
   .alert-validate::before {
     visibility: visible;
