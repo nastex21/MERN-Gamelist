@@ -26,11 +26,11 @@ export default function LoginForm({ handleSubmit, onChange, password, name }) {
   useMountEffect(setInput1Focus);
 
   return (
-    <div className="formsGroup">
+    <div className="formsGroup loginForm">
       <div className="container-login100">
         <div className="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
           <form
-            className="login100-form validate-form flex-sb flex-w"
+            className="login100-form flex-sb flex-w"
             onSubmit={handleSubmit}
           >
             <span className="login100-form-title p-b-32">Log In</span>

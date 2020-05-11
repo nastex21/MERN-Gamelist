@@ -34,7 +34,7 @@ export default function RegisterForm({
   useMountEffect(setInput1Focus);
 
   return (
-    <div className="formsGroup">
+    <div className="formsGroup registerForm">
       <div className="container-login100">
         <div className="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
           <form
