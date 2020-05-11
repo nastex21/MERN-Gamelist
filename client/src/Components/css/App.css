@@ -595,12 +595,42 @@ input {
     padding-left: 5px;
   }
 
+  .steamBox {
+    width: 100%;
+  }
+
+  .vertLine {
+    border-left: 1px solid #5f656d; /* Border on the left */
+    width: 1px; /* Width instead of height */
+    height: 200px;
+  }
+  .steamIMG {
+    width: 100%;
+  }
+
 }
 
+
+
 /* Desktop */
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
   .alert-validate::before {
     visibility: visible;
     opacity: 1;
+  }
+
+  .steamIMG {
+    width: 20vw;
+  }
+}
+
+@media only screen and (min-width: 800px){
+  .alert-validate::before {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .steamIMG {
+    width: 10vw;
   }
 }
