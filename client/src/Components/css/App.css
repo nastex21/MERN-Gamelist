@@ -610,10 +610,8 @@ input {
 
 }
 
-
-
 /* Desktop */
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 768px) {
   .alert-validate::before {
     visibility: visible;
     opacity: 1;
@@ -621,6 +619,10 @@ input {
 
   .steamIMG {
     width: 20vw;
+  }
+
+  .mobile-accordion {
+    display: none;
   }
 }
 
@@ -630,7 +632,15 @@ input {
     opacity: 1;
   }
 
+  .vertLine {
+    display: none;
+  }
+
   .steamIMG {
     width: 10vw;
+  }
+
+  .mobile-accordion {
+    display: none;
   }
 }
