@@ -41,10 +41,10 @@ function Dashboard({
   return (
     <div className="buttonBox" >
       <Breakpoint medium down>
-        <Button style={{ 'width': '100%' }} variant="secondary" onClick={() => setOpen(!open)}
+        <Button className="align-items-center justify-content-center" style={{ 'width': '100%', 'border-radius': '0px' }} variant="secondary" onClick={() => setOpen(!open)}
           aria-controls="steam-box"
           aria-expanded={open}>
-          <span>
+          <span className="align-items-center justify-content-center">
             <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
         </Button>
@@ -124,11 +124,11 @@ function Dashboard({
       }
 
       <Breakpoint medium down>
-        <Button style={{ 'width': '100%' }} variant="secondary" onClick={() => setSearchOpen(!searchOpen)}
+        <Button style={{ 'width': '100%', 'border-radius': '0px' }} variant="secondary" onClick={() => setSearchOpen(!searchOpen)}
           aria-controls="search-box"
           aria-expanded={searchOpen}>
           <span>
-            <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
+            <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={searchOpen} id="search-box">

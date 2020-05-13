@@ -136,7 +136,7 @@ li {
 }
 
 /*---------------------------------------------*/
-input {
+.wrap-input100 > input {
   outline: none;
   border: none;
 }
@@ -147,20 +147,20 @@ textarea {
 }
 
 textarea:focus,
-input:focus {
+.wrap-input100 > input:focus {
   border-color: transparent !important;
 }
 
-input:focus::-webkit-input-placeholder {
+.wrap-input100 > input:focus::-webkit-input-placeholder {
   color: transparent;
 }
-input:focus:-moz-placeholder {
+.wrap-input100 > input:focus:-moz-placeholder {
   color: transparent;
 }
-input:focus::-moz-placeholder {
+.wrap-input100 > input:focus::-moz-placeholder {
   color: transparent;
 }
-input:focus:-ms-input-placeholder {
+.wrap-input100 > input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
@@ -177,16 +177,16 @@ textarea:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-input::-webkit-input-placeholder {
+.wrap-input100 > input::-webkit-input-placeholder {
   color: #999999;
 }
-input:-moz-placeholder {
+.wrap-input100 > input:-moz-placeholder {
   color: #999999;
 }
-input::-moz-placeholder {
+.wrap-input100 > input::-moz-placeholder {
   color: #999999;
 }
-input:-ms-input-placeholder {
+.wrap-input100 > input:-ms-input-placeholder {
   color: #999999;
 }
 
@@ -575,7 +575,7 @@ iframe {
   opacity: 1;
 }
 
-input {
+.wrap-input100 > input {
   text-align: left;
 }
 
