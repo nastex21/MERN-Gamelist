@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import ManuallyAdded from "./Pull-Gamelists/ManualEntries/ManuallyAdded";
 import SteamForm from "./Pull-Gamelists/SteamList/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { Breakpoint } from 'react-socks';
-import { setDefaultBreakpoints } from 'react-socks';
-import Button from 'react-bootstrap/Button';
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { Breakpoint } from "react-socks";
+import { setDefaultBreakpoints } from "react-socks";
+import Button from "react-bootstrap/Button";
 import GenerateTable from "./GenerateTable/GenerateTable";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Collapse from 'react-bootstrap/Collapse';
+import Collapse from "react-bootstrap/Collapse";
 
 function Dashboard({
   manualData,
@@ -37,19 +37,25 @@ function Dashboard({
     { xl: 1025 }
   ]); */
 
-  console.log("open: " + open)
+  console.log("open: " + open);
   return (
-    <div className="buttonBox" >
+    <div className="buttonBox">
       <Breakpoint medium down>
-        <Button className="align-items-center justify-content-center" style={{ 'width': '100%', 'border-radius': '0px' }} variant="secondary" onClick={() => setOpen(!open)}
+        <Button
+          className="align-items-center justify-content-center"
+          style={{ width: "100%", "border-radius": "0px" }}
+          variant="secondary"
+          onClick={() => setOpen(!open)}
           aria-controls="steam-box"
-          aria-expanded={open}>
+          aria-expanded={open}
+        >
           <span className="align-items-center justify-content-center">
             <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={open}>
           <div className="steamBox" id="steam-box">
+            <h1>Steam Login</h1>
             <Container fluid="true">
               <Row className="align-items-center">
                 {!steamId ? (
@@ -83,6 +89,7 @@ function Dashboard({
       </Breakpoint>
       <Breakpoint large up>
         <div className="steamBox" id="example-collapse-text">
+          <h1>Steam Login</h1>
           <Container fluid="true">
             <Row className="align-items-center">
               {!steamId ? (
@@ -113,26 +120,29 @@ function Dashboard({
           </Container>
         </div>
       </Breakpoint>
-      {
-        steamId ? (
-          <input
-            type="button"
-            value="Update Steam Games"
-            onClick={updateSteamGames}
-          />
-        ) : null
-      }
+      {steamId ? (
+        <input
+          type="button"
+          value="Update Steam Games"
+          onClick={updateSteamGames}
+        />
+      ) : null}
 
       <Breakpoint medium down>
-        <Button style={{ 'width': '100%', 'border-radius': '0px' }} variant="secondary" onClick={() => setSearchOpen(!searchOpen)}
+        <Button
+          style={{ width: "100%", "border-radius": "0px" }}
+          variant="secondary"
+          onClick={() => setSearchOpen(!searchOpen)}
           aria-controls="search-box"
-          aria-expanded={searchOpen}>
+          aria-expanded={searchOpen}
+        >
           <span>
             <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={searchOpen} id="search-box">
           <div className="dashboard">
+            <h1>Game Search</h1>
             <div className="manualBox">
               <ManuallyAdded uploadData={manualData} />
             </div>
@@ -145,6 +155,7 @@ function Dashboard({
 
       <Breakpoint large up>
         <div className="dashboard">
+          <h1>Game Search</h1>
           <div className="manualBox">
             <ManuallyAdded uploadData={manualData} />
           </div>
@@ -154,21 +165,16 @@ function Dashboard({
         </div>
       </Breakpoint>
 
-
-
-      <hr />
-      {
-        games.length === 0 && games2.length === 0 ? null : (
-          <GenerateTable
-            gamelist={games}
-            gameslist2={games2}
-            userId={userId}
-            deletedGamesRender={deletedGamesRender}
-            successAddMsg={successAddMsg}
-          />
-        )
-      }
-    </div >
+      {games.length === 0 && games2.length === 0 ? null : (
+        <GenerateTable
+          gamelist={games}
+          gameslist2={games2}
+          userId={userId}
+          deletedGamesRender={deletedGamesRender}
+          successAddMsg={successAddMsg}
+        />
+      )}
+    </div>
   );
 }
 

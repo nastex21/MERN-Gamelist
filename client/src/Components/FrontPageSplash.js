@@ -6,8 +6,8 @@ export default function FrontPage() {
   return (
     <div className="frontPage">
     <div className="sloganTitle">
-       <h1>Catalog your video game collection</h1>
-        <h5>Everything from yesterday to today.</h5>
+       <h1 className="titleSplash">Catalog your video game collection</h1>
+        <h5 className="titleSplash">Everything from yesterday to today.</h5>
     </div>
     <ImageCredit />
 </div>

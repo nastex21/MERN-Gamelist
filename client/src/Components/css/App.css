@@ -11,8 +11,9 @@ html {
 }
 
 #root {
-  overflow: hidden;
+  overflow-y: hidden;
 }
+
 #root,
 .dashboard,
 .frontPage,
@@ -48,6 +49,13 @@ html {
   /* Set a background color that will be displayed
       while the background image is loading */
   background-color: #464646;
+
+  overflow-y: hidden;
+
+}
+
+.titleSplash {
+  color: white;
 }
 
 .sloganTitle {
@@ -71,21 +79,7 @@ html {
 /* Dashboard */
 .dashboard {
   overflow: auto;
-  /*  position: absolute;
-   right: 5%;
-   background-color: rgba(0, 0, 0, 0.274);
-   width: 90%;
-   height: 90%;
-   opacity: .8; */
 }
-
-/* .buttonBox {
-   width: 100%;
-}
-
-.buttonBox > form, .buttonBox > form > input{
-   width: 100%;
-}  */
 
 /*---------------------------------------------*/
 a {
@@ -110,6 +104,10 @@ a:hover {
   color: #57b846;
 }
 
+.table {
+  overflow-y: scroll;
+}
+
 /*---------------------------------------------*/
 h1,
 h2,
@@ -118,6 +116,7 @@ h4,
 h5,
 h6 {
   margin: 0px;
+  color: black;
 }
 
 p {
@@ -268,8 +267,8 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;
   min-height: 100vh;
+  width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -279,8 +278,8 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-
 }
+
 
 .wrap-login100 {
   width: 560px;
@@ -608,6 +607,10 @@ iframe {
     width: 100%;
   }
 
+  root > .loginPage {
+    overflow: hidden;
+  }
+  
 }
 
 /* Desktop */
@@ -624,6 +627,7 @@ iframe {
   .mobile-accordion {
     display: none;
   }
+
 }
 
 @media only screen and (min-width: 800px){
@@ -643,4 +647,5 @@ iframe {
   .mobile-accordion {
     display: none;
   }
+
 }
