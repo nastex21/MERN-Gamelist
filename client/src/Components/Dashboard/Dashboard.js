@@ -50,7 +50,7 @@ function Dashboard({
           aria-expanded={open}
         >
           <span className="align-items-center justify-content-center">
-            <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
+            Add Source <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={open}>
@@ -137,7 +137,7 @@ function Dashboard({
           aria-expanded={searchOpen}
         >
           <span>
-            <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
+            Add Games <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={searchOpen} id="search-box">
