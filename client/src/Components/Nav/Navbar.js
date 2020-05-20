@@ -25,7 +25,7 @@ function NavbarTop(props) {
         <Navbar.Brand href="/">Video Game Catalog</Navbar.Brand>
         {props.guestUser && props.location.pathname == "/dashboard" ? (
           <>
-            <Navbar.Text style={{"color": "red"}}>(In Demo Mode)</Navbar.Text>
+            <Navbar.Text style={{"color": "mediumspringgreen"}}>(In Demo Mode)</Navbar.Text>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="ml-auto" aria-controls="responsive-navbar-nav">
