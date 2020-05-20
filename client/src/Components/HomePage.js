@@ -301,7 +301,7 @@ function HomePage(props) {
 
   return (
     <>
-      <NavbarTop guestUser={guestUser} />
+      <NavbarTop guestUser={guestUser} location={props.location} />
       <Switch>
         {!guestUser ? (
           <>
