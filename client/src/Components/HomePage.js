@@ -4,9 +4,9 @@ import { setStorage, removeStorage } from "../utils/localStorage";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import NavbarTop from "./Navbar";
-import FrontPage from "./FrontPageSplash";
-import Dashboard from "./Dashboard";
+import NavbarTop from "./Nav/Navbar";
+import FrontPage from "./MainFrontPage/FrontPageSplash";
+import Dashboard from "./Dashboard/Dashboard";
 import RegisterPage from "./AuthPages/Register";
 import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
@@ -69,6 +69,7 @@ function HomePage(props) {
   }, [successAddMsg]);
 
   useEffect(() => {
+    console.log(props)
     if (savedSteamGames) {
       setGames([...savedSteamGames]);
       setGames2([...savedManualGames]);

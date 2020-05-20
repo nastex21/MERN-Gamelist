@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import ManuallyAdded from "./Pull-Gamelists/ManualEntries/ManuallyAdded";
-import SteamForm from "./Pull-Gamelists/SteamList/SteamForm";
+import ManuallyAdded from "../SearchForGames/ManuallyAdded";
+import SteamForm from "../GameServices/Steam/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
 import { setDefaultBreakpoints } from "react-socks";
 import Button from "react-bootstrap/Button";
-import GenerateTable from "./GenerateTable/GenerateTable";
+import GenerateTable from "../GenerateTable/GenerateTable";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

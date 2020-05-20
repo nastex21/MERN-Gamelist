@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from 'react-bootstrap/Nav'
-import Logout from "./AuthPages/Logout";
+import Logout from "../AuthPages/Logout";
 
 function NavbarTop(props) {
   console.log(props);

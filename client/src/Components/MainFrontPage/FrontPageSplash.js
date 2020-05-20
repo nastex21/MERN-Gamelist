@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/FrontPage.css";
+import '../css/FrontPage.css';
 import ImageCredit from "./ImageCredit";
 
 export default function FrontPage() {
