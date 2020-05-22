@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import RegisterForm from "./Forms/RegisterForm";
@@ -16,6 +16,10 @@ export default function Register() {
   const [registrationFail, setFail] = useState(false);
   const { registerSuccess, setRegisterSuccess } = useContext(UserContext);
   const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  });
 
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");

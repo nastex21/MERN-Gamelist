@@ -39,7 +39,7 @@ function Dashboard({
 
   console.log("open: " + open);
   return (
-    <div className="buttonBox">
+    <div className="container buttonBox">
       <Breakpoint medium down>
         <Button
           className="align-items-center justify-content-center"
@@ -87,46 +87,6 @@ function Dashboard({
           </div>
         </Collapse>
       </Breakpoint>
-      <Breakpoint large up>
-        <div className="steamBox" id="example-collapse-text">
-          <h1>Steam Login</h1>
-          <Container fluid="true">
-            <Row className="align-items-center">
-              {!steamId ? (
-                <Col xs={5}>
-                  <SteamForm
-                    value={value}
-                    onChange={handleChange}
-                    submit={handleSubmit}
-                  />
-                </Col>
-              ) : null}
-              <Col md="auto" xs={1}>
-                <div className="vertLine"></div>
-              </Col>
-              {!steamId ? (
-                <Col xs={5}>
-                  <div className="steamLogIn text-center">
-                    <a onClick={handleClick}>
-                      <img
-                        className="steamIMG"
-                        src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
-                      />
-                    </a>
-                  </div>
-                </Col>
-              ) : null}
-            </Row>
-          </Container>
-        </div>
-      </Breakpoint>
-      {steamId ? (
-        <input
-          type="button"
-          value="Update Steam Games"
-          onClick={updateSteamGames}
-        />
-      ) : null}
 
       <Breakpoint medium down>
         <Button
@@ -137,7 +97,8 @@ function Dashboard({
           aria-expanded={searchOpen}
         >
           <span>
-            Add Games <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
+            Add Games{" "}
+            <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
           </span>
         </Button>
         <Collapse in={searchOpen} id="search-box">
@@ -153,17 +114,60 @@ function Dashboard({
         </Collapse>
       </Breakpoint>
 
-      <Breakpoint large up>
-        <div className="dashboard">
-          <h1>Game Search</h1>
-          <div className="manualBox">
-            <ManuallyAdded uploadData={manualData} />
+      <div className="row">
+        <Breakpoint large up className="col-10 dashboardDiv">
+          <div className="dashboard">
+            <h1>Game Search</h1>
+            <div className="manualBox">
+              <ManuallyAdded uploadData={manualData} />
+            </div>
+            {games.length === 0 ? null : (
+              <p>You have {games.length + games2.length} games</p>
+            )}
           </div>
-          {games.length === 0 ? null : (
-            <p>You have {games.length + games2.length} games</p>
-          )}
-        </div>
-      </Breakpoint>
+        </Breakpoint>
+
+        <Breakpoint large up className="col-2 steamBoxDiv">
+          <div className="steamBox" id="example-collapse-text">
+            <h1>Steam Login</h1>
+            <Container fluid="true">
+              <Row className="align-items-center">
+                {!steamId ? (
+                  <Col xs={5}>
+                    <SteamForm
+                      value={value}
+                      onChange={handleChange}
+                      submit={handleSubmit}
+                    />
+                  </Col>
+                ) : null}
+                <Col md="auto" xs={1}>
+                  <div className="vertLine"></div>
+                </Col>
+                {!steamId ? (
+                  <Col xs={5}>
+                    <div className="steamLogIn text-center">
+                      <a onClick={handleClick}>
+                        <img
+                          className="steamIMG"
+                          src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                        />
+                      </a>
+                    </div>
+                  </Col>
+                ) : null}
+              </Row>
+            </Container>
+          </div>
+          {steamId ? (
+            <input
+              type="button"
+              value="Update Steam Games"
+              onClick={updateSteamGames}
+            />
+          ) : null}
+        </Breakpoint>
+      </div>
 
       {games.length === 0 && games2.length === 0 ? null : (
         <GenerateTable

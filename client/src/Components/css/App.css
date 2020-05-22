@@ -10,10 +10,6 @@ html {
   font-family: 'Raleway', sans-serif;
 }
 
-#root {
-  overflow-y: hidden;
-}
-
 #root,
 .dashboard,
 .frontPage,
@@ -77,10 +73,6 @@ html {
 }
 
 /* Dashboard */
-.dashboard {
-  overflow: auto;
-}
-
 /*---------------------------------------------*/
 a {
   font-family: 'Raleway';
@@ -104,9 +96,6 @@ a:hover {
   color: #57b846;
 }
 
-.table {
-  overflow-y: scroll;
-}
 
 /*---------------------------------------------*/
 h1,
@@ -607,9 +596,6 @@ iframe {
     width: 100%;
   }
 
-  root > .loginPage {
-    overflow: hidden;
-  }
   
 }
 
@@ -647,5 +633,10 @@ iframe {
   .mobile-accordion {
     display: none;
   }
+
+  .buttonBox {
+    display: grid;
+  }
+
 
 }

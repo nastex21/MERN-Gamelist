@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "./Forms/LoginForm";
 import setAuthToken from "../../utils/setAuthToken";
@@ -16,6 +16,10 @@ export default function LoginPage() {
   const [show, setShow] = useState(true);
   const {registerSuccess, setRegisterSuccess } = useContext(UserContext);
   const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  });
 
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");
