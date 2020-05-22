@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ManuallyAdded from "../SearchForGames/ManuallyAdded";
 import SteamForm from "../GameServices/Steam/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
 import { setDefaultBreakpoints } from "react-socks";
+import UpdateSection from '../Updates/Updates';
+import StatSection from '../StatsSection/Stats';
 import Button from "react-bootstrap/Button";
 import GenerateTable from "../GenerateTable/GenerateTable";
 import Container from "react-bootstrap/Container";
@@ -29,17 +31,14 @@ function Dashboard({
   const [open, setOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(true);
 
-  /* setDefaultBreakpoints([
-    { xs: 0 },
-    { s: 376 },
-    { m: 426 },
-    { l: 769 },
-    { xl: 1025 }
-  ]); */
+  useEffect(() => {
+    document.body.style.overflow = "auto";
+  })
 
   console.log("open: " + open);
   return (
-    <div className="container buttonBox">
+    <div className="container mainDivDash">
+      <UpdateSection />
       <Breakpoint medium down>
         <Button
           className="align-items-center justify-content-center"
@@ -86,9 +85,6 @@ function Dashboard({
             </Container>
           </div>
         </Collapse>
-      </Breakpoint>
-
-      <Breakpoint medium down>
         <Button
           style={{ width: "100%", "border-radius": "0px" }}
           variant="secondary"
@@ -107,12 +103,10 @@ function Dashboard({
             <div className="manualBox">
               <ManuallyAdded uploadData={manualData} />
             </div>
-            {games.length === 0 ? null : (
-              <p>You have {games.length + games2.length} games</p>
-            )}
           </div>
         </Collapse>
       </Breakpoint>
+
 
       <div className="row">
         <Breakpoint large up className="col-10 dashboardDiv">
@@ -121,9 +115,6 @@ function Dashboard({
             <div className="manualBox">
               <ManuallyAdded uploadData={manualData} />
             </div>
-            {games.length === 0 ? null : (
-              <p>You have {games.length + games2.length} games</p>
-            )}
           </div>
         </Breakpoint>
 
@@ -169,6 +160,7 @@ function Dashboard({
         </Breakpoint>
       </div>
 
+      <StatSection games={games} games2={games2}/>
       {games.length === 0 && games2.length === 0 ? null : (
         <GenerateTable
           gamelist={games}
