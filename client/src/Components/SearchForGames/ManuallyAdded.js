@@ -90,7 +90,7 @@ export default function ManuallyAdded(props) {
         })
         .catch((error) => console.log(error));
     } else {
-      window.alert("Please select a system")
+      window.alert("Please select a system");
     }
   };
 
@@ -101,23 +101,42 @@ export default function ManuallyAdded(props) {
 
   return (
     <div className="manualAddition">
-      <form onSubmit={submitValues}>
-        <input type="text" value={valueText} onChange={updateName} />
-        {isLoaded ? (
-          <Dropdown
-            placeholder="Select system"
-            fluid
-            selection
-            search={search}
-            options={options}
-            value={value}
-            onChange={handleChange}
-            onSearchChange={handleSearchChange}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
-        <input type="submit" value="Search" />
+      <form className="mobileForm desktopForm" onSubmit={submitValues}>
+        <div className="container">
+          <div className="row">
+            <div className="col-6">
+              <input
+                className="mobileInputSearch desktopInputSearch w-100 h-100"
+                type="text"
+                value={valueText}
+                onChange={updateName}
+              />
+            </div>
+            <div className="col-4">
+              {isLoaded ? (
+                <Dropdown
+                  placeholder="Select system"
+                  fluid
+                  selection
+                  search={search}
+                  options={options}
+                  value={value}
+                  onChange={handleChange}
+                  onSearchChange={handleSearchChange}
+                />
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
+            <div className="col">
+              <input
+                className="mobileInputButton desktopInputButton"
+                type="submit"
+                value="Search"
+              />
+            </div>
+          </div>
+        </div>
       </form>
       {apiResults.length > 0 ? (
         <ShowResults

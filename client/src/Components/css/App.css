@@ -568,6 +568,12 @@ iframe {
 }
 
 
+.extendNav {
+  background-color: #343a40;
+}
+
+
+
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 
@@ -613,7 +619,6 @@ iframe {
   .mobile-accordion {
     display: none;
   }
-
 }
 
 @media only screen and (min-width: 800px){

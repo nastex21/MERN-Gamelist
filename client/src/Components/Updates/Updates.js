@@ -5,17 +5,10 @@ export default function UpdateSection() {
   const [show, setShow] = useState(true);
 
   return (
-    show ? <Alert variant="success" onClose={() => setShow(false)} dismissible>
-      <Alert.Heading>Hey, nice to see you</Alert.Heading>
+    show ? <Alert variant="dark" onClose={() => setShow(false)} dismissible>
+      <Alert.Heading>Website news:</Alert.Heading>
       <p>
-        Aww yeah, you successfully read this important alert message. This
-        example text is going to run a bit longer so that you can see how
-        spacing within an alert works with this kind of content.
-      </p>
-      <hr />
-      <p className="mb-0">
-        Whenever you need to, be sure to use margin utilities to keep things
-        nice and tidy.
+        Looking to add more game services to the "Sources" import section of the site. Stay tuned! 
       </p>
     </Alert> : null
   );

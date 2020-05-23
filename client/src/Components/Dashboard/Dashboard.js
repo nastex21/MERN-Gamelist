@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
 import { setDefaultBreakpoints } from "react-socks";
-import UpdateSection from '../Updates/Updates';
-import StatSection from '../StatsSection/Stats';
+import UpdateSection from "../Updates/Updates";
+import StatSection from "../StatsSection/Stats";
 import Button from "react-bootstrap/Button";
 import GenerateTable from "../GenerateTable/GenerateTable";
 import Container from "react-bootstrap/Container";
@@ -33,7 +33,7 @@ function Dashboard({
 
   useEffect(() => {
     document.body.style.overflow = "auto";
-  })
+  });
 
   console.log("open: " + open);
   return (
@@ -54,7 +54,7 @@ function Dashboard({
         </Button>
         <Collapse in={open}>
           <div className="steamBox" id="steam-box">
-            <h1>Steam Login</h1>
+            <h1>Sources</h1>
             <Container fluid="true">
               <Row className="align-items-center">
                 {!steamId ? (
@@ -66,9 +66,6 @@ function Dashboard({
                     />
                   </Col>
                 ) : null}
-                <Col md="auto" xs={1}>
-                  <div className="vertLine"></div>
-                </Col>
                 {!steamId ? (
                   <Col xs={5}>
                     <div className="steamLogIn text-center">
@@ -80,6 +77,13 @@ function Dashboard({
                       </a>
                     </div>
                   </Col>
+                ) : null}
+                {steamId ? (
+                  <input
+                    type="button"
+                    value="Update Steam Games"
+                    onClick={updateSteamGames}
+                  />
                 ) : null}
               </Row>
             </Container>
@@ -107,7 +111,6 @@ function Dashboard({
         </Collapse>
       </Breakpoint>
 
-
       <div className="row">
         <Breakpoint large up className="col-10 dashboardDiv">
           <div className="dashboard">
@@ -120,7 +123,7 @@ function Dashboard({
 
         <Breakpoint large up className="col-2 steamBoxDiv">
           <div className="steamBox" id="example-collapse-text">
-            <h1>Steam Login</h1>
+            <h1>Sources</h1>
             <Container fluid="true">
               <Row className="align-items-center">
                 {!steamId ? (
@@ -132,9 +135,6 @@ function Dashboard({
                     />
                   </Col>
                 ) : null}
-                <Col md="auto" xs={1}>
-                  <div className="vertLine"></div>
-                </Col>
                 {!steamId ? (
                   <Col xs={5}>
                     <div className="steamLogIn text-center">
@@ -160,7 +160,7 @@ function Dashboard({
         </Breakpoint>
       </div>
 
-      <StatSection games={games} games2={games2}/>
+      <StatSection games={games} games2={games2} />
       {games.length === 0 && games2.length === 0 ? null : (
         <GenerateTable
           gamelist={games}
