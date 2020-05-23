@@ -4,7 +4,6 @@ import SteamForm from "../GameServices/Steam/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
-import { setDefaultBreakpoints } from "react-socks";
 import UpdateSection from "../Updates/Updates";
 import StatSection from "../StatsSection/Stats";
 import Button from "react-bootstrap/Button";
