@@ -572,6 +572,18 @@ iframe {
   background-color: #343a40;
 }
 
+.servicesStats {
+  float: right;
+  width: 50%;
+  text-align: center;
+}
+
+.systemStats {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
 
 
 /*//////////////////////////////////////////////////////////////////

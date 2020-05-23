@@ -159,7 +159,9 @@ function Dashboard({
         </Breakpoint>
       </div>
 
-      <StatSection games={games} games2={games2} />
+      <div className="statsSection">
+        <StatSection games={games} games2={games2} />
+      </div>
       {games.length === 0 && games2.length === 0 ? null : (
         <GenerateTable
           gamelist={games}
