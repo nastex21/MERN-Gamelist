@@ -104,17 +104,18 @@ export default function ManuallyAdded(props) {
       <form className="mobileForm desktopForm" onSubmit={submitValues}>
         <div className="container">
           <div className="row">
-            <div className="col-6">
+            <div className="col-6 input-group input-group-lg">
               <input
-                className="mobileInputSearch desktopInputSearch w-100 h-100"
+                className="form-control mobileInputSearch desktopInputSearch"
                 type="text"
                 value={valueText}
                 onChange={updateName}
               />
             </div>
-            <div className="col-4">
+            <div className="col-4 input-group input-group-lg">
               {isLoaded ? (
                 <Dropdown
+                  className="form-control"
                   placeholder="Select system"
                   fluid
                   selection
@@ -128,9 +129,9 @@ export default function ManuallyAdded(props) {
                 <p>Loading...</p>
               )}
             </div>
-            <div className="col">
+            <div className="col input-group input-group-lg">
               <input
-                className="mobileInputButton desktopInputButton"
+                className="form-control mobileInputButton desktopInputButton"
                 type="submit"
                 value="Search"
               />

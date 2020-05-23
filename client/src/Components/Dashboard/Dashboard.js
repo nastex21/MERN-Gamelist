@@ -52,7 +52,7 @@ function Dashboard({
           </span>
         </Button>
         <Collapse in={open}>
-          <div className="steamBox" id="steam-box">
+          <div className="sourcesBox" id="sources-box">
             <h1>Sources</h1>
             <Container fluid="true">
               <Row className="align-items-center">
@@ -79,6 +79,7 @@ function Dashboard({
                 ) : null}
                 {steamId ? (
                   <input
+                    className="input-lg"
                     type="button"
                     value="Update Steam Games"
                     onClick={updateSteamGames}
@@ -111,31 +112,25 @@ function Dashboard({
       </Breakpoint>
 
       <div className="row">
-        <Breakpoint large up className="col-10 dashboardDiv">
-          <div className="dashboard">
-            <h1>Game Search</h1>
-            <div className="manualBox">
-              <ManuallyAdded uploadData={manualData} />
-            </div>
-          </div>
-        </Breakpoint>
-
-        <Breakpoint large up className="col-2 steamBoxDiv">
-          <div className="steamBox" id="example-collapse-text">
+        <Breakpoint large up className="sourcesBoxDiv w-100">
+          <div className="sourcesBox" id="example-collapse-text">
             <h1>Sources</h1>
             <Container fluid="true">
-              <Row className="align-items-center">
-                {!steamId ? (
-                  <Col xs={5}>
+              {!steamId ? (
+                <Row className="align-items-center">
+                  <Col>
                     <SteamForm
                       value={value}
                       onChange={handleChange}
                       submit={handleSubmit}
                     />
                   </Col>
-                ) : null}
-                {!steamId ? (
-                  <Col xs={5}>
+                </Row>
+              ) : null}
+              <hr />
+              {!steamId ? (
+                <Row>
+                  <Col>
                     <div className="steamLogIn text-center">
                       <a onClick={handleClick}>
                         <img
@@ -145,17 +140,26 @@ function Dashboard({
                       </a>
                     </div>
                   </Col>
-                ) : null}
-              </Row>
+                </Row>
+              ) : null}
             </Container>
           </div>
           {steamId ? (
             <input
+            className="input-lg"
               type="button"
               value="Update Steam Games"
               onClick={updateSteamGames}
             />
           ) : null}
+        </Breakpoint>
+        <Breakpoint large up className="dashboardDiv w-100">
+          <div className="dashboard">
+            <h1>Game Search</h1>
+            <div className="manualBox">
+              <ManuallyAdded uploadData={manualData} />
+            </div>
+          </div>
         </Breakpoint>
       </div>
 

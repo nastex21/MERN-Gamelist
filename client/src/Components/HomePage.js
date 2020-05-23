@@ -341,7 +341,6 @@ function HomePage(props) {
               path="/logout"
               render={(props) => <LogoutPage onClick={handleLogout} />}
             />
-            }
           </>
         ) : (
           <>
