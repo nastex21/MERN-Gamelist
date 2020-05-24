@@ -591,7 +591,7 @@ iframe {
 [ Responsive ]*/
 
 /* Mobile */
-@media only screen and (max-width: 767.999px) {
+@media only screen and (max-width: 768.1px) {
   .wrap-login100 {
     padding-left: 15px;
     padding-right: 15px;
@@ -634,11 +634,55 @@ iframe {
   .filter {
     font-size: 2vw !important;
   }
+
+  .yearColHeader {
+    font-size: 1.5vw !important;
+  }
+
+  .yearColHeader > .filter {
+    display: grid !important;
+    grid-template-columns: 50px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "first"
+    "second";
+  }
+
+  .number-filter > label:nth-child(2) {
+    grid-area: second;
+    width: 100%;
+  }
+
+  .filter-label {
+    grid-area: first;
+    width: 100%;
+  }
+
+  .table {
+    width: 100%;
+    table-layout: auto !important;
+  }
+
+  .mainDivDash > .row {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
   
+  .number-filter-comparator, .number-filter > label, .number-filter > label > input {
+    width: 100% !important;
+  }
+
+  #number-filter-column-game_release {
+    margin-left: 0;
+  }
+
+  .sortable {
+    font-size: 2vw;
+  }
 }
 
 /* Desktop */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768.2px) {
   .alert-validate::before {
     visibility: visible;
     opacity: 1;

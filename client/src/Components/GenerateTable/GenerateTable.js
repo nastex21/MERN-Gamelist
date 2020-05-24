@@ -345,6 +345,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
       text: "Release Year",
       sort: true,
       editable: false,
+      headerClasses: "yearColHeader",
       formatter: dateFormatter,
       filter: numberFilter({
         comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
@@ -457,7 +458,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
         filter={filterFactory()}
         striped
         hover
-        condensed
+        condensed={true}
         selectRow={selectRow}
         cellEdit={cellEditFactory({
           mode: "dbclick",
