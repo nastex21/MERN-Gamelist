@@ -54,8 +54,8 @@ function Dashboard({
         <Collapse in={open}>
           <div className="sourcesBox" id="sources-box">
             <h1>Sources</h1>
-            <Container fluid="true">
-              <Row className="align-items-center">
+            <Container>
+              <Row className="input-group input-group-lg w-100 h-100">
                 {!steamId ? (
                   <Col xs={5}>
                     <SteamForm
@@ -77,16 +77,16 @@ function Dashboard({
                     </div>
                   </Col>
                 ) : null}
-                {steamId ? (
+              </Row>
+            </Container>
+            {steamId ? (
                   <input
-                    className="input-lg"
+                    className="form-control w-100"
                     type="button"
                     value="Update Steam Games"
                     onClick={updateSteamGames}
                   />
                 ) : null}
-              </Row>
-            </Container>
           </div>
         </Collapse>
         <Button
@@ -115,9 +115,9 @@ function Dashboard({
         <Breakpoint large up className="sourcesBoxDiv w-100">
           <div className="sourcesBox" id="example-collapse-text">
             <h1>Sources</h1>
-            <Container fluid="true">
+            <Container>
               {!steamId ? (
-                <Row className="align-items-center">
+                <Row className="align-items-center input-group input-group-lg">
                   <Col>
                     <SteamForm
                       value={value}
@@ -146,7 +146,7 @@ function Dashboard({
           </div>
           {steamId ? (
             <input
-            className="input-lg"
+            className="form-control w-100"
               type="button"
               value="Update Steam Games"
               onClick={updateSteamGames}
