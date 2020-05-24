@@ -146,7 +146,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
     if (row.provider !== "steam") {
       return (
         <img
-          style={{ width: 184, height: 69 }}
+          className="img-fluid"
           key={rowIndex}
           src={row.game_img}
           alt={"Box art of " + row.game_name}
@@ -155,6 +155,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
     } else {
       return (
         <img
+          className="img-fluid"
           key={rowIndex}
           src={`http://media.steampowered.com/steamcommunity/public/images/apps/${row.game_appid}/${row.game_img}.jpg`}
           alt={"Box art of " + row.game_name}
@@ -442,6 +443,7 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
   const nonEditRows = () => {
     return unselectable;
   };
+
 
   return (
     <div className="table row">
