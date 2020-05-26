@@ -38,7 +38,8 @@ function Dashboard({
   return (
     <div className="container mainDivDash">
       <UpdateSection />
-      <Breakpoint medium down>
+
+      <Breakpoint medium down className="row">
         <Button
           className="align-items-center justify-content-center"
           style={{ width: "100%", "border-radius": "0px" }}
@@ -80,13 +81,13 @@ function Dashboard({
               </Row>
             </Container>
             {steamId ? (
-                  <input
-                    className="form-control w-100"
-                    type="button"
-                    value="Update Steam Games"
-                    onClick={updateSteamGames}
-                  />
-                ) : null}
+              <input
+                className="form-control w-100"
+                type="button"
+                value="Update Steam Games"
+                onClick={updateSteamGames}
+              />
+            ) : null}
           </div>
         </Collapse>
         <Button
@@ -111,69 +112,67 @@ function Dashboard({
         </Collapse>
       </Breakpoint>
 
-      <div className="row">
-        <Breakpoint large up className="sourcesBoxDiv w-100">
-          <div className="sourcesBox" id="example-collapse-text">
-            <h1>Sources</h1>
-            <Container>
-              {!steamId ? (
-                <Row className="align-items-center input-group input-group-lg">
-                  <Col>
-                    <SteamForm
-                      value={value}
-                      onChange={handleChange}
-                      submit={handleSubmit}
-                    />
-                  </Col>
-                </Row>
-              ) : null}
-              <hr />
-              {!steamId ? (
-                <Row>
-                  <Col>
-                    <div className="steamLogIn text-center">
-                      <a onClick={handleClick}>
-                        <img
-                          className="steamIMG"
-                          src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
-                        />
-                      </a>
-                    </div>
-                  </Col>
-                </Row>
-              ) : null}
-            </Container>
-          </div>
-          {steamId ? (
-            <input
+      <Breakpoint large up className="row sourcesBoxDiv w-100">
+        <div className="sourcesBox" id="example-collapse-text">
+          <h1>Sources</h1>
+          <Container>
+            {!steamId ? (
+              <Row className="align-items-center input-group input-group-lg">
+                <Col>
+                  <SteamForm
+                    value={value}
+                    onChange={handleChange}
+                    submit={handleSubmit}
+                  />
+                </Col>
+              </Row>
+            ) : null}
+            <hr />
+            {!steamId ? (
+              <Row>
+                <Col>
+                  <div className="steamLogIn text-center">
+                    <a onClick={handleClick}>
+                      <img
+                        className="steamIMG"
+                        src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                      />
+                    </a>
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+          </Container>
+        </div>
+        {steamId ? (
+          <input
             className="form-control w-100"
-              type="button"
-              value="Update Steam Games"
-              onClick={updateSteamGames}
-            />
-          ) : null}
-        </Breakpoint>
-        <Breakpoint large up className="dashboardDiv w-100">
-          <div className="dashboard">
-            <h1>Game Search</h1>
-            <div className="manualBox">
-              <ManuallyAdded uploadData={manualData} />
-            </div>
+            type="button"
+            value="Update Steam Games"
+            onClick={updateSteamGames}
+          />
+        ) : null}
+        <div className="dashboard">
+          <h1>Game Search</h1>
+          <div className="manualBox">
+            <ManuallyAdded uploadData={manualData} />
           </div>
-        </Breakpoint>
-      </div>
+        </div>
+      </Breakpoint>
 
-      <div className="statsSection">
+      <div className="row statsSection">
         <StatSection games={games} games2={games2} />
       </div>
       {games.length === 0 && games2.length === 0 ? null : (
-        <GenerateTable
-          gamelist={games}
-          gameslist2={games2}
-          userId={userId}
-          deletedGamesRender={deletedGamesRender}
-          successAddMsg={successAddMsg}
-        />
+        <div className="row">
+          <GenerateTable
+            gamelist={games}
+            gameslist2={games2}
+            userId={userId}
+            deletedGamesRender={deletedGamesRender}
+            successAddMsg={successAddMsg}
+          />
+        </div>
       )}
     </div>
   );
