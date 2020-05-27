@@ -112,7 +112,8 @@ function Dashboard({
         </Collapse>
       </Breakpoint>
 
-        <div className="row sourcesBox" id="example-collapse-text">
+      <Breakpoint large up className="row sourcesBoxDiv">
+        <div className="row sourcesBox w-100" id="example-collapse-text">
           <h1 className="w-100">Sources</h1>
           <Container>
             {!steamId ? (
@@ -148,16 +149,16 @@ function Dashboard({
                 onClick={updateSteamGames}
               />
             ) }
-          </Container>
-          
+          </Container>          
         </div>
 
-        <div className="row searchBox">
+        <div className="row searchBox w-100">
           <h1 className="w-100">Game Search</h1>
           <div className="manualBox">
             <ManuallyAdded uploadData={manualData} />
           </div>
         </div>
+        </Breakpoint>
 
       <div className="row statsSection">
         <StatSection games={games} games2={games2} />
