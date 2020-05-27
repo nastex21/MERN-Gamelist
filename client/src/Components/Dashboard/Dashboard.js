@@ -53,8 +53,8 @@ function Dashboard({
           </span>
         </Button>
         <Collapse in={open}>
-          <div className="sourcesBox" id="sources-box">
-            <h1>Sources</h1>
+          <div className="sourcesBox w-100" id="sources-box">
+            <h1 className="w-100">Sources</h1>
             <Container>
               <Row className="input-group input-group-lg w-100 h-100">
                 {!steamId ? (
@@ -112,9 +112,8 @@ function Dashboard({
         </Collapse>
       </Breakpoint>
 
-      <Breakpoint large up className="row sourcesBoxDiv w-100">
-        <div className="sourcesBox" id="example-collapse-text">
-          <h1>Sources</h1>
+        <div className="row sourcesBox" id="example-collapse-text">
+          <h1 className="w-100">Sources</h1>
           <Container>
             {!steamId ? (
               <Row className="align-items-center input-group input-group-lg">
@@ -141,24 +140,24 @@ function Dashboard({
                   </div>
                 </Col>
               </Row>
-            ) : null}
+            ) : (
+              <input
+                className="form-control w-100"
+                type="button"
+                value="Update Steam Games"
+                onClick={updateSteamGames}
+              />
+            ) }
           </Container>
+          
         </div>
-        {steamId ? (
-          <input
-            className="form-control w-100"
-            type="button"
-            value="Update Steam Games"
-            onClick={updateSteamGames}
-          />
-        ) : null}
-        <div className="dashboard">
-          <h1>Game Search</h1>
+
+        <div className="row searchBox">
+          <h1 className="w-100">Game Search</h1>
           <div className="manualBox">
             <ManuallyAdded uploadData={manualData} />
           </div>
         </div>
-      </Breakpoint>
 
       <div className="row statsSection">
         <StatSection games={games} games2={games2} />

@@ -447,7 +447,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
 
 
   return (
-    <div className="table row">
       <BootstrapTable
         bootstrap4
         caption={<CaptionElement />}
@@ -467,7 +466,6 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
           afterSaveCell,
         })}
       />
-    </div>
   );
 }
 

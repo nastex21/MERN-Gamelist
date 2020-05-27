@@ -51,7 +51,7 @@ function StatSection({ games, games2 }) {
 
     return (
       <>
-        <h3 style={{ textAlign: "center" }}>Game Stats Breakdown</h3>
+        <h3 className="w-100" style={{ textAlign: "center" }}>Game Stats Breakdown</h3>
         <div className="systemStats">
           <p>Systems</p>
           <ul className="list-group">
@@ -94,7 +94,7 @@ function StatSection({ games, games2 }) {
       </>
     );
   };
-  return <div>{gamesComb.length === 0 ? null : gameStats()}</div>;
+  return <>{gamesComb.length === 0 ? null : gameStats()}</>;
 }
 
 export default StatSection;
