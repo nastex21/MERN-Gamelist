@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import ManuallyAdded from "../SearchForGames/ManuallyAdded";
 import SteamForm from "../GameServices/Steam/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,17 +29,25 @@ function Dashboard({
 }) {
   const [open, setOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(true);
+  const [statsOpen, setStatsOpen] = useState(true);
+  const [size, setSize] = useState([0, 0]);
+  const [width, height] = useWindowSize();
 
-  useEffect(() => {
-    document.body.style.overflow = "auto";
-  });
+  function useWindowSize() {
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
 
-  console.log("open: " + open);
-  return (
-    <div className="container mainDivDash">
-      <UpdateSection />
-
-      <Breakpoint medium down className="row">
+  const mobileLayout = () => {
+    return (
+      <Breakpoint medium down className="row mainDivSec my-auto">
         <Button
           className="align-items-center justify-content-center"
           style={{ width: "100%", "border-radius": "0px" }}
@@ -53,7 +61,7 @@ function Dashboard({
           </span>
         </Button>
         <Collapse in={open}>
-          <div className="sourcesBox w-100" id="sources-box">
+          <div className="sourcesBox w-100 my-5" id="sources-box">
             <h1 className="w-100">Sources</h1>
             <Container>
               <Row className="input-group input-group-lg w-100 h-100">
@@ -103,66 +111,98 @@ function Dashboard({
           </span>
         </Button>
         <Collapse in={searchOpen} id="search-box">
-          <div className="dashboard">
+          <div className="dashboard my-5">
             <h1>Game Search</h1>
             <div className="manualBox">
               <ManuallyAdded uploadData={manualData} />
             </div>
           </div>
         </Collapse>
+        <Button
+          style={{ width: "100%", "border-radius": "0px" }}
+          variant="secondary"
+          onClick={() => setStatsOpen(!statsOpen)}
+          aria-controls="stats-box"
+          aria-expanded={statsOpen}
+        >
+          <span>
+            Show Stats{" "}
+            <FontAwesomeIcon icon={statsOpen ? faCaretUp : faCaretDown} />
+          </span>
+        </Button>
+        <Collapse in={statsOpen} id="stats-box">
+          <div className="row statsSection mainDivSec my-5">
+            <StatSection games={games} games2={games2} />
+          </div>
+        </Collapse>
       </Breakpoint>
+    );
+  };
 
-      <Breakpoint large up className="row sourcesBoxDiv">
-        <div className="row sourcesBox w-100" id="example-collapse-text">
-          <h1 className="w-100">Sources</h1>
-          <Container>
-            {!steamId ? (
-              <Row className="align-items-center input-group input-group-lg">
-                <Col>
-                  <SteamForm
-                    value={value}
-                    onChange={handleChange}
-                    submit={handleSubmit}
-                  />
-                </Col>
-              </Row>
-            ) : null}
-            <hr />
-            {!steamId ? (
-              <Row>
-                <Col>
-                  <div className="steamLogIn text-center">
-                    <a onClick={handleClick}>
-                      <img
-                        className="steamIMG"
-                        src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+  const DesktopLayout = () => {
+    return (
+      <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
+        <div className="statsSection mainDivSec my-5 w-100">
+          <Row>
+            <Col>
+              <StatSection games={games} games2={games2} />
+            </Col>
+            <Col>
+              <h1 className="w-100">Sources</h1>
+              <Container>
+                {!steamId ? (
+                  <Row className="align-items-center input-group input-group-lg">
+                    <Col>
+                      <SteamForm
+                        value={value}
+                        onChange={handleChange}
+                        submit={handleSubmit}
                       />
-                    </a>
-                  </div>
-                </Col>
-              </Row>
-            ) : (
-              <input
-                className="form-control w-100"
-                type="button"
-                value="Update Steam Games"
-                onClick={updateSteamGames}
-              />
-            ) }
-          </Container>          
+                    </Col>
+                  </Row>
+                ) : null}
+                <hr />
+                {!steamId ? (
+                  <Row>
+                    <Col>
+                      <div className="steamLogIn text-center">
+                        <a onClick={handleClick}>
+                          <img
+                            className="steamIMG"
+                            src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                          />
+                        </a>
+                      </div>
+                    </Col>
+                  </Row>
+                ) : (
+                  <input
+                    className="form-control w-100"
+                    type="button"
+                    value="Update Steam Games"
+                    onClick={updateSteamGames}
+                  />
+                )}
+              </Container>
+            </Col>
+          </Row>
         </div>
 
-        <div className="row searchBox w-100">
+        <div className="row searchBox w-100 my-5">
           <h1 className="w-100">Game Search</h1>
           <div className="manualBox">
             <ManuallyAdded uploadData={manualData} />
           </div>
         </div>
-        </Breakpoint>
+      </Breakpoint>
+    );
+  };
 
-      <div className="row statsSection">
-        <StatSection games={games} games2={games2} />
-      </div>
+  console.log(size);
+  return (
+    <div className="container mainDivDash">
+      <UpdateSection />
+      {width <= 578 ? mobileLayout() : DesktopLayout()}
       {games.length === 0 && games2.length === 0 ? null : (
         <div className="row">
           <GenerateTable
