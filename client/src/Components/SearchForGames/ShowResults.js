@@ -1,27 +1,35 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import BootstrapTable from "react-bootstrap-table-next";
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
-function ShowResults(props) {
+function ShowResults({
+  showResultsUpdate,
+  results,
+  uploadData,
+  platform,
+  showBool
+}) {
   const [singleSelectData, setSingleData] = useState([]); //data from single selection
 
   const handleOnSelect = (row, isSelect) => {
-    if (isSelect){
+    if (isSelect) {
       var gameObj = {
         game_id: row.id,
         game_name: row.name,
         game_img: row.background_image,
-        game_system: props.platform,
+        game_system: platform,
         game_release: row.released,
-        provider: 'manual'
-      }
+        provider: "manual",
+      };
       var gameArr = [];
       gameArr.push(gameObj);
 
-      setSingleData([...singleSelectData, ...gameArr]); 
+      setSingleData([...singleSelectData, ...gameArr]);
     } else if (!isSelect) {
       var gameArr = [...singleSelectData];
-      gameArr = gameArr.filter(item => item.game_id !== row.id);
+      gameArr = gameArr.filter((item) => item.game_id !== row.id);
       setSingleData([...gameArr]);
     }
   };
@@ -29,39 +37,58 @@ function ShowResults(props) {
   const columns = [
     {
       dataField: "name",
-      text: "Name"
-    }
-  ]
+      text: "Name",
+    },
+  ];
 
   const selectRow = {
     mode: "checkbox",
     clickToSelect: true,
     hideSelectAll: true,
-    onSelect: handleOnSelect
+    onSelect: handleOnSelect,
   };
 
   const saveSelected = () => {
-    props.uploadData(singleSelectData)
+    uploadData(singleSelectData);
   };
 
-  console.log(props.results);
-  return (
-    <div className="resultsTable">
-      <h3>Add games</h3>
+  const closeDiv = () => {
+    showResultsUpdate();
+  };
 
-      <BootstrapTable
-        bootstrap4
-        data={props.results}
-        columns={columns}
-        keyField={"id"}
-        selectRow={selectRow} 
-      />
+  const showTable = () => {
+    console.log(results);
+    return (
+      <div className="resultsTable">
+        <div className="gameAdditionHeader">
+          <FontAwesomeIcon
+            onClick={closeDiv}
+            icon={faWindowClose}
+            style={{ float: "right" }}
+          />
+        </div>
+        <BootstrapTable
+          bootstrap4
+          data={results}
+          columns={columns}
+          keyField={"id"}
+          selectRow={selectRow}
+        />
 
-      <div className="resultsSaveButton">
-        <input type="button" value="Save to database" onClick={saveSelected} />
+        <div className="resultsSaveButton">
+          <input
+            type="button"
+            value="Save to database"
+            onClick={saveSelected}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  console.log(showBool);
+
+  return <>{showBool ? showTable() : null}</>;
 }
 
 export default ShowResults;

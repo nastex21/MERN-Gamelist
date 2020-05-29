@@ -6,9 +6,7 @@ import axios from "axios";
 export default function ManuallyAdded(props) {
   const [search, setSearch] = useState(true);
   const [searchQuery, setSearchQuery] = useState(null);
-  const [showResults, setShowResults] = useState(0);
-  const [previousPage, setPreviousPage] = useState("");
-  const [nextPage, setNextPage] = useState("");
+  const [showBool, setShowBool] = useState(false);
   const [apiResults, setResults] = useState([]);
   const [value, setValue] = useState("");
   const [valueText, setValueText] = useState("");
@@ -83,10 +81,8 @@ export default function ManuallyAdded(props) {
       axios
         .get("/api/get-games-list/db", obj)
         .then((response) => {
-          setNextPage(response.data.next);
-          setPreviousPage(response.data.previous);
+          setShowBool(true);
           setResults([...response.data.results]);
-          setShowResults(1);
         })
         .catch((error) => console.log(error));
     } else {
@@ -98,6 +94,11 @@ export default function ManuallyAdded(props) {
   const addGameFromResults = (item) => {
     props.uploadData(item);
   };
+
+  const showResultsUpdate = () => {
+    console.log('showresultsupdate running')
+    setShowBool(false);
+  }
 
   return (
     <div className="manualAddition">
@@ -124,6 +125,7 @@ export default function ManuallyAdded(props) {
                   value={value}
                   onChange={handleChange}
                   onSearchChange={handleSearchChange}
+                  showResultsUpdate={showResultsUpdate}
                 />
               ) : (
                 <p>Loading...</p>
@@ -140,15 +142,16 @@ export default function ManuallyAdded(props) {
         </div>
       </form>
       {apiResults.length > 0 ? (
+        <div className="resultsWindow">
         <ShowResults
-          nextPage={nextPage}
-          prevPage={previousPage}
           results={apiResults}
-          showResults={showResults}
+          showBool={showBool}
           uploadData={addGameFromResults}
           platform={value}
-        />
-      ) : apiResults.length == 0 && showResults == 1 ? (
+          showResultsUpdate={showResultsUpdate}
+          />
+        </div>
+      ) : apiResults.length == 0 && showBool ? (
         <p>Sorry no results</p>
       ) : null}
     </div>
