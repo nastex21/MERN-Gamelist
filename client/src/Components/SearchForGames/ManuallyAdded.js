@@ -133,7 +133,7 @@ export default function ManuallyAdded(props) {
             </div>
             <div className="col-lg-2 input-group input-group-lg">
               <input
-                className="form-control mobileInputButton desktopInputButton"
+                className="btn btn-dark form-control mobileInputButton desktopInputButton"
                 type="submit"
                 value="Search"
               />

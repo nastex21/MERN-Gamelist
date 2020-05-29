@@ -77,6 +77,7 @@ function ShowResults({
 
         <div className="resultsSaveButton">
           <input
+            className="btn btn-dark"
             type="button"
             value="Save to database"
             onClick={saveSelected}

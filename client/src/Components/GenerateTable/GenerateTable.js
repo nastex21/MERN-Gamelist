@@ -225,14 +225,14 @@ function GenerateTable({
               <Col>
                 {selectedItems.length === 1 ? (
                   <button
-                    className="btn btn-lg btn-primary float-left"
+                    className="btn btn-lg btn-dark float-left"
                     onClick={deleteGames}
                   >
                     Delete Game
                   </button>
                 ) : selectedItems.length > 1 ? (
                   <button
-                    className="btn btn-lg btn-primary float-left"
+                    className="btn btn-lg btn-dark float-left"
                     onClick={deleteGames}
                   >
                     Delete Games
@@ -259,7 +259,7 @@ function GenerateTable({
               </Col>
               <Col>
                 <button
-                  className="btn btn-lg btn-primary float-right"
+                  className="btn btn-lg btn-dark float-right"
                   onClick={handleClick}
                 >
                   Clear all filters
@@ -442,7 +442,7 @@ function GenerateTable({
     onSelect: handleOnSelect,
     nonSelectable: unselectable,
     nonSelectableStyle: (row, rowIndex) => {
-      return { backgroundColor: "gray" };
+      return { backgroundColor: "#d6d8d9" };
     },
     bgColor: "#00BFFF",
   };

@@ -89,7 +89,7 @@ function Dashboard({
             </Container>
             {steamId ? (
               <input
-                className="form-control w-100"
+                className="btn btn-dark form-control w-100"
                 type="button"
                 value="Update Steam Games"
                 onClick={updateSteamGames}
@@ -156,7 +156,7 @@ function Dashboard({
                   </Row>
                 ) : (
                   <input
-                    className="form-control w-100"
+                    className="btn btn-dark form-control w-100"
                     type="button"
                     value="Update Steam Games"
                     onClick={updateSteamGames}

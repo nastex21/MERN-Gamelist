@@ -21,7 +21,7 @@ function SteamForm({ submit, value, onChange }) {
           </Col>
           <Col className="input-group col-md-12 col-lg-6 input-group-lg">
             <input
-              className="form-control steamButton"
+              className="btn btn-dark form-control steamButton"
               type="submit"
               value="Get Steam Games"
             />

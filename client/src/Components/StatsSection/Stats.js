@@ -61,7 +61,7 @@ function StatSection({ games, games2 }) {
                   key={key}
                 >
                   {key}
-                  <span className="systemLabel badge badge-primary badge-pil">
+                  <span className="systemLabel badge badge-secondary badge-pil">
                     {value}
                   </span>
                 </li>
@@ -79,7 +79,7 @@ function StatSection({ games, games2 }) {
                   key={key}
                 >
                   {valueSwitch(key)}
-                  <span className="servicesLabel badge badge-primary badge-pill">
+                  <span className="servicesLabel badge badge-secondary badge-pill">
                     {value}
                   </span>
                 </li>
