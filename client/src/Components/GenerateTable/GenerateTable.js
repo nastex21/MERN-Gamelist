@@ -8,6 +8,7 @@ import filterFactory, {
   numberFilter,
   Comparator,
 } from "react-bootstrap-table2-filter";
+import StatSection from "../StatsSection/Stats";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
@@ -41,7 +42,13 @@ const usePrevious = (value) => {
   return ref.current;
 };
 
-function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, successAddMsg }) {
+function GenerateTable({
+  gamelist,
+  gameslist2,
+  userId,
+  deletedGamesRender,
+  successAddMsg,
+}) {
   const [games, setGames] = useState([]);
   const [pageNum, setPage] = useState(1);
   const [itemsPerPage, setItems] = useState("");
@@ -211,53 +218,52 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
   const CaptionElement = () => {
     return (
       <div className="headerItems">
-        <h3
-          style={{
-            borderRadius: "0.25em",
-            textAlign: "center",
-            color: "purple",
-            border: "1px solid purple",
-            padding: "0.5em",
-          }}
-        >
-          Game Collection
-        </h3>
+        <StatSection games={gamelist} games2={gameslist2} />
         <div className="buttonsHeader" style={{ width: "100%" }}>
           <Container fluid>
             <Row>
               <Col>
-                <button
-                  className="btn btn-lg btn-primary"
-                  onClick={handleClick}
-                >
-                  Clear all filters
-                </button>
-              </Col>
-              <Col xs={6}>
-                { successAddMsg ? successAddMsg.singleGame || successAddMsg.pluralGames || successAddMsg.noGames ? 
-                  <Alert variant="success" className={successAddMsg ? 'fadeIn' : 'fadeOut'}>
-                    <p style={{ "textAlign": "center" }}>
-                      {successAddMsg.singleGame || successAddMsg.pluralGames || successAddMsg.noGames }
-                    </p>
-                  </Alert> : null : null
-                }
-              </Col>
-              <Col>
                 {selectedItems.length === 1 ? (
                   <button
-                    className="btn btn-lg btn-primary float-right"
+                    className="btn btn-lg btn-primary float-left"
                     onClick={deleteGames}
                   >
                     Delete Game
                   </button>
                 ) : selectedItems.length > 1 ? (
                   <button
-                    className="btn btn-lg btn-primary float-right"
+                    className="btn btn-lg btn-primary float-left"
                     onClick={deleteGames}
                   >
                     Delete Games
                   </button>
                 ) : null}
+              </Col>
+              <Col xs={6}>
+                {successAddMsg ? (
+                  successAddMsg.singleGame ||
+                  successAddMsg.pluralGames ||
+                  successAddMsg.noGames ? (
+                    <Alert
+                      variant="success"
+                      className={successAddMsg ? "fadeIn" : "fadeOut"}
+                    >
+                      <p style={{ textAlign: "center" }}>
+                        {successAddMsg.singleGame ||
+                          successAddMsg.pluralGames ||
+                          successAddMsg.noGames}
+                      </p>
+                    </Alert>
+                  ) : null
+                ) : null}
+              </Col>
+              <Col>
+                <button
+                  className="btn btn-lg btn-primary float-right"
+                  onClick={handleClick}
+                >
+                  Clear all filters
+                </button>
               </Col>
             </Row>
           </Container>
@@ -445,27 +451,26 @@ function GenerateTable({ gamelist, gameslist2, userId, deletedGamesRender, succe
     return unselectable;
   };
 
-
   return (
-      <BootstrapTable
-        bootstrap4
-        caption={<CaptionElement />}
-        keyField={"game_img"}
-        data={games}
-        columns={columns}
-        pagination={paginationFactory(options)}
-        filter={filterFactory()}
-        striped
-        hover
-        condensed={true}
-        selectRow={selectRow}
-        cellEdit={cellEditFactory({
-          mode: "dbclick",
-          blurToSave: true,
-          nonEditableRows: nonEditRows,
-          afterSaveCell,
-        })}
-      />
+    <BootstrapTable
+      bootstrap4
+      caption={<CaptionElement />}
+      keyField={"game_img"}
+      data={games}
+      columns={columns}
+      pagination={paginationFactory(options)}
+      filter={filterFactory()}
+      striped
+      hover
+      condensed={true}
+      selectRow={selectRow}
+      cellEdit={cellEditFactory({
+        mode: "dbclick",
+        blurToSave: true,
+        nonEditableRows: nonEditRows,
+        afterSaveCell,
+      })}
+    />
   );
 }
 

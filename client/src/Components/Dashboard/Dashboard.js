@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
 import UpdateSection from "../Updates/Updates";
-import StatSection from "../StatsSection/Stats";
 import Button from "react-bootstrap/Button";
 import GenerateTable from "../GenerateTable/GenerateTable";
 import Container from "react-bootstrap/Container";
@@ -118,23 +117,6 @@ function Dashboard({
             </div>
           </div>
         </Collapse>
-        <Button
-          style={{ width: "100%", "border-radius": "0px" }}
-          variant="secondary"
-          onClick={() => setStatsOpen(!statsOpen)}
-          aria-controls="stats-box"
-          aria-expanded={statsOpen}
-        >
-          <span>
-            Show Stats{" "}
-            <FontAwesomeIcon icon={statsOpen ? faCaretUp : faCaretDown} />
-          </span>
-        </Button>
-        <Collapse in={statsOpen} id="stats-box">
-          <div className="row statsSection mainDivSec my-5">
-            <StatSection games={games} games2={games2} />
-          </div>
-        </Collapse>
       </Breakpoint>
     );
   };
@@ -143,11 +125,8 @@ function Dashboard({
     return (
       <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
         <div className="statsSection mainDivSec my-5 w-100">
-          <Row>
-            <Col>
-              <StatSection games={games} games2={games2} />
-            </Col>
-            <Col>
+          <Row className="w-100">
+            <Col lg={true} className="largeSec">
               <h1 className="w-100">Sources</h1>
               <Container>
                 {!steamId ? (
@@ -188,9 +167,9 @@ function Dashboard({
           </Row>
         </div>
 
-        <div className="row searchBox w-100 my-5">
+        <div className="row searchBox w-100 my-5 largeSec">
           <h1 className="w-100">Game Search</h1>
-          <div className="manualBox">
+          <div className="manualBox w-100">
             <ManuallyAdded uploadData={manualData} />
           </div>
         </div>

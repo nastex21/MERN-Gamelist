@@ -51,7 +51,6 @@ function StatSection({ games, games2 }) {
 
     return (
       <>
-        <h3 className="w-100" style={{ textAlign: "center" }}>Game Stats Breakdown</h3>
         <div className="systemStats">
           <p>Systems</p>
           <ul className="list-group">
