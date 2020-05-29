@@ -11,6 +11,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Collapse from "react-bootstrap/Collapse";
+import '../css/Dashboard.css';
 
 function Dashboard({
   manualData,
@@ -28,7 +29,6 @@ function Dashboard({
 }) {
   const [open, setOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(true);
-  const [statsOpen, setStatsOpen] = useState(true);
   const [size, setSize] = useState([0, 0]);
   const [width, height] = useWindowSize();
 

@@ -2,9 +2,14 @@ body,
 html {
   height: 100%;
   font-family: 'Raleway', sans-serif;
+  overflow-y: auto;
 }
 
-#root,
+#root {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 .dashboard,
 .frontPage,
 .registerPage,
@@ -12,7 +17,6 @@ html {
   height: 100%;
   width: 100%;
 }
-
 
 /* Fonts */
 /* Font used by forms */
@@ -714,6 +718,10 @@ iframe {
 
   .mobile-accordion {
     display: none;
+  }
+
+  .extendNav {
+    height: 51px !important;
   }
 
 }

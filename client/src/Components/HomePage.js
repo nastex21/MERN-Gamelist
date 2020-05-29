@@ -36,11 +36,6 @@ function HomePage(props) {
     setRegisterSuccess,
   ]);
 
-  console.log(props);
-
-  if(props.location.pathname == "/" || props.location.pathname == "/register" || props.location.pathname == "/login"){
-    
-  }
 
   //If there's no token then the user is a guest otherwise user has been authorized
   if (token == null && guestUser) {

@@ -17,10 +17,6 @@ export default function LoginPage() {
   const {registerSuccess, setRegisterSuccess } = useContext(UserContext);
   const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-  });
-
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");
   localStorage.removeItem("stored-manualgamedata");

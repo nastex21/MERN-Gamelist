@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../css/FrontPage.css";
 import ImageCredit from "./ImageCredit";
 
 export default function FrontPage() {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-  });
 
   return (
     <div className="frontPage">

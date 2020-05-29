@@ -17,10 +17,6 @@ export default function Register() {
   const { registerSuccess, setRegisterSuccess } = useContext(UserContext);
   const [show, setShow] = useState(true);
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-  });
-
   localStorage.removeItem("guest");
   localStorage.removeItem("stored-steamgamedata");
   localStorage.removeItem("stored-manualgamedata");
