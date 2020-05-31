@@ -7,15 +7,26 @@ html {
 
 #root {
   height: 100vh;
-  overflow-y: hidden;
 }
 
 .dashboard,
 .frontPage,
 .registerPage,
 .loginPage {
-  height: 100%;
   width: 100%;
+  overflow-y: hidden;
+}
+
+.mainDiv, .registerPage, .frontPage, .loginPage {
+  height: 100%;
+}
+
+.noScroll {
+  overflow-y: hidden;
+}
+
+.yesScroll {
+  overflow-y: scroll;
 }
 
 /* Fonts */
@@ -671,6 +682,7 @@ iframe {
   .mainDivDash > .row {
     margin-right: 0 !important;
     margin-left: 0 !important;
+    overflow-y: hidden;
   }
   
   .number-filter-comparator, .number-filter > label, .number-filter > label > input {

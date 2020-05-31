@@ -35,7 +35,7 @@ function HomePage(props) {
     registerSuccess,
     setRegisterSuccess,
   ]);
-
+  const locationHistory = props.location.pathname;
 
   //If there's no token then the user is a guest otherwise user has been authorized
   if (token == null && guestUser) {
@@ -302,10 +302,10 @@ function HomePage(props) {
 
   return (
     <>
-      <NavbarTop guestUser={guestUser} location={props.location} />
       <Switch>
         {!guestUser ? (
-          <>
+          <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+            <NavbarTop guestUser={guestUser} location={props.location} />
             <Redirect
               exact
               to={{ pathname: "/dashboard", handleChange: handleChange }}
@@ -336,35 +336,36 @@ function HomePage(props) {
               path="/logout"
               render={(props) => <LogoutPage onClick={handleLogout} />}
             />
-          </>
+          </div>
         ) : (
-          <>
-            <UserContext.Provider value={value}>
-              <Route exact path="/register" component={RegisterPage} />
-              <Route exact path="/login" component={LoginPage} />
-            </UserContext.Provider>
-            <Route exact path="/" component={FrontPage} />
-            <Route
-              exact
-              path="/dashboard"
-              render={(props) => (
-                <Dashboard
-                  manualData={manualData}
-                  steam={steam}
-                  steamId={steamId}
-                  value={steamInputValue}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  handleClick={handleClick}
-                  games={games}
-                  games2={games2}
-                  deletedGamesRender={deletedGamesRender}
-                  successAddMsg={successAddMsg}
-                />
-              )}
-            />
-          </>
-        )}
+            <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+              <NavbarTop guestUser={guestUser} location={props.location} />
+              <UserContext.Provider value={value}>
+                <Route exact path="/register" component={RegisterPage} />
+                <Route exact path="/login" component={LoginPage} />
+              </UserContext.Provider>
+              <Route exact path="/" component={FrontPage} />
+              <Route
+                exact
+                path="/dashboard"
+                render={(props) => (
+                  <Dashboard
+                    manualData={manualData}
+                    steam={steam}
+                    steamId={steamId}
+                    value={steamInputValue}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    handleClick={handleClick}
+                    games={games}
+                    games2={games2}
+                    deletedGamesRender={deletedGamesRender}
+                    successAddMsg={successAddMsg}
+                  />
+                )}
+              />
+            </div>
+          )}
       </Switch>
     </>
   );
