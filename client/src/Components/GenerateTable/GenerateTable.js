@@ -348,7 +348,7 @@ function GenerateTable({
     },
     {
       dataField: "game_release",
-      text: "Release Year",
+      text: "Year",
       sort: true,
       editable: false,
       headerClasses: "yearColHeader",

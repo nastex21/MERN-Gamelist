@@ -693,9 +693,6 @@ iframe {
     margin-left: 0;
   }
 
-  .sortable {
-    font-size: 2vw;
-  }
 }
 
 /* Desktop */
@@ -711,6 +708,10 @@ iframe {
 
   .mobile-accordion {
     display: none;
+  }
+
+  .sortable {
+    font-size: 2vw;
   }
 }
 
@@ -734,6 +735,33 @@ iframe {
 
   .extendNav {
     height: 51px !important;
+  }
+
+  /* TABLE */
+
+  .sortable {
+    font-size: 1.8vh;
+  }
+
+  .order-4 {
+    float: right;
+    font-size: 2vh;
+  }
+
+  .caret-4-asc, .caret-4-desc {
+    float:right;
+  }
+
+  .number-filter {
+    width: 100%;
+  }
+
+  .yearColHeader > .filter-label {
+    width: 40%;
+  }
+
+  #number-filter-column-game_release {
+    width: 100%;
   }
 
 }
