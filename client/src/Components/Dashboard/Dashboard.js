@@ -59,7 +59,7 @@ function Dashboard({
             Add Source <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
         </Button>
-        <Collapse in={open}>
+{/*         <Collapse in={open}>
           <div className="sourcesBox w-100 my-5" id="sources-box">
             <h1 className="w-100">Sources</h1>
             <Container>
@@ -96,7 +96,7 @@ function Dashboard({
               />
             ) : null}
           </div>
-        </Collapse>
+        </Collapse> */}
         <Button
           style={{ width: "100%", "border-radius": "0px" }}
           variant="secondary"
@@ -124,7 +124,7 @@ function Dashboard({
   const DesktopLayout = () => {
     return (
       <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
-        <div className="statsSection mainDivSec my-5 w-100">
+      {/*   <div className="statsSection mainDivSec my-5 w-100">
           <Row className="w-100">
             <Col lg={true} className="largeSec">
               <h1 className="w-100">Sources</h1>
@@ -145,7 +145,6 @@ function Dashboard({
                   <Row>
                     <Col>
                       <div className="steamLogIn text-center">
-                        <a onClick={handleClick}>
                           <img
                             className="steamIMG"
                             src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
@@ -165,7 +164,7 @@ function Dashboard({
               </Container>
             </Col>
           </Row>
-        </div>
+        </div> */}
 
         <div className="row searchBox w-100 my-5 largeSec">
           <h1 className="w-100">Game Search</h1>
