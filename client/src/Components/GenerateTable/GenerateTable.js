@@ -6,7 +6,9 @@ import filterFactory, {
   selectFilter,
   textFilter,
   numberFilter,
+  customFilter,
   Comparator,
+  FILTER_TYPES,
 } from "react-bootstrap-table2-filter";
 import StatSection from "../StatsSection/Stats";
 import axios from "axios";
@@ -308,6 +310,39 @@ function GenerateTable({
     }
   };
 
+  const filterDate = (options, data) => {
+    console.log(options);
+    console.log(data[0]);
+
+    var dataFiltered;
+    if (options.comparator == ">" && options.number !== "" && options.number.length > 3) {
+      dataFiltered = data.filter(function (item) {
+        if (item.game_release !== undefined) {
+          var newDate = Number(item.game_release.substr(0, 4));
+          return newDate > Number(options.number);
+        }
+      });
+    } else if (options.comparator == "<" && options.number !== "" && options.number.length > 3) {
+      dataFiltered = data.filter(function (item) {
+        if (item.game_release !== undefined) {
+          var newDate = Number(item.game_release.substr(0, 4));
+          return newDate < Number(options.number);
+        }
+      });
+    } else if (options.comparator == "=" && options.number !== "" && options.number.length > 3) {
+      dataFiltered = data.filter(function (item) {
+        if (item.game_release !== undefined) {
+          var newDate = Number(item.game_release.substr(0, 4));
+          return newDate == Number(options.number);
+        }
+      });
+    } else {
+      dataFiltered = data;
+    }
+
+    return dataFiltered;
+  };
+
   const columns = [
     {
       dataField: "game_num",
@@ -354,10 +389,14 @@ function GenerateTable({
       headerClasses: "yearColHeader",
       formatter: dateFormatter,
       filter: numberFilter({
+        //type: FILTER_TYPES.NUMBER,
+        withoutEmptyComparatorOption: true,
         comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
-        getFilter: (filter) => {
+        defaultValue: { comparator: Comparator.GT },
+        onFilter: filterDate,
+        /* getFilter: (filter) => {
           dateFilter = filter;
-        },
+        } */
       }),
     },
     {
