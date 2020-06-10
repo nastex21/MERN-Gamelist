@@ -46,7 +46,7 @@ export default function LoginForm({ handleSubmit, onChange, password, name }) {
                 ref={input1Ref}
                 name="username"
               />
-              <span class="focus-input100"></span>
+              <span className="focus-input100"></span>
             </div>
 
             <span className="txt1 p-b-11">Password</span>
@@ -68,7 +68,7 @@ export default function LoginForm({ handleSubmit, onChange, password, name }) {
                 id="password"
                 name="pass"
               />
-              <span class="focus-input100"></span>
+              <span className="focus-input100"></span>
             </div>
             <div className="container-login100-form-btn">
               <button className="login100-form-btn" ref={completeBtnRef}>

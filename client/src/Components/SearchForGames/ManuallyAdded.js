@@ -50,6 +50,7 @@ export default function ManuallyAdded(props) {
   const handleChange = (e, { value }) => {
     console.log(value);
     setValue(value);
+    setShowBool(false);
   };
 
   //Dropdown: input text search platforms/systems list
@@ -95,10 +96,6 @@ export default function ManuallyAdded(props) {
     props.uploadData(item);
   };
 
-  const showResultsUpdate = () => {
-    console.log('showresultsupdate running')
-    setShowBool(false);
-  }
 
   return (
     <div className="manualAddition">
@@ -125,7 +122,6 @@ export default function ManuallyAdded(props) {
                   value={value}
                   onChange={handleChange}
                   onSearchChange={handleSearchChange}
-                  showResultsUpdate={showResultsUpdate}
                 />
               ) : (
                 <p>Loading...</p>
@@ -148,7 +144,6 @@ export default function ManuallyAdded(props) {
           showBool={showBool}
           uploadData={addGameFromResults}
           platform={value}
-          showResultsUpdate={showResultsUpdate}
           />
         </div>
       ) : apiResults.length == 0 && showBool ? (

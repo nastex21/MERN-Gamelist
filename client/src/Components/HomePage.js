@@ -70,7 +70,7 @@ function HomePage(props) {
   }, [successAddMsg]);
 
   useEffect(() => {
-    console.log(props)
+    console.log(props);
     if (savedSteamGames) {
       setGames([...savedSteamGames]);
       setGames2([...savedManualGames]);
@@ -218,7 +218,7 @@ function HomePage(props) {
           if (manualGames.length == 0) {
             var msgObj = {
               noGames:
-                "No games were added. Most likely they already exist in your database."
+                "No games were added. Most likely they already exist in your database.",
             };
             setSuccessAddMsg(msgObj);
           }
@@ -241,14 +241,14 @@ function HomePage(props) {
 
       if (checkForDupes.length == 1) {
         var msgObj = {
-          singleGame: "Game was successfully added."
+          singleGame: "Game was successfully added.",
         };
         setSuccessAddMsg(msgObj);
       }
 
       if (checkForDupes.length > 1) {
         var msgObj = {
-          pluralGames: "Games were successfully added."
+          pluralGames: "Games were successfully added.",
         };
         setSuccessAddMsg(msgObj);
       }
@@ -256,7 +256,7 @@ function HomePage(props) {
       if (checkForDupes == 0) {
         var msgObj = {
           noGames:
-            "No games were added. Most likely they were already in your database."
+            "No games were added. Most likely they were already in your database.",
         };
         setSuccessAddMsg(msgObj);
       }
@@ -300,16 +300,55 @@ function HomePage(props) {
 
   console.log(value);
 
-  return (
-    <>
-      <Switch>
-        {!guestUser ? (
-          <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
-            <NavbarTop guestUser={guestUser} location={props.location} />
-            <Redirect
-              exact
-              to={{ pathname: "/dashboard", handleChange: handleChange }}
-            />
+  const authUserRender = () => {
+    return (
+      <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+        <NavbarTop guestUser={guestUser} location={props.location} />
+        <Switch>
+          <Redirect
+            exact
+            to={{ pathname: "/dashboard", handleChange: handleChange }}
+          />
+          <Route
+            exact
+            path="/dashboard"
+            render={(props) => (
+              <Dashboard
+                manualData={manualData}
+                steam={steam}
+                steamId={steamId}
+                userId={authUserInfo.id}
+                value={steamInputValue}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                handleClick={handleClick}
+                games={games}
+                games2={games2}
+                updateSteamGames={updateSteamGames}
+                deletedGamesRender={deletedGamesRender}
+                successAddMsg={successAddMsg}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/logout"
+            render={(props) => <LogoutPage onClick={handleLogout} />}
+          />
+        </Switch>
+      </div>
+    );
+  };
+
+  const guestUserRender = () => {
+    return (
+      <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+        <NavbarTop guestUser={guestUser} location={props.location} />
+        <Switch>
+          <UserContext.Provider value={value}>
+            <Route exact path="/" component={FrontPage} />
+            <Route exact path="/register" component={RegisterPage} />
+            <Route exact path="/login" component={LoginPage} />
             <Route
               exact
               path="/dashboard"
@@ -318,57 +357,24 @@ function HomePage(props) {
                   manualData={manualData}
                   steam={steam}
                   steamId={steamId}
-                  userId={authUserInfo.id}
                   value={steamInputValue}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
                   handleClick={handleClick}
                   games={games}
                   games2={games2}
-                  updateSteamGames={updateSteamGames}
                   deletedGamesRender={deletedGamesRender}
                   successAddMsg={successAddMsg}
                 />
               )}
             />
-            <Route
-              exact
-              path="/logout"
-              render={(props) => <LogoutPage onClick={handleLogout} />}
-            />
-          </div>
-        ) : (
-            <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
-              <NavbarTop guestUser={guestUser} location={props.location} />
-              <UserContext.Provider value={value}>
-                <Route exact path="/register" component={RegisterPage} />
-                <Route exact path="/login" component={LoginPage} />
-              </UserContext.Provider>
-              <Route exact path="/" component={FrontPage} />
-              <Route
-                exact
-                path="/dashboard"
-                render={(props) => (
-                  <Dashboard
-                    manualData={manualData}
-                    steam={steam}
-                    steamId={steamId}
-                    value={steamInputValue}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    handleClick={handleClick}
-                    games={games}
-                    games2={games2}
-                    deletedGamesRender={deletedGamesRender}
-                    successAddMsg={successAddMsg}
-                  />
-                )}
-              />
-            </div>
-          )}
-      </Switch>
-    </>
-  );
+          </UserContext.Provider>
+        </Switch>
+      </div>
+    );
+  };
+
+  return <>{!guestUser ? authUserRender() : guestUserRender()}</>;
 }
 
 export default withRouter(HomePage);

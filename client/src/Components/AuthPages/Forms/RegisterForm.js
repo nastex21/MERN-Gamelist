@@ -54,7 +54,7 @@ export default function RegisterForm({
                 ref={input1Ref}
                 name="username"
               />
-              <span class="focus-input100"></span>
+              <span className="focus-input100"></span>
             </div>
 
             <span className="txt1 p-b-11">Password</span>
@@ -68,7 +68,7 @@ export default function RegisterForm({
                 id="password"
                 name="pass"
               />
-              <span class="focus-input100"></span>
+              <span className="focus-input100"></span>
             </div>
 
             <span className="txt1 p-b-11">Re-Enter Password</span>
@@ -82,7 +82,7 @@ export default function RegisterForm({
                 id="password2"
                 name="pass"
               />
-              <span class="focus-input100"></span>
+              <span className="focus-input100"></span>
             </div>
 
             <div className="flex-sb-m w-full p-b-48">
