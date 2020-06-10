@@ -6,9 +6,7 @@ import filterFactory, {
   selectFilter,
   textFilter,
   numberFilter,
-  customFilter,
-  Comparator,
-  FILTER_TYPES,
+  Comparator
 } from "react-bootstrap-table2-filter";
 import StatSection from "../StatsSection/Stats";
 import axios from "axios";
@@ -311,9 +309,6 @@ function GenerateTable({
   };
 
   const filterDate = (options, data) => {
-    console.log(options);
-    console.log(data[0]);
-
     var dataFiltered;
     if (options.comparator == ">" && options.number !== "" && options.number.length > 3) {
       dataFiltered = data.filter(function (item) {
@@ -389,14 +384,13 @@ function GenerateTable({
       headerClasses: "yearColHeader",
       formatter: dateFormatter,
       filter: numberFilter({
-        //type: FILTER_TYPES.NUMBER,
         withoutEmptyComparatorOption: true,
         comparators: [Comparator.EQ, Comparator.GT, Comparator.LT],
         defaultValue: { comparator: Comparator.GT },
         onFilter: filterDate,
-        /* getFilter: (filter) => {
+        getFilter: (filter) => {
           dateFilter = filter;
-        } */
+        } 
       }),
     },
     {
