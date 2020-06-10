@@ -301,14 +301,17 @@ function HomePage(props) {
   console.log(value);
 
   const authUserRender = () => {
+    console.log("authUserRender");
     return (
-      <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+      <div
+        className={
+          locationHistory == "/dashboard"
+            ? "mainDiv yesScroll"
+            : "mainDiv noScroll"
+        }
+      >
         <NavbarTop guestUser={guestUser} location={props.location} />
         <Switch>
-          <Redirect
-            exact
-            to={{ pathname: "/dashboard", handleChange: handleChange }}
-          />
           <Route
             exact
             path="/dashboard"
@@ -335,6 +338,10 @@ function HomePage(props) {
             path="/logout"
             render={(props) => <LogoutPage onClick={handleLogout} />}
           />
+          <Redirect
+            exact
+            to={{ pathname: "/dashboard", handleChange: handleChange }}
+          />
         </Switch>
       </div>
     );
@@ -342,7 +349,13 @@ function HomePage(props) {
 
   const guestUserRender = () => {
     return (
-      <div className={locationHistory == "/dashboard" ? "mainDiv yesScroll" : "mainDiv noScroll"}>
+      <div
+        className={
+          locationHistory == "/dashboard"
+            ? "mainDiv yesScroll"
+            : "mainDiv noScroll"
+        }
+      >
         <NavbarTop guestUser={guestUser} location={props.location} />
         <Switch>
           <UserContext.Provider value={value}>
