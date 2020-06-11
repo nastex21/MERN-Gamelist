@@ -1,7 +1,7 @@
 body,
 html {
   height: 100%;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   overflow-y: auto;
 }
 
@@ -17,7 +17,10 @@ html {
   overflow-y: hidden;
 }
 
-.mainDiv, .registerPage, .frontPage, .loginPage {
+.mainDiv,
+.registerPage,
+.frontPage,
+.loginPage {
   height: 100%;
 }
 
@@ -57,7 +60,14 @@ html {
   background-color: #464646;
 
   overflow-y: hidden;
+}
 
+.statsSection,
+.searchBox {
+  padding-top: 5px;
+  position: relative;
+  background:rgba(172, 172, 172, 0.534);
+  box-shadow: 0 10px 10px -5px;
 }
 
 .titleSplash {
@@ -85,8 +95,8 @@ html {
 /* Dashboard */
 /*---------------------------------------------*/
 a {
-  font-family: 'Raleway';
-  font-weight: '400';
+  font-family: "Raleway";
+  font-weight: "400";
   font-size: 14px;
   line-height: 1.7;
   color: #666666;
@@ -106,7 +116,6 @@ a:hover {
   color: #57b846;
 }
 
-
 /*---------------------------------------------*/
 h1,
 h2,
@@ -119,8 +128,8 @@ h6 {
 }
 
 p {
-  font-family: 'Raleway';
-  font-weight: '400';
+  font-family: "Raleway";
+  font-weight: "400";
   font-size: 14px;
   line-height: 1.7;
   color: #666666;
@@ -132,7 +141,6 @@ li {
   margin: 0px;
   list-style-type: none;
 }
-
 
 /*---------------------------------------------*/
 .wrap-input100 > input {
@@ -222,36 +230,36 @@ iframe {
   border: none !important;
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-  font-family: 'Raleway';
-  font-weight: '600';
+  font-family: "Raleway";
+  font-weight: "600";
   font-size: 13px;
   color: #555555;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
-.txt2, .txt25 {
-  font-family: 'Raleway';
+.txt2,
+.txt25 {
+  font-family: "Raleway";
   font-size: 13px;
   line-height: 1.4;
 }
 
-.txt2 {  
-  font-weight: '400';
+.txt2 {
+  font-weight: "400";
   color: #999999;
 }
 
 .txt25 {
-  font-weight: '700'
+  font-weight: "700";
 }
 
 .txt3 {
-    font-family: 'Raleway';
-  font-weight: '400';
+  font-family: "Raleway";
+  font-weight: "400";
   font-size: 13px;
   color: #555555;
   line-height: 1.4;
@@ -261,8 +269,8 @@ iframe {
 [ login ]*/
 
 .formsGroup {
-  font-family: 'Raleway';
-  font-weight: '400';
+  font-family: "Raleway";
+  font-weight: "400";
   width: 100%;
   margin: 0 auto;
 }
@@ -281,7 +289,6 @@ iframe {
   padding: 15px;
 }
 
-
 .wrap-login100 {
   width: 560px;
   background: #fff;
@@ -297,8 +304,8 @@ iframe {
 }
 
 .login100-form-title {
-  font-family: 'Raleway';
-  font-weight: '500';
+  font-family: "Raleway";
+  font-weight: "500";
   font-size: 30px;
   color: #555555;
   line-height: 1.2;
@@ -322,8 +329,8 @@ iframe {
 
 /*---------------------------------------------*/
 .input100 {
-  font-family: 'Raleway';
-  font-weight: '500';
+  font-family: "Raleway";
+  font-weight: "500";
   color: #555555;
   line-height: 1.2;
   font-size: 18px;
@@ -424,8 +431,8 @@ iframe {
 }
 
 .label-checkbox100 {
-  font-family: 'Raleway';
-  font-weight: '400';
+  font-family: "Raleway";
+  font-weight: "400";
   font-size: 13px;
   color: #999999;
   line-height: 1.4;
@@ -481,8 +488,8 @@ iframe {
 }
 
 .login100-form-btn {
-  font-family: 'Raleway';
-  font-weight: '700';
+  font-family: "Raleway";
+  font-weight: "700";
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
@@ -538,8 +545,8 @@ iframe {
   right: 12px;
   pointer-events: none;
 
-  font-family: 'Raleway';
-  font-weight: '500';
+  font-family: "Raleway";
+  font-weight: "500";
   color: #c80000;
   font-size: 14px;
   line-height: 1.4;
@@ -579,7 +586,6 @@ iframe {
   text-align: left;
 }
 
-
 .extendNav {
   background-color: #343a40;
 }
@@ -600,8 +606,6 @@ iframe {
   color: white;
   background-color: grey;
 }
-
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
@@ -634,12 +638,16 @@ iframe {
   .steamButton {
     font-size: 5vw !important;
   }
-  
-  .mobileInputButton, .form-control, .search, .w-100 > p {
+
+  .mobileInputButton,
+  .form-control,
+  .search,
+  .w-100 > p {
     font-size: 2.5vw !important;
   }
 
-  td, th {
+  td,
+  th {
     font-size: 2vw;
   }
 
@@ -659,9 +667,9 @@ iframe {
     display: grid !important;
     grid-template-columns: 50px;
     grid-template-rows: auto;
-    grid-template-areas: 
-    "first"
-    "second";
+    grid-template-areas:
+      "first"
+      "second";
   }
 
   .number-filter > label:nth-child(2) {
@@ -684,15 +692,16 @@ iframe {
     margin-left: 0 !important;
     overflow-y: hidden;
   }
-  
-  .number-filter-comparator, .number-filter > label, .number-filter > label > input {
+
+  .number-filter-comparator,
+  .number-filter > label,
+  .number-filter > label > input {
     width: 100% !important;
   }
 
   #number-filter-column-game_release {
     margin-left: 0;
   }
-
 }
 
 /* Desktop */
@@ -702,9 +711,9 @@ iframe {
     opacity: 1;
   }
 
-  .steamIMG {
+  /*   .steamIMG {
     width: 20vw;
-  }
+  } */
 
   .mobile-accordion {
     display: none;
@@ -715,7 +724,12 @@ iframe {
   }
 }
 
-@media only screen and (min-width: 800px){
+@media only screen and (min-width: 800px) {
+  .statsSection,
+  .searchBox {
+    padding: 50px;
+  }
+
   .alert-validate::before {
     visibility: visible;
     opacity: 1;
@@ -725,10 +739,12 @@ iframe {
     display: none;
   }
 
-  .steamIMG {
+  /*   .steamIMG {
     width: 10vw;
   }
+ */
 
+  
   .mobile-accordion {
     display: none;
   }
@@ -748,8 +764,9 @@ iframe {
     font-size: 2vh;
   }
 
-  .caret-4-asc, .caret-4-desc {
-    float:right;
+  .caret-4-asc,
+  .caret-4-desc {
+    float: right;
   }
 
   .number-filter {
@@ -763,5 +780,4 @@ iframe {
   #number-filter-column-game_release {
     width: 100%;
   }
-
 }

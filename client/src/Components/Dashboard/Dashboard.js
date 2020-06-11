@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Collapse from "react-bootstrap/Collapse";
-import '../css/Dashboard.css';
+import "../css/Dashboard.css";
 
 function Dashboard({
   manualData,
@@ -59,7 +59,7 @@ function Dashboard({
             Add Source <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
         </Button>
-{/*         <Collapse in={open}>
+        {/*         <Collapse in={open}>
           <div className="sourcesBox w-100 my-5" id="sources-box">
             <h1 className="w-100">Sources</h1>
             <Container>
@@ -124,10 +124,10 @@ function Dashboard({
   const DesktopLayout = () => {
     return (
       <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
-      {/*   <div className="statsSection mainDivSec my-5 w-100">
+        <div className="row statsSection my-5 w-100">
           <Row className="w-100">
             <Col lg={true} className="largeSec">
-              <h1 className="w-100">Sources</h1>
+              <h1 className="w-100">Import Games</h1>
               <Container>
                 {!steamId ? (
                   <Row className="align-items-center input-group input-group-lg">
@@ -138,36 +138,38 @@ function Dashboard({
                         submit={handleSubmit}
                       />
                     </Col>
-                  </Row>
-                ) : null}
-                <hr />
-                {!steamId ? (
-                  <Row>
                     <Col>
-                      <div className="steamLogIn text-center">
-                          <img
-                            className="steamIMG"
-                            src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
-                          />
-                        </a>
-                      </div>
+                      {!steamId ? (
+                        <Row>
+                          <Col>
+                            <div className="steamLogIn text-center">
+                              <a onClick={handleClick}>
+                                <img
+                                  className="steamIMG"
+                                  src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                                />
+                              </a>
+                            </div>
+                          </Col>
+                        </Row>
+                      ) : (
+                        <input
+                          className="btn btn-dark form-control w-100"
+                          type="button"
+                          value="Update Steam Games"
+                          onClick={updateSteamGames}
+                        />
+                      )}
                     </Col>
                   </Row>
-                ) : (
-                  <input
-                    className="btn btn-dark form-control w-100"
-                    type="button"
-                    value="Update Steam Games"
-                    onClick={updateSteamGames}
-                  />
-                )}
+                ) : null}
               </Container>
             </Col>
           </Row>
-        </div> */}
+        </div>
 
         <div className="row searchBox w-100 my-5 largeSec">
-          <h1 className="w-100">Game Search</h1>
+          <h1 className="w-100">Manually Add Games</h1>
           <div className="manualBox w-100">
             <ManuallyAdded uploadData={manualData} />
           </div>

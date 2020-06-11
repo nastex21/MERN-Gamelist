@@ -6,7 +6,7 @@ export default function UpdateSection() {
 
   return (
     show ? <Alert variant="dark" onClose={() => setShow(false)} dismissible>
-      <Alert.Heading>Website news:</Alert.Heading>
+      <Alert.Heading>Latest Update:</Alert.Heading>
       <p>
         Looking to add more game services to the "Sources" import section of the site. Stay tuned! 
       </p>

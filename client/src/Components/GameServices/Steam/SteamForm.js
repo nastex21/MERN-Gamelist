@@ -1,15 +1,13 @@
-import React from "react";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import React, { useState, useRef } from "react";
+import { Col, Row, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 
 function SteamForm({ submit, value, onChange }) {
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
   return (
     <div className="container manualSteamLogin text-center input-group input-group-lg">
       <form className="w-100" onSubmit={submit}>
-        <p>
-          If you know your Steam ID and your profile is public, please use your
-          Steam ID otherwise please sign in with your Steam account.
-        </p>
         <Row>
           <Col className="input-group col-md-12 col-lg-6 input-group-lg">
             <input
@@ -17,14 +15,26 @@ function SteamForm({ submit, value, onChange }) {
               type="text"
               value={value}
               onChange={onChange}
+              placeholder="Enter Steam ID"
             />
           </Col>
           <Col className="input-group col-md-12 col-lg-6 input-group-lg">
-            <input
-              className="btn btn-dark form-control steamButton"
-              type="submit"
-              value="Get Steam Games"
-            />
+            <OverlayTrigger
+              placement="right"
+              overlay={
+                <Tooltip id={`tooltip-right`}>
+                  If you know your Steam ID and your profile is public, you can
+                  simply import your Steam games by using your Steam ID.
+                </Tooltip>
+              }
+            >
+              <Button
+                variant="dark"
+                className="form-control steamButton"
+                type="submit"
+              > Import
+              </Button>
+            </OverlayTrigger>
           </Col>
         </Row>
       </form>

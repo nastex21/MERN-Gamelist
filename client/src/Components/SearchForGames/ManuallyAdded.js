@@ -108,6 +108,7 @@ export default function ManuallyAdded(props) {
                 type="text"
                 value={valueText}
                 onChange={updateName}
+                placeholder="Enter name"
               />
             </div>
             <div className="col-lg-4 col-6 input-group input-group-lg">
