@@ -626,11 +626,6 @@ iframe {
     width: 100%;
   }
 
-  .vertLine {
-    border-left: 1px solid #5f656d; /* Border on the left */
-    width: 1px; /* Width instead of height */
-    height: 200px;
-  }
   .steamIMG {
     width: 100%;
   }
@@ -728,6 +723,8 @@ iframe {
   .statsSection,
   .searchBox {
     padding: 50px;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
   }
 
   .alert-validate::before {
@@ -738,12 +735,6 @@ iframe {
   .vertLine {
     display: none;
   }
-
-  /*   .steamIMG {
-    width: 10vw;
-  }
- */
-
   
   .mobile-accordion {
     display: none;
@@ -780,4 +771,6 @@ iframe {
   #number-filter-column-game_release {
     width: 100%;
   }
+
+
 }

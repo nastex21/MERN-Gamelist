@@ -2,15 +2,23 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import ManuallyAdded from "../SearchForGames/ManuallyAdded";
 import SteamForm from "../GameServices/Steam/SteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faCaretUp,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
 import UpdateSection from "../Updates/Updates";
-import Button from "react-bootstrap/Button";
 import GenerateTable from "../GenerateTable/GenerateTable";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Collapse from "react-bootstrap/Collapse";
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Collapse,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 import "../css/Dashboard.css";
 
 function Dashboard({
@@ -43,6 +51,26 @@ function Dashboard({
     }, []);
     return size;
   }
+
+  const popoverImport = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Popover right</Popover.Title>
+      <Popover.Content>
+        And here's some <strong>amazing</strong> content. It's very engaging.
+        right?
+      </Popover.Content>
+    </Popover>
+  );
+
+  const popoverManual = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Popover right</Popover.Title>
+      <Popover.Content>
+        And here's some <strong>amazing</strong> content. It's very engaging.
+        right?
+      </Popover.Content>
+    </Popover>
+  );
 
   const mobileLayout = () => {
     return (
@@ -127,7 +155,17 @@ function Dashboard({
         <div className="row statsSection my-5 w-100">
           <Row className="w-100">
             <Col lg={true} className="largeSec">
-              <h1 className="w-100">Import Games</h1>
+              <span className="w-100" style={{"display": "flex", "justifyContent": "center"}}>Import Games</span>
+              <OverlayTrigger
+                trigger="click"
+                placement="right"
+                overlay={popoverImport}
+              >
+                <FontAwesomeIcon
+                  style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+                  icon={faInfoCircle}
+                />
+              </OverlayTrigger>
               <Container>
                 {!steamId ? (
                   <Row className="align-items-center input-group input-group-lg">
@@ -169,7 +207,13 @@ function Dashboard({
         </div>
 
         <div className="row searchBox w-100 my-5 largeSec">
-          <h1 className="w-100">Manually Add Games</h1>
+          <h1 className="w-100">
+            Add Games{" "}
+            <FontAwesomeIcon
+              style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+              icon={faInfoCircle}
+            />
+          </h1>
           <div className="manualBox w-100">
             <ManuallyAdded uploadData={manualData} />
           </div>
@@ -181,7 +225,7 @@ function Dashboard({
   console.log(size);
   return (
     <div className="container mainDivDash">
-      <UpdateSection />
+      <UpdateSection className="w-100" />
       {width <= 578 ? mobileLayout() : DesktopLayout()}
       {games.length === 0 && games2.length === 0 ? null : (
         <div className="row">
