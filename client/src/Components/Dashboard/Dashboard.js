@@ -155,17 +155,20 @@ function Dashboard({
         <div className="row statsSection my-5 w-100">
           <Row className="w-100">
             <Col lg={true} className="largeSec">
-              <span className="w-100" style={{"display": "flex", "justifyContent": "center"}}>Import Games</span>
-              <OverlayTrigger
-                trigger="click"
-                placement="right"
-                overlay={popoverImport}
-              >
-                <FontAwesomeIcon
-                  style={{ fontSize: "1.5vh", verticalAlign: "super" }}
-                  icon={faInfoCircle}
-                />
-              </OverlayTrigger>
+              <h1>
+                Import Games
+                <span> </span>
+                <OverlayTrigger
+                  trigger="click"
+                  placement="right"
+                  overlay={popoverImport}
+                >
+                  <FontAwesomeIcon
+                    style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+                    icon={faInfoCircle}
+                  />
+                </OverlayTrigger>
+              </h1>
               <Container>
                 {!steamId ? (
                   <Row className="align-items-center input-group input-group-lg">
@@ -207,16 +210,27 @@ function Dashboard({
         </div>
 
         <div className="row searchBox w-100 my-5 largeSec">
-          <h1 className="w-100">
-            Add Games{" "}
-            <FontAwesomeIcon
-              style={{ fontSize: "1.5vh", verticalAlign: "super" }}
-              icon={faInfoCircle}
-            />
-          </h1>
-          <div className="manualBox w-100">
-            <ManuallyAdded uploadData={manualData} />
-          </div>
+          <Row className="w-100">
+            <h1 className="w-100">
+              Add Games
+              <span> </span>
+              <OverlayTrigger
+                trigger="click"
+                placement="right"
+                overlay={popoverImport}
+              >
+                <FontAwesomeIcon
+                  style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+                  icon={faInfoCircle}
+                />
+              </OverlayTrigger>
+            </h1>
+          </Row>
+          <Row className="w-100">
+            <div className="manualBox w-100">
+              <ManuallyAdded uploadData={manualData} />
+            </div>
+          </Row>
         </div>
       </Breakpoint>
     );
