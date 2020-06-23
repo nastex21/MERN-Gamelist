@@ -9,7 +9,7 @@ function SteamForm({ submit, value, onChange }) {
     <div className="container manualSteamLogin text-center input-group input-group-lg">
       <form className="w-100" onSubmit={submit}>
         <Row>
-          <Col className="input-group col-md-12 col-lg-6 input-group-lg">
+          <Col className="input-group col-md-12 col-lg-8 input-group-lg">
             <input
               className="form-control"
               type="text"
@@ -18,7 +18,7 @@ function SteamForm({ submit, value, onChange }) {
               placeholder="Enter Steam ID"
             />
           </Col>
-          <Col className="input-group col-md-12 col-lg-6 input-group-lg">
+          <Col className="input-group col-md-12 col-lg-4 input-group-lg">
             <OverlayTrigger
               placement="right"
               overlay={

@@ -32,6 +32,10 @@ html {
   overflow-y: scroll;
 }
 
+.fa-info-circle {
+  cursor: pointer;
+}
+
 /* Fonts */
 /* Font used by forms */
 
@@ -635,7 +639,6 @@ iframe {
   }
 
   .mobileInputButton,
-  .form-control,
   .search,
   .w-100 > p {
     font-size: 2.5vw !important;
@@ -772,5 +775,8 @@ iframe {
     width: 100%;
   }
 
+  .steamButton {
+    width: 100px !important;
+  }
 
 }

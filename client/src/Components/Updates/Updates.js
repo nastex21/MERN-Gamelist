@@ -8,7 +8,7 @@ export default function UpdateSection() {
     show ? <Alert variant="dark" className="w-100" onClose={() => setShow(false)} dismissible>
       <Alert.Heading>Latest Update:</Alert.Heading>
       <p>
-        Looking to add more game services to the "Sources" import section of the site. Stay tuned! 
+        Looking to add more game services to the "IMPORT GAMES" section of the site. Stay tuned! 
       </p>
     </Alert> : null
   );

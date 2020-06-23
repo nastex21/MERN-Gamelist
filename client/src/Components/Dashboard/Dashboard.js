@@ -54,20 +54,16 @@ function Dashboard({
 
   const popoverImport = (
     <Popover id="popover-basic">
-      <Popover.Title as="h3">Popover right</Popover.Title>
       <Popover.Content>
-        And here's some <strong>amazing</strong> content. It's very engaging.
-        right?
+        Import games from your favorite game services! 
       </Popover.Content>
     </Popover>
   );
 
   const popoverManual = (
     <Popover id="popover-basic">
-      <Popover.Title as="h3">Popover right</Popover.Title>
       <Popover.Content>
-        And here's some <strong>amazing</strong> content. It's very engaging.
-        right?
+        Search for games and add them to your database right here!
       </Popover.Content>
     </Popover>
   );
@@ -153,9 +149,7 @@ function Dashboard({
     return (
       <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
         <div className="row statsSection my-5 w-100">
-          <Row className="w-100">
-            <Col lg={true} className="largeSec">
-              <h1>
+              <h1 className="w-100">
                 Import Games
                 <span> </span>
                 <OverlayTrigger
@@ -205,19 +199,16 @@ function Dashboard({
                   </Row>
                 ) : null}
               </Container>
-            </Col>
-          </Row>
         </div>
 
         <div className="row searchBox w-100 my-5 largeSec">
-          <Row className="w-100">
             <h1 className="w-100">
               Add Games
               <span> </span>
               <OverlayTrigger
                 trigger="click"
                 placement="right"
-                overlay={popoverImport}
+                overlay={popoverManual}
               >
                 <FontAwesomeIcon
                   style={{ fontSize: "1.5vh", verticalAlign: "super" }}
@@ -225,12 +216,9 @@ function Dashboard({
                 />
               </OverlayTrigger>
             </h1>
-          </Row>
-          <Row className="w-100">
-            <div className="manualBox w-100">
+          <Container className="w-100">
               <ManuallyAdded uploadData={manualData} />
-            </div>
-          </Row>
+          </Container>
         </div>
       </Breakpoint>
     );
