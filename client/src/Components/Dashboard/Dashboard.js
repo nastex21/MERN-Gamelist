@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import ManuallyAdded from "../SearchForGames/ManuallyAdded";
 import SteamForm from "../GameServices/Steam/SteamForm";
+import MobileSteamForm from "../GameServices/Steam/MobileSteamForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,
@@ -37,25 +38,12 @@ function Dashboard({
 }) {
   const [open, setOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(true);
-  const [size, setSize] = useState([0, 0]);
-  const [width, height] = useWindowSize();
-
-  function useWindowSize() {
-    useLayoutEffect(() => {
-      function updateSize() {
-        setSize([window.innerWidth, window.innerHeight]);
-      }
-      window.addEventListener("resize", updateSize);
-      updateSize();
-      return () => window.removeEventListener("resize", updateSize);
-    }, []);
-    return size;
-  }
+  const [testOpen, setTestOpen] = useState(true);
 
   const popoverImport = (
     <Popover id="popover-basic">
       <Popover.Content>
-        Import games from your favorite game services! 
+        Import games from your favorite game services!
       </Popover.Content>
     </Popover>
   );
@@ -70,7 +58,7 @@ function Dashboard({
 
   const mobileLayout = () => {
     return (
-      <Breakpoint medium down className="row mainDivSec my-auto">
+      <Breakpoint small down className="row mainDivSec my-auto">
         <Button
           className="align-items-center justify-content-center"
           style={{ width: "100%", "border-radius": "0px" }}
@@ -80,47 +68,59 @@ function Dashboard({
           aria-expanded={open}
         >
           <span className="align-items-center justify-content-center">
-            Add Source <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
+            IMPORT GAMES{" "}
+            <FontAwesomeIcon icon={open ? faCaretUp : faCaretDown} />
           </span>
+          <OverlayTrigger
+            trigger="click"
+            placement="left"
+            overlay={popoverImport}
+          >
+            <FontAwesomeIcon
+              style={{
+                fontSize: "1.5vh",
+                verticalAlign: "super",
+                float: "right",
+              }}
+              icon={faInfoCircle}
+            />
+          </OverlayTrigger>
         </Button>
-        {/*         <Collapse in={open}>
-          <div className="sourcesBox w-100 my-5" id="sources-box">
-            <h1 className="w-100">Sources</h1>
+        <Collapse in={open}>
+          <div className="dashboard w-100">
             <Container>
-              <Row className="input-group input-group-lg w-100 h-100">
-                {!steamId ? (
-                  <Col xs={5}>
-                    <SteamForm
-                      value={value}
-                      onChange={handleChange}
-                      submit={handleSubmit}
-                    />
-                  </Col>
-                ) : null}
-                {!steamId ? (
-                  <Col xs={5}>
-                    <div className="steamLogIn text-center">
-                      <a onClick={handleClick}>
-                        <img
-                          className="steamIMG"
-                          src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+              {!steamId ? (
+                <Row className="align-items-center input-group input-group-lg my-5">
+                  <MobileSteamForm
+                    value={value}
+                    onChange={handleChange}
+                    submit={handleSubmit}
+                  />
+                  <Col>
+                    {!steamId ? (
+                      <div className="steamLogIn text-center">
+                        <a onClick={handleClick}>
+                          <img
+                            className="steamIMG"
+                            src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                          />
+                        </a>
+                      </div>
+                    ) : (
+                        <input
+                          className="btn btn-dark form-control w-100"
+                          type="button"
+                          value="Update Steam Games"
+                          onClick={updateSteamGames}
                         />
-                      </a>
-                    </div>
+                      )}
                   </Col>
-                ) : null}
-              </Row>
+                </Row>
+              ) : null}
             </Container>
-            {steamId ? (
-              <input
-                className="btn btn-dark form-control w-100"
-                type="button"
-                value="Update Steam Games"
-                onClick={updateSteamGames}
-              />
-            ) : null}
           </div>
-        </Collapse> */}
+        </Collapse>
+
         <Button
           style={{ width: "100%", "border-radius": "0px" }}
           variant="secondary"
@@ -129,14 +129,27 @@ function Dashboard({
           aria-expanded={searchOpen}
         >
           <span>
-            Add Games{" "}
+            ADD GAMES{" "}
             <FontAwesomeIcon icon={searchOpen ? faCaretUp : faCaretDown} />
           </span>
+          <OverlayTrigger
+            trigger="click"
+            placement="left"
+            overlay={popoverManual}
+          >
+            <FontAwesomeIcon
+              style={{
+                fontSize: "1.5vh",
+                verticalAlign: "super",
+                float: "right",
+              }}
+              icon={faInfoCircle}
+            />
+          </OverlayTrigger>
         </Button>
         <Collapse in={searchOpen} id="search-box">
-          <div className="dashboard my-5">
-            <h1>Game Search</h1>
-            <div className="manualBox">
+          <div className="dashboard">
+            <div className="manualBox my-5">
               <ManuallyAdded uploadData={manualData} />
             </div>
           </div>
@@ -149,86 +162,86 @@ function Dashboard({
     return (
       <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
         <div className="row statsSection my-5 w-100">
-              <h1 className="w-100">
-                Import Games
-                <span> </span>
-                <OverlayTrigger
-                  trigger="click"
-                  placement="right"
-                  overlay={popoverImport}
-                >
-                  <FontAwesomeIcon
-                    style={{ fontSize: "1.5vh", verticalAlign: "super" }}
-                    icon={faInfoCircle}
+          <h1 className="w-100">
+            Import Games
+            <span> </span>
+            <OverlayTrigger
+              trigger="click"
+              placement="right"
+              overlay={popoverImport}
+            >
+              <FontAwesomeIcon
+                style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+                icon={faInfoCircle}
+              />
+            </OverlayTrigger>
+          </h1>
+          <Container>
+            {!steamId ? (
+              <Row className="align-items-center input-group input-group-lg">
+                <Col>
+                  <SteamForm
+                    value={value}
+                    onChange={handleChange}
+                    submit={handleSubmit}
                   />
-                </OverlayTrigger>
-              </h1>
-              <Container>
-                {!steamId ? (
-                  <Row className="align-items-center input-group input-group-lg">
-                    <Col>
-                      <SteamForm
-                        value={value}
-                        onChange={handleChange}
-                        submit={handleSubmit}
+                </Col>
+                <Col>
+                  {!steamId ? (
+                    <Row>
+                      <Col>
+                        <div className="steamLogIn text-center">
+                          <a onClick={handleClick}>
+                            <img
+                              className="steamIMG"
+                              src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                            />
+                          </a>
+                        </div>
+                      </Col>
+                    </Row>
+                  ) : (
+                      <input
+                        className="btn btn-dark form-control w-100"
+                        type="button"
+                        value="Update Steam Games"
+                        onClick={updateSteamGames}
                       />
-                    </Col>
-                    <Col>
-                      {!steamId ? (
-                        <Row>
-                          <Col>
-                            <div className="steamLogIn text-center">
-                              <a onClick={handleClick}>
-                                <img
-                                  className="steamIMG"
-                                  src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
-                                />
-                              </a>
-                            </div>
-                          </Col>
-                        </Row>
-                      ) : (
-                        <input
-                          className="btn btn-dark form-control w-100"
-                          type="button"
-                          value="Update Steam Games"
-                          onClick={updateSteamGames}
-                        />
-                      )}
-                    </Col>
-                  </Row>
-                ) : null}
-              </Container>
+                    )}
+                </Col>
+              </Row>
+            ) : null}
+          </Container>
         </div>
 
         <div className="row searchBox w-100 my-5 largeSec">
-            <h1 className="w-100">
-              Add Games
-              <span> </span>
-              <OverlayTrigger
-                trigger="click"
-                placement="right"
-                overlay={popoverManual}
-              >
-                <FontAwesomeIcon
-                  style={{ fontSize: "1.5vh", verticalAlign: "super" }}
-                  icon={faInfoCircle}
-                />
-              </OverlayTrigger>
-            </h1>
+          <h1 className="w-100">
+            Add Games
+            <span> </span>
+            <OverlayTrigger
+              trigger="click"
+              placement="right"
+              overlay={popoverManual}
+            >
+              <FontAwesomeIcon
+                style={{ fontSize: "1.5vh", verticalAlign: "super" }}
+                icon={faInfoCircle}
+              />
+            </OverlayTrigger>
+          </h1>
           <Container className="w-100">
-              <ManuallyAdded uploadData={manualData} />
+            <ManuallyAdded uploadData={manualData} />
           </Container>
         </div>
       </Breakpoint>
     );
   };
 
-  console.log(size);
   return (
     <div className="container mainDivDash">
       <UpdateSection className="w-100" />
-      {width <= 578 ? mobileLayout() : DesktopLayout()}
+      {mobileLayout()}
+      {DesktopLayout()}
       {games.length === 0 && games2.length === 0 ? null : (
         <div className="row">
           <GenerateTable

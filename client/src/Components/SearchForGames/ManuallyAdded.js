@@ -102,7 +102,7 @@ export default function ManuallyAdded(props) {
       <form className="mobileForm desktopForm" onSubmit={submitValues}>
         <div className="container">
           <div className="row">
-            <div className="col-lg-6 col-6 input-group input-group-lg">
+            <div className="col-lg-6 col-sm-12 input-group input-group-lg">
               <input
                 className="form-control mobileInputSearch desktopInputSearch"
                 type="text"
@@ -111,7 +111,7 @@ export default function ManuallyAdded(props) {
                 placeholder="Enter name"
               />
             </div>
-            <div className="col-lg-4 col-6 input-group input-group-lg">
+            <div className="col-lg-4 col-sm-12 input-group input-group-lg">
               {isLoaded ? (
                 <Dropdown
                   className="form-control h-100"
