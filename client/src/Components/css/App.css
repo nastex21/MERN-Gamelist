@@ -630,16 +630,10 @@ iframe {
     width: 100%;
   }
 
-  .steamIMG {
-    width: 100%;
-  }
-
-  .steamButton {
+  .steamButton, .mobileInputButton {
     font-size: 5vw !important;
   }
 
-  .mobileInputButton,
-  .search,
   .w-100 > p {
     font-size: 2.5vw !important;
   }
@@ -699,6 +693,16 @@ iframe {
 
   #number-filter-column-game_release {
     margin-left: 0;
+  }
+
+  /* Import Games Section Form*/
+  form > input {
+    margin-bottom: 20px;
+  }
+
+  /*Add Games Section Form */
+  .input-group {
+    margin-bottom: 20px !important;
   }
 }
 

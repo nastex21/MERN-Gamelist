@@ -96,6 +96,7 @@ function Dashboard({
                     onChange={handleChange}
                     submit={handleSubmit}
                   />
+                  <hr className="w-100" style={{"marginBottom": "20px"}}/>
                   <Col>
                     {!steamId ? (
                       <div className="steamLogIn text-center">
@@ -194,7 +195,7 @@ function Dashboard({
                           <a onClick={handleClick}>
                             <img
                               className="steamIMG"
-                              src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+                              src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_02.png"
                             />
                           </a>
                         </div>
