@@ -161,7 +161,7 @@ function Dashboard({
 
   const DesktopLayout = () => {
     return (
-      <Breakpoint large up className="row sourcesBoxDiv mainDivSec">
+      <Breakpoint medium up className="row sourcesBoxDiv mainDivSec">
         <div className="row statsSection my-5 w-100">
           <h1 className="w-100">
             Import Games

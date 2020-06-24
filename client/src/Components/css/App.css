@@ -615,7 +615,7 @@ iframe {
 [ Responsive ]*/
 
 /* Mobile */
-@media only screen and (max-width: 799.999999px) {
+@media only screen and (max-width: 767.999999px) {
   .wrap-login100 {
     padding-left: 15px;
     padding-right: 15px;
@@ -706,7 +706,7 @@ iframe {
   }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 768px) {
   .statsSection,
   .searchBox {
     padding: 50px;
