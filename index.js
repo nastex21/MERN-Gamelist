@@ -2,6 +2,7 @@ require("dotenv").config();
 const mongoose = require('mongoose');
 const keys = require("./config/keys");
 const express = require("express");
+const helmet = require('helmet')
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
@@ -32,6 +33,7 @@ store.on('error', function(error) {
   console.log(error);
 });
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set('trust proxy', 1);// trust first proxy
