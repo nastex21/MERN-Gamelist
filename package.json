@@ -1,5 +1,4 @@
 {
-  "homepage": "https://nastex21.github.io/MERN-Gamelist/",
   "name": "mern-gamelist",
   "version": "1.0.0",
   "description": "A game list populated by your Steam/Ubisoft/etc lists.",
@@ -9,9 +8,7 @@
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -38,7 +35,6 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-steam": "^1.0.14",
-    "react-sticky": "^6.0.3",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
