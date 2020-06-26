@@ -1,11 +1,8 @@
 const express = require("express");
-const keys = require("../../config/keys");
 const axios = require('axios');
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    console.log("it's running")
-  
+router.get("/", (req, res) => {  
     axios({
       "method":"GET",
       "url":"https://rawg-video-games-database.p.rapidapi.com/platforms",
@@ -25,7 +22,6 @@ router.get("/", (req, res) => {
             'value': item.name
           }) 
          );
-        console.log(data);
         res.send(data)
       })
       .catch((error)=>{

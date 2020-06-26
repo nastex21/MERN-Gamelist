@@ -1,6 +1,5 @@
 require("dotenv").config();
 const mongoose = require('mongoose');
-const keys = require("./config/keys");
 const express = require("express");
 const path = require('path');
 const helmet = require('helmet')
@@ -19,12 +18,12 @@ const app = express();
 
 
 //connect to database
-mongoose.connect(keys.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
+mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true, useCreateIndex: true }, () => {
   console.log("connected to mongo db");
 });
 
 var store = new MongoDBStore({
-  uri: keys.MONGODB_URI,
+  uri: process.env.MONGODB_URI,
   collection: 'mySessions'
 });
 
@@ -40,7 +39,7 @@ app.set('trust proxy', 1);// trust first proxy
 
 app.use(cookieParser());
 app.use(session({
-  secret: keys.COOKIE_KEY,
+  secret: process.env.COOKIE_KEY,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   },

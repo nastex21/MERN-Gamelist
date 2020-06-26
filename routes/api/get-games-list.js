@@ -1,16 +1,10 @@
 const express = require("express");
-const keys = require("../../config/keys");
 const axios = require("axios");
-const unirest = require("unirest");
 const router = express.Router();
 const User = require("../../models/user-model");
 var gameData;
 
 router.post("/steam", (req, res) => {
-  console.log("inside /steam");
-  console.log(req.body);
-  console.log(req.session);
-
   var steamID = req.body.steamID;
   var savedUser; //database user ID
 
@@ -22,16 +16,11 @@ router.post("/steam", (req, res) => {
     savedUser = req.session.user.id;
   }
 
-  console.log(steamID);
-  console.log(savedUser);
-
-  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${steamID}&include_appinfo=true&format=json`;
+  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_KEY}&steamid=${steamID}&include_appinfo=true&format=json`;
   try {
-    console.log("try axios working");
     axios
       .get(httpVar)
       .then((data) => {
-        console.log("its in the then");
         var gameData = data.data.response.games.map((item, key) => ({
           game_num: key + 1,
           game_appid: item.appid,
@@ -69,7 +58,7 @@ router.get("/db", (req, res) => {
   var sendHeaders = {
     headers: {
       "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-      "x-rapidapi-key": keys.RAPID_KEY,
+      "x-rapidapi-key": process.env.RAPID_KEY,
     },
   };
 
@@ -81,10 +70,8 @@ router.get("/db", (req, res) => {
 });
 
 router.get("/user-db", (req, res) => {
-  console.log("user-db");
   const { id, name } = req.query;
-  console.log(id);
-  console.log(name);
+
   User.findById(id, function (err, data) {
     console.log("data");
     console.log(data.length);
@@ -93,10 +80,9 @@ router.get("/user-db", (req, res) => {
 
 router.post("/updateSteam", (req, res) => {
   const { steamId, dbid } = req.body;
-  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${keys.STEAM_KEY}&steamid=${steamId}&include_appinfo=true&format=json`;
+  var httpVar = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_KEY}&steamid=${steamId}&include_appinfo=true&format=json`;
 
   try {
-    console.log("try axios working");
     axios
       .get(httpVar)
       .then((data) => {
@@ -109,7 +95,6 @@ router.post("/updateSteam", (req, res) => {
           provider: "steam",
         }));
 
-        console.log(gameData.length);
         if (dbid) {
           User.findByIdAndUpdate(
             dbid,

@@ -3,12 +3,10 @@ const router = express.Router();
 const User = require("../../models/user-model");
 
 router.post("/", (req, res) => {
-  console.log("WOOOOT");
-  console.log(req.body);
+
 
   //variables needed to add games
   const { user, game } = req.body;
-  console.log(user);
 
   //variables needed to change values
   var gameID;
@@ -19,8 +17,6 @@ router.post("/", (req, res) => {
 
   //used for changing the provider of the game
   if (flag == "blurToSave") {
-    console.log("yes");
-    console.log(data);
     User.findOneAndUpdate(
       { _id: id, "games.game_id": gameID },
       {'games.$': data},
@@ -28,7 +24,6 @@ router.post("/", (req, res) => {
         if (err){
           console.log(err)
         }
-        //console.log(data);
       }
     );
   } else {

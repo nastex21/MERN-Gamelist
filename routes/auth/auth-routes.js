@@ -3,12 +3,10 @@ const express = require("express");
 const router = express.Router();
 const CLIENT_HOME_PAGE_URL = "http://localhost:5556/dashboard";
 const User = require("../../models/user-model");
-const keys = require("../../config/keys");
 const jwt = require('jsonwebtoken');
 
 // when login is successful, retrieve user info
 router.get("/login/success", (req, res) => {
-  console.log('/login/success');
    User.findById(req.session.user.id, function (err, user) {
     var steamNum = user.steamId;
     if (!steamNum) {
@@ -59,9 +57,8 @@ router.get(
   "/steam/return",
   passport.authenticate("steam", { session: false }),
   (req, res) => {
-    console.log('req, res');
-    console.log(req.user);
-    const token = jwt.sign({ user: req.user }, keys.SECRET, {
+
+    const token = jwt.sign({ user: req.user }, process.env.JWTSECRET, {
       expiresIn: "2h",
     });
 

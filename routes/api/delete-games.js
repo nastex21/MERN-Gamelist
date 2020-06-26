@@ -11,7 +11,6 @@ router.post("/", (req, res) => {
     function (err, data) {
       res.send(data);
       if (err) {
-        console.log(err);
         res.send(err);
       }
     }

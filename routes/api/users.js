@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
 // Load User model
 const User = require("../../models/user-model");
 
@@ -45,12 +44,9 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   const { name, password } = req.body;
-  console.log(name)
-  console.log(password);
+
   // Find user by name
   User.findOne({name: name}).then(user => {
-    console.log('user');
-    console.log(user);
     // Check if user exists
     if (!user) {
       return res.status(404).json({ Namenotfound: "Username or email not found" });
@@ -60,8 +56,6 @@ router.post("/login", (req, res) => {
       if (isMatch) {
         // User matched
         // Create JWT Payload
-        console.log('user in login');
-        console.log(user)
         const payload = {
           id: user.id,
           name: user.name,
@@ -75,15 +69,11 @@ router.post("/login", (req, res) => {
 
         req.login(user, function(err) {
           if (err) { return next(err); }
-          jwt.sign(payload, keys.SECRET,
+          jwt.sign(payload, process.env.JWTSECRET,
             {
               expiresIn: 31556926 // 1 year in seconds
             },
             (err, token) => {
-              console.log("inside login")
-              console.log('payload');
-              console.log(payload);
-              console.log(user);
               res.json({
                 success: true,
                 token: "Bearer " + token,
