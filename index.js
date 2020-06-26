@@ -8,7 +8,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
-const path = require("path");
 const users = require("./routes/api/users");
 const authRoutes = require("./routes/auth/auth-routes");
 const gamelistRoutes = require('./routes/api/get-games-list');
