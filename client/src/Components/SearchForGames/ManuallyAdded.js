@@ -48,7 +48,6 @@ export default function ManuallyAdded(props) {
 
   //Dropdown: onChange and searchChange to handle values of system selected
   const handleChange = (e, { value }) => {
-    console.log(value);
     setValue(value);
     setShowBool(false);
   };
@@ -70,7 +69,6 @@ export default function ManuallyAdded(props) {
       );
 
       const newId = newIdObj[0].key; //specific id of the platform
-      console.log(newId);
       var obj = {
         params: {
           id: newId,

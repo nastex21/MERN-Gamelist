@@ -12,7 +12,6 @@ function NavbarTop(props) {
     props.setLocation(0);
   };
 
-  console.log(props);
   return (
     <div className="extendNav w-100">
       <div className="container">

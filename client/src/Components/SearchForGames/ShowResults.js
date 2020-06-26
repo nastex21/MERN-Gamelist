@@ -57,7 +57,6 @@ function ShowResults({
   };
 
   const showTable = () => {
-    console.log(results);
     return (
       <div className="resultsTable">
         <div className="gameAdditionHeader">
@@ -86,8 +85,6 @@ function ShowResults({
       </div>
     );
   };
-
-  console.log(showBool);
 
   return <>{showBool ? showTable() : null}</>;
 }

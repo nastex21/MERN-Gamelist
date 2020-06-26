@@ -70,7 +70,6 @@ function HomePage(props) {
   }, [successAddMsg]);
 
   useEffect(() => {
-    console.log(props);
     if (savedSteamGames) {
       setGames([...savedSteamGames]);
       setGames2([...savedManualGames]);
@@ -120,9 +119,7 @@ function HomePage(props) {
       axios
         .post("/auth/login/success", authUserInfo)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 200) {
-            console.log(response);
             setSteamId(response.data.steamID);
             setGames([...response.data.steamGames]); //games from Steam pulled from the database
             setGames2([...response.data.games]); //games pulled from database that were manually added
@@ -157,9 +154,7 @@ function HomePage(props) {
       };
     }
 
-    console.log(data);
     axios.post("/api/get-games-list/steam", data).then((res) => {
-      console.log(res.data);
       if (res.data.steamGames) {
         setGames([...res.data.steamGames]);
         setGames2([...res.data.games]);
@@ -275,7 +270,6 @@ function HomePage(props) {
     dataObj.steamId = steamId;
     dataObj.dbid = authUserInfo.id;
     axios.post("/api/get-games-list/updateSteam", dataObj).then((res) => {
-      console.log(res);
       if (res.data.error) {
         window.alert(res.data.error); //change later
         setError(res.data.error);
@@ -287,21 +281,16 @@ function HomePage(props) {
 
   const deletedGamesRender = (data) => {
     if (!token) {
-      console.log("inside deletedGamesRender");
       savedManualGames = JSON.parse(
         localStorage.getItem("stored-manualgamedata")
       );
       setGames2([...savedManualGames]);
     } else {
-      console.log(data);
       setGames2([...data]);
     }
   };
 
-  console.log(value);
-
   const authUserRender = () => {
-    console.log("authUserRender");
     return (
       <div
         className={

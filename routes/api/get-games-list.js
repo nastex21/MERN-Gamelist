@@ -69,14 +69,6 @@ router.get("/db", (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.get("/user-db", (req, res) => {
-  const { id, name } = req.query;
-
-  User.findById(id, function (err, data) {
-    console.log("data");
-    console.log(data.length);
-  });
-});
 
 router.post("/updateSteam", (req, res) => {
   const { steamId, dbid } = req.body;
