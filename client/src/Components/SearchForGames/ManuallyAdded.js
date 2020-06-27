@@ -94,6 +94,9 @@ export default function ManuallyAdded(props) {
     props.uploadData(item);
   };
 
+  const showResultsUpdate = () => {
+    setShowBool(false);
+  }
 
   return (
     <div className="manualAddition">
@@ -136,11 +139,12 @@ export default function ManuallyAdded(props) {
           </div>
         </div>
       </form>
-      {apiResults.length > 0 ? (
+      {apiResults.length > 0 && showBool === true ? (
         <div className="resultsWindow">
         <ShowResults
           results={apiResults}
           showBool={showBool}
+          showResultsUpdate={showResultsUpdate}
           uploadData={addGameFromResults}
           platform={value}
           />

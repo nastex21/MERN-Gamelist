@@ -606,11 +606,6 @@ iframe {
   text-align: center;
 }
 
-.resultsTable {
-  color: white;
-  background-color: grey;
-}
-
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 
@@ -733,6 +728,10 @@ iframe {
 
   /* TABLE */
 
+  .react-bootstrap-table > table > tbody > tr > td:nth-child(2){
+    padding-left: 10px;
+  }
+
   .sortable {
     font-size: 1.8vh;
   }
@@ -757,6 +756,15 @@ iframe {
 
   #number-filter-column-game_release {
     width: 100%;
+  }
+
+  .selection-cell > input {
+    margin: 1px !important;
+  }
+
+  .gameAdditionHeader > svg {
+    height: 100%;
+    cursor: pointer;
   }
 
   .steamButton {

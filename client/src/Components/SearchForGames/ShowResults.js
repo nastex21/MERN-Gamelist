@@ -36,6 +36,7 @@ function ShowResults({
 
   const columns = [
     {
+
       dataField: "name",
       text: "Name",
     },
@@ -63,11 +64,15 @@ function ShowResults({
           <FontAwesomeIcon
             onClick={closeDiv}
             icon={faWindowClose}
-            style={{ float: "right" }}
+            style={{ float: "right", width: "1.5em" }}
           />
         </div>
         <BootstrapTable
           bootstrap4
+          hover
+          headerWrapperClasses='thead-dark'
+          classes="table table-sm table-bordered table-striped table-light"
+          bordered={ false }
           data={results}
           columns={columns}
           keyField={"id"}
