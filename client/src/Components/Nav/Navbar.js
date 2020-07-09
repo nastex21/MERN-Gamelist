@@ -58,10 +58,10 @@ function NavbarTop(props) {
             </>
           ) : (
             <Nav className="w-100 d-flex">
-                <Nav.Link className="p-2" href="/dashboard/import" onClick={(e) => logoutHandler(e)}>
+                <Nav.Link className="p-2" href="/dashboard/import" onClick={(e) => clickHandler}>
                 Import
               </Nav.Link>
-              <Nav.Link className="p-2" href="/dashboard/search" onClick={(e) => logoutHandler(e)}>
+              <Nav.Link className="p-2" href="/dashboard/search" onClick={(e) => clickHandler}>
                 Add Games
               </Nav.Link>
               <Nav.Link className="ml-auto p-2" href="/" onClick={(e) => logoutHandler(e)}>

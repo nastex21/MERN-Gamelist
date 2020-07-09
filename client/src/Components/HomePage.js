@@ -8,8 +8,11 @@ import NavbarTop from "./Nav/Navbar";
 import FrontPage from "./MainFrontPage/FrontPageSplash";
 import Dashboard from "./Dashboard/Dashboard";
 import RegisterPage from "./AuthPages/Register";
+import ImportSection from "./Desktop/ImportSection/ImportSection";
+import AddGamesSection from './Desktop/AddGamesSection/AddGames';
 import LoginPage from "./AuthPages/Login";
 import LogoutPage from "./AuthPages/Logout";
+import ManuallyAdded from "./SearchForGames/ManuallyAdded";
 
 var savedSteamGames;
 var savedManualGames;
@@ -321,6 +324,28 @@ function HomePage(props) {
                 successAddMsg={successAddMsg}
               />
             )}
+          />
+          <Route
+            exact
+            path="/dashboard/import"
+            render={(props) => (
+              <ImportSection
+                steamId={steamId}
+                value={steamInputValue}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                handleClick={handleClick}
+                updateSteamGames={updateSteamGames}
+              />
+            )}
+          />
+          <Route exact path="/dashboard/search" render={(props) => (
+            <AddGamesSection   manualData={manualData}  />
+          )}/>
+          <Route
+            exact
+            path="/dashboard/search"
+            render={(props) => <ManuallyAdded />}
           />
           <Route
             exact
