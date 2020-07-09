@@ -40,9 +40,7 @@ html {
 /* Font used by forms */
 
 /*Div underneat root to add different stylings to front page splash */
-.frontPage,
-.registerPage,
-.loginPage {
+.mainDiv {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("../../Images/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg");
   /* Background image is centered vertically and horizontally at all times */
@@ -771,4 +769,67 @@ iframe {
     width: 100px !important;
   }
 
+}
+
+/* Side bar */
+/* The side navigation menu */
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+.bottomDemo {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
 }

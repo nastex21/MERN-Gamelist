@@ -20,7 +20,6 @@ import {
   OverlayTrigger,
   Popover,
 } from "react-bootstrap";
-import "../css/Dashboard.css";
 
 function Dashboard({
   manualData,

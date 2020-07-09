@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import RegisterForm from "./Forms/RegisterForm";
-import "../css/Forms.css";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 
