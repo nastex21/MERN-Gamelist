@@ -36,6 +36,43 @@ html {
   cursor: pointer;
 }
 
+.meshGrid {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.mainDivDash {
+  background-image: radial-gradient(black 50%, transparent 50%);
+  background-size: 4px 4px;
+} 
+
+
+.navbar {
+  margin-left: -30px;
+  margin-right: -30px;
+
+}
+
+.mainDivDash {
+  background-color: #2c2c2c8f;
+}
+
+.mainDivDash > .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.navbar {
+  background-color: rgb(0, 0, 0) !important;
+}
+
+.navbar > a, .navbar-nav > a {
+  color: #888 !important;
+}
+
+.alert {
+  margin-top: 1rem;
+}
+
 /* Fonts */
 /* Font used by forms */
 
@@ -68,7 +105,7 @@ html {
 .searchBox {
   padding-top: 5px;
   position: relative;
-  background:rgba(172, 172, 172, 0.534);
+  background: rgba(172, 172, 172, 0.534);
   box-shadow: 0 10px 10px -5px;
 }
 
@@ -588,10 +625,6 @@ iframe {
   text-align: left;
 }
 
-.extendNav {
-  background-color: #343a40;
-}
-
 .servicesStats {
   float: right;
   width: 50%;
@@ -623,7 +656,8 @@ iframe {
     width: 100%;
   }
 
-  .steamButton, .mobileInputButton {
+  .steamButton,
+  .mobileInputButton {
     font-size: 5vw !important;
   }
 
@@ -672,12 +706,6 @@ iframe {
     table-layout: auto !important;
   }
 
-  .mainDivDash > .row {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    overflow-y: hidden;
-  }
-
   .number-filter-comparator,
   .number-filter > label,
   .number-filter > label > input {
@@ -715,7 +743,7 @@ iframe {
   .vertLine {
     display: none;
   }
-  
+
   .mobile-accordion {
     display: none;
   }
@@ -726,7 +754,7 @@ iframe {
 
   /* TABLE */
 
-  .react-bootstrap-table > table > tbody > tr > td:nth-child(2){
+  .react-bootstrap-table > table > tbody > tr > td:nth-child(2) {
     padding-left: 10px;
   }
 
@@ -768,7 +796,6 @@ iframe {
   .steamButton {
     width: 100px !important;
   }
-
 }
 
 /* Side bar */
@@ -791,7 +818,7 @@ iframe {
 
 /* Active/current link */
 .sidebar a.active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -822,8 +849,12 @@ div.content {
     height: auto;
     position: relative;
   }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+  .sidebar a {
+    float: left;
+  }
+  div.content {
+    margin-left: 0;
+  }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */

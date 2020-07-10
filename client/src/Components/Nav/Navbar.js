@@ -12,15 +12,11 @@ function NavbarTop(props) {
     props.setLocation(0);
   };
 
-  console.log(props.location.pathname);
   return (
-    <div className="extendNav w-100">
-      <div className="container">
+    <div className="container extendNav">
         <Navbar
           collapseOnSelect
           expand="lg"
-          bg="dark"
-          variant="dark"
           fixed="sticky"
         >
           <Navbar.Brand href="/">Video Game Catalog</Navbar.Brand>
@@ -71,7 +67,6 @@ function NavbarTop(props) {
           )}
         </Navbar>
       </div>
-    </div>
   );
 }
 

@@ -8,6 +8,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { Breakpoint } from "react-socks";
+import Navbar from '../Nav/Navbar';
 import UpdateSection from "../Updates/Updates";
 import GenerateTable from "../GenerateTable/GenerateTable";
 import {
@@ -94,7 +95,7 @@ function Dashboard({
                     onChange={handleChange}
                     submit={handleSubmit}
                   />
-                  <hr className="w-100" style={{"marginBottom": "20px"}}/>
+                  <hr className="w-100" style={{ marginBottom: "20px" }} />
                   <Col>
                     {!steamId ? (
                       <div className="steamLogIn text-center">
@@ -106,13 +107,13 @@ function Dashboard({
                         </a>
                       </div>
                     ) : (
-                        <input
-                          className="btn btn-dark form-control w-100"
-                          type="button"
-                          value="Update Steam Games"
-                          onClick={updateSteamGames}
-                        />
-                      )}
+                      <input
+                        className="btn btn-dark form-control w-100"
+                        type="button"
+                        value="Update Steam Games"
+                        onClick={updateSteamGames}
+                      />
+                    )}
                   </Col>
                 </Row>
               ) : null}
@@ -158,20 +159,23 @@ function Dashboard({
   };
 
   return (
-    <div className="container mainDivDash">
-      <UpdateSection className="w-100" />
-      {mobileLayout()}
-      {games.length === 0 && games2.length === 0 ? null : (
-        <div className="row">
-          <GenerateTable
-            gamelist={games}
-            gameslist2={games2}
-            userId={userId}
-            deletedGamesRender={deletedGamesRender}
-            successAddMsg={successAddMsg}
-          />
-        </div>
-      )}
+    <div className="meshGrid">
+      <div className="container mainDivDash">
+        <Navbar />
+        <UpdateSection className="w-100" />
+        {mobileLayout()}
+        {games.length === 0 && games2.length === 0 ? null : (
+          <div className="row">
+            <GenerateTable
+              gamelist={games}
+              gameslist2={games2}
+              userId={userId}
+              deletedGamesRender={deletedGamesRender}
+              successAddMsg={successAddMsg}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

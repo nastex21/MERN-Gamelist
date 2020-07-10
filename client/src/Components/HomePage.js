@@ -302,7 +302,6 @@ function HomePage(props) {
             : "mainDiv noScroll"
         }
       >
-        <NavbarTop guestUser={guestUser} location={props.location} />
         <Switch>
           <Route
             exact
